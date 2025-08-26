@@ -32,6 +32,9 @@
         <div class="input-group">
           <input type="date" [(ngModel)]="dateHeaderInput" (change)="onDateTextInput()" placeholder="Date" class="filter-input">
         </div>
+        <button class="collapse-btn-positioned" (click)="toggleExpanded()">
+          <i class="fas" [ngClass]="isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+        </button>
       </div>
 
       <div class="accordion-content">
