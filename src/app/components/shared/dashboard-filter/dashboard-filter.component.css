@@ -130,10 +130,11 @@
   overflow: hidden;
   transition: all 0.3s ease;
   background-color: #2a2a2a;
+  max-height: 400px;
 }
 
 .accordion-content.collapsed {
-  height: 0;
+  max-height: 0;
   overflow: hidden;
 }
 
