@@ -116,6 +116,7 @@ export class DashboardFilterComponent implements OnInit {
 
   toggleExpanded(): void {
     this.isExpanded = !this.isExpanded;
+    console.log('Toggle expanded:', this.isExpanded); // Debug log
   }
 
   onDateRangeChange(): void {
