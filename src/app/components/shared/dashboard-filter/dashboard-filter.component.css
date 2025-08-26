@@ -67,7 +67,6 @@
   flex-direction: column;
   transition: max-height 0.3s ease;
   overflow: hidden;
-  position: relative;
 }
 
 .filter-fieldset.collapsed {
@@ -112,9 +111,6 @@
 }
 
 .collapse-btn-positioned {
-  position: absolute;
-  top: 8px;
-  right: 16px;
   background: none;
   border: none;
   color: white;
@@ -122,7 +118,6 @@
   padding: 8px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
-  z-index: 10;
 }
 
 .collapse-btn-positioned:hover {
@@ -135,28 +130,8 @@
 
 /* Accordion Content */
 .accordion-content {
-  flex: 1;
   background-color: #2a2a2a;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Column Titles */
-.column-titles {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr 1.2fr;
-  gap: 16px;
-  padding: 16px 16px 8px 16px;
-  background-color: #2a2a2a;
-  border-bottom: 1px solid #4b5563;
-}
-
-.column-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: #d1d5db;
-  text-align: left;
 }
 
 .filter-columns {
@@ -164,16 +139,11 @@
   grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr 1.2fr;
   gap: 16px;
   padding: 8px 16px 16px 16px;
-  flex: 1;
-  overflow: hidden;
 }
 
 .filter-column {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  overflow-y: auto;
-  min-height: 0;
 }
 
 /* Scrollbar styling for filter columns */
@@ -199,8 +169,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 0 8px 8px 0;
-  flex: 1;
+  padding: 8px;
 }
 
 /* Radio Groups */
@@ -243,7 +212,7 @@
 }
 
 .custom-radio:checked {
-  border-color: #92d5b4 !important;
+  border-color: #92d5b4;
   background-color: #92d5b4;
 }
 
@@ -310,7 +279,7 @@
 }
 
 .custom-checkbox:checked {
-  border-color: #92d5b4 !important;
+  border-color: #92d5b4;
   background-color: #92d5b4;
 }
 
