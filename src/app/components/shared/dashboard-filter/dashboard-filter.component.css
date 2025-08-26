@@ -159,15 +159,29 @@
 .filter-column {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+}
+
+.column-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  overflow: hidden;
 }
 
 /* Radio Groups */
 .radio-group {
   display: flex;
-  flex-direction: column;
   gap: 8px;
-  margin-bottom: 16px;
+}
+
+.radio-group.horizontal {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.radio-group.vertical {
+  flex-direction: column;
 }
 
 .radio-option {
@@ -221,6 +235,16 @@
 .checkbox-list {
   display: flex;
   flex-direction: column;
+  gap: 4px;
+}
+
+.checkbox-list.scrollable {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.checkbox-list {
   gap: 8px;
 }
 
@@ -232,6 +256,11 @@
   color: white;
   font-size: 14px;
   padding: 4px 0;
+  transition: background-color 0.3s ease;
+}
+
+.checkbox-option:hover {
+  background-color: #374151;
 }
 
 .custom-checkbox {
@@ -279,6 +308,14 @@
 .separator {
   height: 1px;
   background-color: #4b5563;
+  margin: 8px 0;
+}
+
+.separator.white {
+  background-color: white;
+}
+
+.separator.gray {
   margin: 12px 0;
 }
 

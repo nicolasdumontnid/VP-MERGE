@@ -40,25 +40,158 @@
         <div class="filter-columns">
           <!-- First Column -->
           <div class="filter-column">
-            <div class="radio-group">
+            <div class="separator white"></div>
+            
+            <div class="radio-group horizontal">
               <label class="radio-option">
-                <input type="radio" name="filterType" value="all" class="custom-radio" checked>
+                <input type="radio" name="caseType" value="all" [(ngModel)]="selectedCaseType" class="custom-radio">
                 <span class="radio-label">All</span>
               </label>
               <label class="radio-option">
-                <input type="radio" name="filterType" value="favorites" class="custom-radio">
-                <span class="radio-label">Favorites</span>
+                <input type="radio" name="caseType" value="my-cases" [(ngModel)]="selectedCaseType" class="custom-radio">
+                <span class="radio-label">My cases</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="caseType" value="unassigned" [(ngModel)]="selectedCaseType" class="custom-radio">
+                <span class="radio-label">Unassigned</span>
               </label>
             </div>
 
-            <div class="separator"></div>
+            <div class="separator gray"></div>
 
-            <div class="checkbox-list">
+            <div class="radio-group horizontal">
+              <label class="radio-option">
+                <input type="radio" name="scanType" value="all" [(ngModel)]="selectedScanType" class="custom-radio">
+                <span class="radio-label">All</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="scanType" value="fully-scanned" [(ngModel)]="selectedScanType" class="custom-radio">
+                <span class="radio-label">Fully scanned</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="scanType" value="pending" [(ngModel)]="selectedScanType" class="custom-radio">
+                <span class="radio-label">Pending</span>
+              </label>
+            </div>
+
+            <div class="separator gray"></div>
+
+            <div class="checkbox-list scrollable">
               <label class="checkbox-option" *ngFor="let option of filterCheckboxes">
-                <input type="checkbox" class="custom-checkbox" [checked]="option.checked" (change)="onFilterChange()">
+                <input type="checkbox" class="custom-checkbox" [(ngModel)]="option.checked" (change)="onFilterChange()">
                 <span class="checkbox-label">{{ option.label }}</span>
                 <span class="option-count">{{ option.count }}</span>
               </label>
+            </div>
+          </div>
+
+          <!-- Second Column - Sites -->
+          <div class="filter-column">
+            <div class="checkbox-list scrollable">
+              <label class="checkbox-option" *ngFor="let site of sites">
+                <input type="checkbox" class="custom-checkbox" [(ngModel)]="site.checked" (change)="onFilterChange()">
+                <span class="checkbox-label">{{ site.label }}</span>
+                <span class="option-count">{{ site.count }}</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Third Column - Sectors -->
+          <div class="filter-column">
+            <div class="checkbox-list scrollable">
+              <label class="checkbox-option" *ngFor="let sector of sectors">
+                <input type="checkbox" class="custom-checkbox" [(ngModel)]="sector.checked" (change)="onFilterChange()">
+                <span class="checkbox-label">{{ sector.label }}</span>
+                <span class="option-count">{{ sector.count }}</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Fourth Column - Assigned Doctors -->
+          <div class="filter-column">
+            <div class="checkbox-list scrollable">
+              <label class="checkbox-option" *ngFor="let doctor of assignedDoctors">
+                <input type="checkbox" class="custom-checkbox" [(ngModel)]="doctor.checked" (change)="onFilterChange()">
+                <span class="checkbox-label">{{ doctor.label }}</span>
+                <span class="option-count">{{ doctor.count }}</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Fifth Column - Date -->
+          <div class="filter-column">
+            <div class="date-options">
+              <label class="radio-option vertical">
+                <input type="radio" name="dateRange" value="all" [(ngModel)]="selectedDateRange" (change)="onDateRangeChange()" class="custom-radio">
+                <span class="radio-label">All</span>
+              </label>
+              <label class="radio-option vertical">
+                <input type="radio" name="dateRange" value="today" [(ngModel)]="selectedDateRange" (change)="onDateRangeChange()" class="custom-radio">
+                <span class="radio-label">Today</span>
+              </label>
+              <label class="radio-option vertical">
+                <input type="radio" name="dateRange" value="yesterday" [(ngModel)]="selectedDateRange" (change)="onDateRangeChange()" class="custom-radio">
+                <span class="radio-label">Yesterday</span>
+              </label>
+              <label class="radio-option vertical">
+                <input type="radio" name="dateRange" value="last-week" [(ngModel)]="selectedDateRange" (change)="onDateRangeChange()" class="custom-radio">
+                <span class="radio-label">Last Week</span>
+              </label>
+              <label class="radio-option vertical">
+                <input type="radio" name="dateRange" value="last-6-months" [(ngModel)]="selectedDateRange" (change)="onDateRangeChange()" class="custom-radio">
+                <span class="radio-label">Last 6 Months</span>
+              </label>
+              <label class="radio-option vertical">
+                <input type="radio" name="dateRange" value="from" [(ngModel)]="selectedDateRange" (change)="onDateRangeChange()" class="custom-radio">
+                <span class="radio-label">From</span>
+              </label>
+
+              <div class="separator gray"></div>
+
+              <div class="date-inputs">
+                <div class="date-input-group">
+              
+              <div class="radio-group horizontal">
+                <label class="radio-option">
+                  <input type="radio" name="caseType" value="all" [(ngModel)]="selectedCaseType" class="custom-radio">
+                  <span class="radio-label">All</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="caseType" value="my-cases" [(ngModel)]="selectedCaseType" class="custom-radio">
+                  <span class="radio-label">My cases</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="caseType" value="unassigned" [(ngModel)]="selectedCaseType" class="custom-radio">
+                  <span class="radio-label">Unassigned</span>
+                </label>
+              </div>
+
+              <div class="separator gray"></div>
+
+              <div class="radio-group horizontal">
+                <label class="radio-option">
+                  <input type="radio" name="scanType" value="all" [(ngModel)]="selectedScanType" class="custom-radio">
+                  <span class="radio-label">All</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="scanType" value="fully-scanned" [(ngModel)]="selectedScanType" class="custom-radio">
+                  <span class="radio-label">Fully scanned</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="scanType" value="pending" [(ngModel)]="selectedScanType" class="custom-radio">
+                  <span class="radio-label">Pending</span>
+                </label>
+              </div>
+
+              <div class="separator gray"></div>
+
+              <div class="checkbox-list scrollable">
+                <label class="checkbox-option" *ngFor="let option of filterCheckboxes">
+                  <input type="checkbox" class="custom-checkbox" [checked]="option.checked" (change)="onFilterChange()">
+                  <span class="checkbox-label">{{ option.label }}</span>
+                  <span class="option-count">{{ option.count }}</span>
+                </label>
+              </div>
             </div>
           </div>
 
@@ -97,42 +230,44 @@
 
           <!-- Fifth Column - Date -->
           <div class="filter-column">
-            <div class="date-options">
-              <label class="radio-option vertical">
-                <input type="radio" name="dateType" value="all" class="custom-radio" checked>
-                <span class="radio-label">All dates</span>
-              </label>
-              <label class="radio-option vertical">
-                <input type="radio" name="dateType" value="today" class="custom-radio">
-                <span class="radio-label">Today</span>
-              </label>
-              <label class="radio-option vertical">
-                <input type="radio" name="dateType" value="yesterday" class="custom-radio">
-                <span class="radio-label">Yesterday</span>
-              </label>
-              <label class="radio-option vertical">
-                <input type="radio" name="dateType" value="week" class="custom-radio">
-                <span class="radio-label">This week</span>
-              </label>
-              <label class="radio-option vertical">
-                <input type="radio" name="dateType" value="month" class="custom-radio">
-                <span class="radio-label">This month</span>
-              </label>
-              <label class="radio-option vertical">
-                <input type="radio" name="dateType" value="custom" class="custom-radio">
-                <span class="radio-label">Custom range</span>
-              </label>
+            <div class="column-content">
+              <div class="date-options">
+                <label class="radio-option vertical">
+                  <input type="radio" name="dateRange" value="all" [(ngModel)]="selectedDateRange" class="custom-radio">
+                  <span class="radio-label">All</span>
+                </label>
+                <label class="radio-option vertical">
+                  <input type="radio" name="dateRange" value="today" [(ngModel)]="selectedDateRange" class="custom-radio">
+                  <span class="radio-label">Today</span>
+                </label>
+                <label class="radio-option vertical">
+                  <input type="radio" name="dateRange" value="yesterday" [(ngModel)]="selectedDateRange" class="custom-radio">
+                  <span class="radio-label">Yesterday</span>
+                </label>
+                <label class="radio-option vertical">
+                  <input type="radio" name="dateRange" value="last-week" [(ngModel)]="selectedDateRange" class="custom-radio">
+                  <span class="radio-label">Last Week</span>
+                </label>
+                <label class="radio-option vertical">
+                  <input type="radio" name="dateRange" value="last-6-months" [(ngModel)]="selectedDateRange" class="custom-radio">
+                  <span class="radio-label">Last 6 Months</span>
+                </label>
+                <label class="radio-option vertical">
+                  <input type="radio" name="dateRange" value="from" [(ngModel)]="selectedDateRange" class="custom-radio">
+                  <span class="radio-label">From</span>
+                </label>
 
-              <div class="separator gray"></div>
+                <div class="separator gray"></div>
 
-              <div class="date-inputs">
-                <div class="date-input-group">
-                  <input type="date" class="date-input" [(ngModel)]="fromDate">
-                  <i class="date-icon fas fa-calendar"></i>
-                </div>
-                <div class="date-input-group">
-                  <input type="date" class="date-input" [(ngModel)]="toDate">
-                  <i class="date-icon fas fa-calendar"></i>
+                <div class="date-inputs">
+                  <div class="date-input-group">
+                    <input type="date" class="date-input" [(ngModel)]="fromDate" (change)="onManualDateChange()">
+                    <i class="date-icon fas fa-calendar"></i>
+                  </div>
+                  <div class="date-input-group">
+                    <input type="date" class="date-input" [(ngModel)]="toDate" (change)="onManualDateChange()">
+                    <i class="date-icon fas fa-calendar"></i>
+                  </div>
                 </div>
               </div>
             </div>

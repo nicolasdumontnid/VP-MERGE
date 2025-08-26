@@ -101,7 +101,7 @@ export class DashboardFilterComponent implements OnInit {
     { id: 'today', label: 'Today', from: new Date(), to: new Date() },
     { id: 'yesterday', label: 'Yesterday', from: this.getYesterday(), to: this.getYesterday() },
     { id: 'last-week', label: 'Last Week', from: this.getLastWeek(), to: new Date() },
-    { id: 'last-month', label: 'Last Month', from: this.getLastMonth(), to: new Date() },
+    { id: 'last-6-months', label: 'Last 6 Months', from: this.getLast6Months(), to: new Date() },
     { id: 'from', label: 'From', from: null, to: new Date() }
   ];
   
@@ -176,6 +176,12 @@ export class DashboardFilterComponent implements OnInit {
   private getLastMonth(): Date {
     const date = new Date();
     date.setMonth(date.getMonth() - 1);
+    return date;
+  }
+
+  private getLast6Months(): Date {
+    const date = new Date();
+    date.setMonth(date.getMonth() - 6);
     return date;
   }
 
