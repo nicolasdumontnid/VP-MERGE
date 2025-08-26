@@ -89,12 +89,16 @@ export class DashboardFilterComponent implements OnInit {
   ];
   
   assignedDoctors: FilterOption[] = [
-    { id: 'damien-petit', label: 'Damien Petit', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'nicolas-martin', label: 'Nicolas Martin', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'deborah-dupont', label: 'Déborah Dupont', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'daniel-bernard', label: 'Daniel Bernard', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'sylvie-moreau', label: 'Sylvie Moreau', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'claire-rousseau', label: 'Claire Rousseau', count: Math.floor(Math.random() * 16), checked: false }
+    { id: 'damien', label: 'Damien, Oncologue, CHU-Angers', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'nicolas', label: 'Nicolas, Oncologue, CHU-Caen', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'deborah', label: 'Déborah, Pédiatre, CHU-Angers', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'daniel', label: 'Daniel, Radiographer, CHU-Caen', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'sylvie', label: 'Sylvie, Médecin généraliste, CHU-Caen', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'claire', label: 'Claire, Cardiologue, CHU-Brest', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'julien', label: 'Julien, Urgentiste, CHU-Brest', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'fatima', label: 'Fatima, Neurologue, CHU-Brest', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'thomas', label: 'Thomas, Chirurgien orthopédique, CHU-Angers', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'marie', label: 'Marie, Infirmière en chef, Remote site', count: Math.floor(Math.random() * 16), checked: false }
   ];
   
   dateOptions: DateOption[] = [
