@@ -132,6 +132,33 @@ export class DashboardFilterComponent implements OnInit {
     this.selectedDateRange = 'from';
   }
 
+  onDateTextInput(): void {
+    // Parse the date input and update from/to fields
+    const datePattern = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+    const match = this.dateTextInput.match(datePattern);
+    
+    if (match) {
+      const [, day, month, year] = match;
+      const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+      
+      if (!isNaN(date.getTime())) {
+        const formattedDate = this.formatDate(date);
+        this.fromDate = formattedDate;
+        this.toDate = formattedDate;
+      }
+    }
+  }
+
+  onRadioHover(event: Event): void {
+    const target = event.target as HTMLElement;
+    target.style.backgroundColor = '#374151';
+  }
+
+  onRadioLeave(event: Event): void {
+    const target = event.target as HTMLElement;
+    target.style.backgroundColor = '';
+  }
+
   updateFilteredLists(): void {
     // Filter sites based on selected doctors
     this.filteredSites = this.sites.filter(site => {
