@@ -379,10 +379,8 @@ export class AppComponent {
   
   // PRESETS methods
   filterPresets(): void {
-    // Auto-expand when user starts typing
-    if (this.presetsFilter.trim()) {
-      this.presetsCollapsed = false;
-    }
+    // Auto-expand when user starts typing, collapse when empty
+    this.presetsCollapsed = !this.presetsFilter.trim();
     
     if (!this.presetsFilter.trim()) {
       this.filteredPresets = [...this.presets];
@@ -403,10 +401,8 @@ export class AppComponent {
   
   // CHAT methods
   filterConversations(): void {
-    // Auto-expand when user starts typing
-    if (this.chatFilter.trim()) {
-      this.chatCollapsed = false;
-    }
+    // Auto-expand when user starts typing, collapse when empty
+    this.chatCollapsed = !this.chatFilter.trim();
     
     if (!this.chatFilter.trim()) {
       this.filteredConversations = [...this.conversations];
