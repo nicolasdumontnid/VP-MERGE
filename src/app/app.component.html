@@ -130,7 +130,7 @@
         <div class="section-header">
           <div class="search-bar">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="My Presets" [(ngModel)]="presetsFilter" (input)="filterPresets()">
+            <input type="text" placeholder="My Presets" [(ngModel)]="presetsFilter" (input)="filterPresets()" (focus)="expandPresets()">
           </div>
           <button class="collapse-btn" (click)="togglePresetsCollapse()">
             <i class="fas" [ngClass]="presetsCollapsed ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
@@ -151,7 +151,7 @@
         <div class="section-header">
           <div class="search-bar">
             <i class="fas fa-comment"></i>
-            <input type="text" placeholder="Chat" [(ngModel)]="chatFilter" (input)="filterConversations()">
+            <input type="text" placeholder="Chat" [(ngModel)]="chatFilter" (input)="filterConversations()" (focus)="expandChat()">
           </div>
           <button class="collapse-btn" (click)="toggleChatCollapse()">
             <i class="fas" [ngClass]="chatCollapsed ? 'fa-chevron-down' : 'fa-chevron-up'"></i>

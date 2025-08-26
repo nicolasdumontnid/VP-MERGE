@@ -391,6 +391,10 @@ export class AppComponent {
     }
   }
   
+  expandPresets(): void {
+    this.presetsCollapsed = false;
+  }
+  
   togglePresetsCollapse(): void {
     this.presetsCollapsed = !this.presetsCollapsed;
   }
@@ -414,6 +418,10 @@ export class AppComponent {
       );
     }
     this.sortConversations();
+  }
+  
+  expandChat(): void {
+    this.chatCollapsed = false;
   }
   
   toggleChatCollapse(): void {
