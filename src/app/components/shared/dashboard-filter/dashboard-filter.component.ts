@@ -133,9 +133,9 @@ export class DashboardFilterComponent implements OnInit {
   }
 
   onDateTextInput(): void {
-    // Update from/to fields when date column input changes
     if (this.dateHeaderInput) {
       this.fromDate = this.dateHeaderInput;
+      this.toDate = this.dateHeaderInput;
       this.toDate = this.dateHeaderInput;
       this.selectedDateRange = 'from';
     }
