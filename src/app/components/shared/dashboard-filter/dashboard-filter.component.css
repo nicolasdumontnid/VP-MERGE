@@ -86,6 +86,9 @@
 
 .input-group {
   flex: 1;
+}
+
+.filter-fieldset.collapsed .input-group {
   margin-bottom: 8px;
 }
 
