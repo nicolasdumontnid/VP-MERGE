@@ -67,7 +67,7 @@
             <div class="checkbox-list">
               <label class="checkbox-option" *ngFor="let site of sites">
                 <input type="checkbox" class="custom-checkbox" [checked]="site.checked" (change)="onFilterChange()">
-                <span class="checkbox-label">{{ site.name }}</span>
+                <span class="checkbox-label">{{ site.label }}</span>
                 <span class="option-count">{{ site.count }}</span>
               </label>
             </div>
@@ -78,7 +78,7 @@
             <div class="checkbox-list">
               <label class="checkbox-option" *ngFor="let sector of sectors">
                 <input type="checkbox" class="custom-checkbox" [checked]="sector.checked" (change)="onFilterChange()">
-                <span class="checkbox-label">{{ sector.name }}</span>
+                <span class="checkbox-label">{{ sector.label }}</span>
                 <span class="option-count">{{ sector.count }}</span>
               </label>
             </div>
@@ -89,7 +89,7 @@
             <div class="checkbox-list">
               <label class="checkbox-option" *ngFor="let doctor of assignedDoctors">
                 <input type="checkbox" class="custom-checkbox" [checked]="doctor.checked" (change)="onFilterChange()">
-                <span class="checkbox-label">{{ doctor.name }}</span>
+                <span class="checkbox-label">{{ doctor.label }}</span>
                 <span class="option-count">{{ doctor.count }}</span>
               </label>
             </div>
