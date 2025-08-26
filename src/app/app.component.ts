@@ -36,7 +36,7 @@ export class AppComponent {
   
   // CHAT data
   chatFilter = '';
-  chatCollapsed = false;
+  chatCollapsed = true;
   selectedConversation: any = null;
   newMessage = '';
   
