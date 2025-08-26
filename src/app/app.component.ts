@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -363,18 +364,22 @@ export class AppComponent {
   // BOXES navigation methods
   navigateToInbox(): void {
     this.setBreadcrumb('Inbox');
+    this.router.navigate(['/inbox']);
   }
   
   navigateToPending(): void {
     this.setBreadcrumb('Pending');
+    this.router.navigate(['/pending']);
   }
   
   navigateToSecondOpinion(): void {
     this.setBreadcrumb('Second Opinion');
+    this.router.navigate(['/second-opinion']);
   }
   
   navigateToCompleted(): void {
     this.setBreadcrumb('Completed');
+    this.router.navigate(['/completed']);
   }
   
   // PRESETS methods
@@ -503,6 +508,10 @@ export class AppComponent {
   }
   
   constructor() {
+    this.sortConversations();
+  }
+
+  constructor(private router: Router) {
     this.sortConversations();
   }
 }

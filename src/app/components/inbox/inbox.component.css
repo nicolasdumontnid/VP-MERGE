@@ -1,0 +1,28 @@
+.inbox-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.inbox-header {
+  margin-bottom: 32px;
+}
+
+.inbox-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #4ade80;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.inbox-header h1 i {
+  font-size: 24px;
+}
+
+.inbox-content {
+  background-color: #374151;
+  border-radius: 12px;
+  padding: 24px;
+  color: white;
+}
