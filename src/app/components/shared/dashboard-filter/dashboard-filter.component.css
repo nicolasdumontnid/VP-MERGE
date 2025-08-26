@@ -126,10 +126,16 @@
   padding: 8px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
+  flex-shrink: 0;
+  margin-left: 16px;
 }
 
 .collapse-btn:hover {
   background-color: #4b5563;
+}
+
+.collapse-btn i {
+  font-size: 16px;
 }
 
 /* Accordion Content */
