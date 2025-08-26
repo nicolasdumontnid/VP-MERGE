@@ -9,6 +9,15 @@ interface FilterOption {
   checked: boolean;
 }
 
+interface SectorFilterOption extends FilterOption {
+  sites: string[];
+}
+
+interface AssignedDoctorFilterOption extends FilterOption {
+  site: string;
+  sector: string;
+}
+
 interface RadioOption {
   id: string;
   label: string;
@@ -80,7 +89,7 @@ export class DashboardFilterComponent implements OnInit {
     { id: 'remote-site', label: 'Remote site', count: Math.floor(Math.random() * 16), checked: false }
   ];
   
-  sectors: FilterOption[] = [
+  sectors: SectorFilterOption[] = [
     { id: 'oncologue', label: 'Oncologue', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-angers', 'chu-caen'] },
     { id: 'pediatre', label: 'Pédiatre', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-angers'] },
     { id: 'radiographer', label: 'Radiographer', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-caen'] },
@@ -92,7 +101,7 @@ export class DashboardFilterComponent implements OnInit {
     { id: 'infirmiere-chef', label: 'Infirmière en chef', count: Math.floor(Math.random() * 16), checked: false, sites: ['remote-site'] }
   ];
   
-  assignedDoctors: FilterOption[] = [
+  assignedDoctors: AssignedDoctorFilterOption[] = [
     { id: 'damien', label: 'Damien Suchy', count: Math.floor(Math.random() * 16), checked: false, site: 'chu-angers', sector: 'oncologue' },
     { id: 'nicolas', label: 'Nicolas Dumont', count: Math.floor(Math.random() * 16), checked: false, site: 'chu-caen', sector: 'oncologue' },
     { id: 'deborah', label: 'Déborah Bernard', count: Math.floor(Math.random() * 16), checked: false, site: 'chu-angers', sector: 'pediatre' },
@@ -116,8 +125,8 @@ export class DashboardFilterComponent implements OnInit {
   
   // Filtered lists
   filteredSites: FilterOption[] = [];
-  filteredSectors: FilterOption[] = [];
-  filteredAssignedDoctors: FilterOption[] = [];
+  filteredSectors: SectorFilterOption[] = [];
+  filteredAssignedDoctors: AssignedDoctorFilterOption[] = [];
 
   ngOnInit(): void {
     this.updateFilteredLists();
