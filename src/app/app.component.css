@@ -29,6 +29,7 @@
   transition: background-color 0.3s ease;
   color: white;
   text-decoration: none;
+  justify-content: space-between;
 }
 
 .menu-item:hover {
@@ -47,13 +48,15 @@
 }
 
 .menu-item span {
-  flex: 1;
+  flex: 0 1 auto;
 }
 
 .count {
   font-size: 14px;
   color: #9ca3af;
   font-weight: 500;
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 .separator {
