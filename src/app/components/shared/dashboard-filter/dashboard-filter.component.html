@@ -54,8 +54,8 @@
             <div class="separator"></div>
 
             <div class="checkbox-list">
-              <label class="checkbox-option" *ngFor="let option of filterOptions">
-                <input type="checkbox" class="custom-checkbox" [checked]="option.checked" (change)="onCheckboxChange(option)">
+              <label class="checkbox-option" *ngFor="let option of filterCheckboxes">
+                <input type="checkbox" class="custom-checkbox" [checked]="option.checked" (change)="onFilterChange()">
                 <span class="checkbox-label">{{ option.label }}</span>
                 <span class="option-count">{{ option.count }}</span>
               </label>
@@ -65,8 +65,8 @@
           <!-- Second Column -->
           <div class="filter-column">
             <div class="checkbox-list">
-              <label class="checkbox-option" *ngFor="let site of siteOptions">
-                <input type="checkbox" class="custom-checkbox" [checked]="site.checked" (change)="onSiteChange(site)">
+              <label class="checkbox-option" *ngFor="let site of sites">
+                <input type="checkbox" class="custom-checkbox" [checked]="site.checked" (change)="onFilterChange()">
                 <span class="checkbox-label">{{ site.name }}</span>
                 <span class="option-count">{{ site.count }}</span>
               </label>
@@ -76,8 +76,8 @@
           <!-- Third Column -->
           <div class="filter-column">
             <div class="checkbox-list">
-              <label class="checkbox-option" *ngFor="let sector of sectorOptions">
-                <input type="checkbox" class="custom-checkbox" [checked]="sector.checked" (change)="onSectorChange(sector)">
+              <label class="checkbox-option" *ngFor="let sector of sectors">
+                <input type="checkbox" class="custom-checkbox" [checked]="sector.checked" (change)="onFilterChange()">
                 <span class="checkbox-label">{{ sector.name }}</span>
                 <span class="option-count">{{ sector.count }}</span>
               </label>
@@ -87,8 +87,8 @@
           <!-- Fourth Column -->
           <div class="filter-column">
             <div class="checkbox-list">
-              <label class="checkbox-option" *ngFor="let doctor of doctorOptions">
-                <input type="checkbox" class="custom-checkbox" [checked]="doctor.checked" (change)="onDoctorChange(doctor)">
+              <label class="checkbox-option" *ngFor="let doctor of assignedDoctors">
+                <input type="checkbox" class="custom-checkbox" [checked]="doctor.checked" (change)="onFilterChange()">
                 <span class="checkbox-label">{{ doctor.name }}</span>
                 <span class="option-count">{{ doctor.count }}</span>
               </label>
@@ -127,11 +127,11 @@
 
               <div class="date-inputs">
                 <div class="date-input-group">
-                  <input type="date" class="date-input" [(ngModel)]="startDate">
+                  <input type="date" class="date-input" [(ngModel)]="fromDate">
                   <i class="date-icon fas fa-calendar"></i>
                 </div>
                 <div class="date-input-group">
-                  <input type="date" class="date-input" [(ngModel)]="endDate">
+                  <input type="date" class="date-input" [(ngModel)]="toDate">
                   <i class="date-icon fas fa-calendar"></i>
                 </div>
               </div>
