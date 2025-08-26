@@ -127,21 +127,23 @@
 }
 
 .section-content {
-  max-height: 300px;
+  max-height: 400px;
   overflow: hidden;
   transition: max-height 0.3s ease;
+  overflow-y: auto;
 }
 
 .section-content.collapsed {
   max-height: 0;
+  overflow: hidden;
 }
 
 .chat-section .section-content {
-  max-height: 400px;
+  max-height: 500px;
 }
 
-.chat-content {
-  overflow-y: auto;
+.chat-section .section-content.collapsed {
+  max-height: 0;
 }
 
 .conversation-item {

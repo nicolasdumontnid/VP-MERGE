@@ -162,7 +162,7 @@
                *ngFor="let conv of filteredConversations" 
                [ngClass]="{unread: conv.isUnread, pinned: conv.isPinned}"
                (click)="openConversationModal(conv)">
-            <img [src]="conv.avatar" alt="Avatar" class="avatar">
+            <img [src]="conv.avatar" alt="Avatar" class="avatar" onerror="this.src='https://via.placeholder.com/40x40/4ade80/000000?text=U'">
             <div class="conversation-info">
               <div class="first-line">
                 <span class="recipient" [ngClass]="{bold: conv.isUnread}">
