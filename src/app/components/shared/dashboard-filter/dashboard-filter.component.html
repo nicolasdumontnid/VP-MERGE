@@ -1,187 +1,392 @@
-<div class="dashboard-filter-container">
-  <!-- Header Section -->
-  <div class="filter-header">
-    <div class="header-left">
-      <i [class]="icon" class="header-icon"></i>
-      <h2 class="header-title">{{title}}</h2>
-      <span class="found-count">{{foundCount}} attributions trouvées.</span>
-    </div>
-    <div class="header-right">
-      <i class="fas fa-save sort-icon"></i>
-      <span class="sort-label">Nom du cas</span>
-      <i class="fas fa-arrow-down-short-wide sort-icon"></i>
-    </div>
-  </div>
+.dashboard-filter-container {
+  padding: 2%;
+}
 
-  <!-- Dashboard Filter Accordion -->
-  <div class="dashboard-filter-accordion">
-    <fieldset class="filter-fieldset">
-      <div class="accordion-header">
-        <div class="header-content">
-          <div class="filter-inputs-aligned">
-            <div class="input-group">
-              <input type="text" placeholder="Filters" [(ngModel)]="filterText" (input)="onFilterChange()" class="filter-input">
-            </div>
-            <div class="input-group">
-              <input type="text" placeholder="Site" [(ngModel)]="siteFilter" class="filter-input">
-            </div>
-            <div class="input-group">
-              <input type="text" placeholder="Sectors" [(ngModel)]="sectorsFilter" class="filter-input">
-            </div>
-            <div class="input-group">
-              <input type="text" placeholder="Assigned doctors" [(ngModel)]="assignedDoctorsFilter" class="filter-input">
-            </div>
-            <div class="input-group">
-              <div class="date-label">Date</div>
-            </div>
+/* Header Section */
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-icon {
+  font-size: 24px;
+  color: white;
+  filter: invert(1);
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.found-count {
+  font-size: 16px;
+  color: #9ca3af;
+  margin-left: 8px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-icon {
+  font-size: 16px;
+  color: white;
+}
+
+.sort-label {
+  font-size: 16px;
+  color: white;
+}
+
+/* Dashboard Filter Accordion */
+.dashboard-filter-accordion {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.filter-fieldset {
+  border: 2px solid #4b5563;
+  border-radius: 8px;
+  background-color: #2a2a2a;
+  padding: 0;
+  margin: 0;
+  height: 365px;
+  max-height: 50vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.accordion-header {
+        <div class="filter-inputs-aligned">
+          <div class="input-group">
+            <input type="text" placeholder="Filters" [(ngModel)]="filterText" (input)="onFilterChange()" class="filter-input">
           </div>
-          <button class="collapse-btn-positioned" (click)="toggleExpanded()">
-            <i class="fas" [ngClass]="isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
-          </button>
+          <div class="input-group">
+            <input type="text" placeholder="Site" [(ngModel)]="siteFilter" class="filter-input">
+          </div>
+          <div class="input-group">
+            <input type="text" placeholder="Sectors" [(ngModel)]="sectorsFilter" class="filter-input">
+          </div>
+          <div class="input-group">
+            <input type="text" placeholder="Assigned doctors" [(ngModel)]="assignedDoctorsFilter" class="filter-input">
+          </div>
+          <div class="input-group">
+            <div class="date-label">Date</div>
+          </div>
         </div>
-      </div>
+        <button class="collapse-btn-positioned" (click)="toggleExpanded()">
+          <i class="fas" [ngClass]="isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+        </button>
+  border: 1px solid #6b7280;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+}
 
-      <div class="accordion-content" [ngClass]="{collapsed: !isExpanded}">
-        <div class="filter-columns">
-          <!-- Filters Column -->
-          <div class="filter-column">
-            <div class="separator"></div>
-            
-            <!-- Case Type Radio Buttons -->
-            <div class="radio-group">
-              <div class="radio-option" *ngFor="let option of caseTypeOptions">
-                <input type="radio" 
-                       [id]="'case-' + option.id" 
-                       [value]="option.value" 
-                       [(ngModel)]="selectedCaseType"
-                       (change)="onFilterChange()"
-                       class="custom-radio">
-                <label [for]="'case-' + option.id" class="radio-label">{{option.label}}</label>
-              </div>
-            </div>
-            
-            <div class="separator gray"></div>
-            
-            <!-- Scan Type Radio Buttons -->
-            <div class="radio-group">
-              <div class="radio-option" *ngFor="let option of scanTypeOptions">
-                <input type="radio" 
-                       [id]="'scan-' + option.id" 
-                       [value]="option.value" 
-                       [(ngModel)]="selectedScanType"
-                       (change)="onFilterChange()"
-                       class="custom-radio">
-                <label [for]="'scan-' + option.id" class="radio-label">{{option.label}}</label>
-              </div>
-            </div>
-            
-            <div class="separator gray"></div>
-            
-            <!-- Filter Checkboxes -->
-            <div class="checkbox-list">
-              <div class="checkbox-option" *ngFor="let option of filterCheckboxes">
-                <input type="checkbox" 
-                       [id]="'filter-' + option.id" 
-                       [(ngModel)]="option.checked"
-                       (change)="onFilterChange()"
-                       class="custom-checkbox">
-                <label [for]="'filter-' + option.id" class="checkbox-label">{{option.label}}</label>
-                <span class="option-count">{{option.count}}</span>
-              </div>
-            </div>
-          </div>
+.filter-input:focus {
+  outline: none;
+  border-color: #92d5b4;
+}
 
-          <!-- Sites Column -->
-          <div class="filter-column">
-            <div class="separator"></div>
-            <div class="checkbox-list">
-              <div class="checkbox-option" *ngFor="let site of filteredSites">
-                <input type="checkbox" 
-                       [id]="'site-' + site.id" 
-                       [(ngModel)]="site.checked"
-                       (change)="onFilterChange()"
-                       class="custom-checkbox">
-                <label [for]="'site-' + site.id" class="checkbox-label">{{site.label}}</label>
-                <span class="option-count">{{site.count}}</span>
-              </div>
-            </div>
-          </div>
+.filter-input::placeholder {
+  color: #9ca3af;
+}
 
-          <!-- Sectors Column -->
-          <div class="filter-column">
-            <div class="separator"></div>
-            <div class="checkbox-list">
-              <div class="checkbox-option" *ngFor="let sector of filteredSectors">
-                <input type="checkbox" 
-                       [id]="'sector-' + sector.id" 
-                       [(ngModel)]="sector.checked"
-                       (change)="onFilterChange()"
-                       class="custom-checkbox">
-                <label [for]="'sector-' + sector.id" class="checkbox-label">{{sector.label}}</label>
-                <span class="option-count">{{sector.count}}</span>
-              </div>
-            </div>
-          </div>
+.date-label {
+  padding: 8px 12px;
+  background-color: #4b5563;
+  border: 1px solid #6b7280;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+  text-align: center;
+}
 
-          <!-- Assigned Doctors Column -->
-          <div class="filter-column">
-            <div class="separator"></div>
-            <div class="checkbox-list">
-              <div class="checkbox-option" *ngFor="let doctor of filteredAssignedDoctors">
-                <input type="checkbox" 
-                       [id]="'doctor-' + doctor.id" 
-                       [(ngModel)]="doctor.checked"
-                       (change)="onFilterChange()"
-                       class="custom-checkbox">
-                <label [for]="'doctor-' + doctor.id" class="checkbox-label">{{doctor.label}}</label>
-                <span class="option-count">{{doctor.count}}</span>
-              </div>
-            </div>
-          </div>
+.collapse-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
 
-          <!-- Date Column -->
-          <div class="filter-column">
-            <div class="separator"></div>
-            <div class="date-options">
-              <div class="radio-option vertical" *ngFor="let option of dateOptions">
-                <input type="radio" 
-                       [id]="'date-' + option.id" 
-                       [value]="option.id" 
-                       [(ngModel)]="selectedDateRange"
-                       (change)="onDateRangeChange()"
-                       class="custom-radio">
-                <label [for]="'date-' + option.id" class="radio-label">{{option.label}}</label>
-              </div>
-              
-              <div class="date-inputs">
-                <div class="date-input-group">
-                  <input type="date" 
-                         [(ngModel)]="fromDate" 
-                         (change)="onManualDateChange()"
-                         class="date-input"
-                         placeholder="From">
-                  <i class="fas fa-calendar-alt date-icon"></i>
-                </div>
-                <div class="date-input-group">
-                  <input type="date" 
-                         [(ngModel)]="toDate" 
-                         (change)="onManualDateChange()"
-                         class="date-input"
-                         placeholder="To">
-                  <i class="fas fa-calendar-alt date-icon"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
-      </div>
-    </fieldset>
-  </div>
+.collapse-btn:hover {
+  background-color: #4b5563;
+}
 
-  <!-- Results List Placeholder -->
-  <div class="results-section">
-    <div class="results-placeholder">
-      <p>RESULT_LIST - Liste des examens médicaux filtrés</p>
-    </div>
-  </div>
-</div>
+.collapse-btn i {
+  font-size: 16px;
+}
+
+/* Accordion Content */
+.accordion-content {
+  flex: 1;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.accordion-content.collapsed {
+  height: 0;
+  overflow: hidden;
+}
+
+.filter-columns {
+  display: flex;
+  height: 100%;
+}
+
+.filter-column {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  border-right: 1px solid #4b5563;
+}
+
+.filter-column:last-child {
+  border-right: none;
+}
+
+/* Separators */
+.separator {
+  height: 1px;
+  background-color: white;
+  margin: 12px 0;
+}
+
+.separator.gray {
+  background-color: #6b7280;
+}
+
+/* Radio Buttons */
+.radio-group {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.radio-option:hover {
+  background-color: #374151;
+}
+
+.radio-option.vertical {
+  flex-direction: row;
+  margin-bottom: 8px;
+}
+
+.custom-radio {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #6b7280;
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+.custom-radio:checked {
+  border-color: #92d5b4;
+  background-color: #92d5b4;
+}
+
+.custom-radio:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background-color: white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.radio-label {
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Checkboxes */
+.checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.checkbox-option:hover {
+  background-color: #374151;
+}
+
+.custom-checkbox {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #6b7280;
+  border-radius: 3px;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  margin-right: 8px;
+}
+
+.custom-checkbox:checked {
+  border-color: #92d5b4;
+  background-color: #92d5b4;
+}
+
+.custom-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  transform: translate(-50%, -50%);
+}
+
+.checkbox-label {
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.option-count {
+  color: #9ca3af;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Date Options */
+.date-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.date-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.date-input-group {
+  position: relative;
+}
+
+.date-input {
+  width: 100%;
+  padding: 8px 32px 8px 12px;
+  background-color: #4b5563;
+  border: 1px solid #6b7280;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: #92d5b4;
+}
+
+.date-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+/* Results Section */
+.results-section {
+  background-color: #374151;
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 16px;
+}
+
+.results-placeholder {
+  text-align: center;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .filter-inputs {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .input-group {
+    min-width: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .filter-columns {
+    flex-direction: column;
+  }
+  
+  .filter-column {
+    border-right: none;
+    border-bottom: 1px solid #4b5563;
+  }
+  
+  .filter-column:last-child {
+    border-bottom: none;
+  }
+  
+  .filter-fieldset {
+    height: auto;
+    max-height: none;
+  }
+}

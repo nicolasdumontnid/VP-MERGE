@@ -71,7 +71,7 @@
 
 .accordion-header {
   display: flex;
-  justify-content: space-between;
+  position: relative;
   align-items: center;
   padding: 16px;
   border-bottom: 1px solid #4b5563;
@@ -79,10 +79,10 @@
   border-radius: 6px 6px 0 0;
 }
 
-.filter-inputs {
+.filter-inputs-aligned {
   display: flex;
   gap: 16px;
-  flex: 1;
+  width: 100%;
 }
 
 .input-group {
@@ -118,7 +118,10 @@
   text-align: center;
 }
 
-.collapse-btn {
+.collapse-btn-positioned {
+  position: absolute;
+  top: -8px;
+  right: 8px;
   background: none;
   border: none;
   color: white;
@@ -126,15 +129,14 @@
   padding: 8px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
-  flex-shrink: 0;
-  margin-left: 16px;
+  z-index: 10;
 }
 
-.collapse-btn:hover {
+.collapse-btn-positioned:hover {
   background-color: #4b5563;
 }
 
-.collapse-btn i {
+.collapse-btn-positioned i {
   font-size: 16px;
 }
 
