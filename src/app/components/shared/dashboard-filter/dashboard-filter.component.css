@@ -96,7 +96,7 @@
 
 .filter-input:focus {
   outline: none;
-  border-color: #92d5b4;
+  border-color: #4ade80;
 }
 
 .filter-input::placeholder {
@@ -133,3 +133,235 @@
 
 .collapse-btn-positioned i {
   font-size: 16px;
+}
+
+/* Accordion Content */
+.accordion-content {
+  flex: 1;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background-color: #2a2a2a;
+}
+
+.accordion-content.collapsed {
+  height: 0;
+  overflow: hidden;
+}
+
+.filter-columns {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  padding: 16px;
+  height: 100%;
+}
+
+.filter-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Radio Groups */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+}
+
+.radio-option.vertical {
+  margin-bottom: 4px;
+}
+
+.custom-radio {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #6b7280;
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  margin: 0;
+}
+
+.custom-radio:checked {
+  border-color: #4ade80;
+  background-color: #4ade80;
+}
+
+.custom-radio:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: white;
+  transform: translate(-50%, -50%);
+}
+
+.radio-label {
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Checkbox Lists */
+.checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.custom-checkbox {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #6b7280;
+  border-radius: 3px;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  margin: 0;
+  margin-right: 8px;
+}
+
+.custom-checkbox:checked {
+  border-color: #4ade80;
+  background-color: #4ade80;
+}
+
+.custom-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  transform: translate(-50%, -50%);
+}
+
+.checkbox-label {
+  flex: 1;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.option-count {
+  color: #9ca3af;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+/* Separators */
+.separator {
+  height: 1px;
+  background-color: #4b5563;
+  margin: 12px 0;
+}
+
+.separator.gray {
+  background-color: #6b7280;
+}
+
+/* Date Options */
+.date-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.date-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.date-input-group {
+  position: relative;
+}
+
+.date-input {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: #4b5563;
+  border: 1px solid #6b7280;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: #4ade80;
+}
+
+.date-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+/* Results Section */
+.results-section {
+  background-color: #374151;
+  border-radius: 8px;
+  padding: 24px;
+  min-height: 200px;
+}
+
+.results-placeholder {
+  color: #9ca3af;
+  font-size: 16px;
+  text-align: center;
+  padding: 48px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .filter-columns {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-columns {
+    grid-template-columns: 1fr;
+  }
+  
+  .accordion-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .input-group {
+    width: 100%;
+  }
+}
