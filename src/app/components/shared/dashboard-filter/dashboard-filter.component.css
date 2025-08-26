@@ -62,7 +62,7 @@
   background-color: #2a2a2a;
   padding: 0;
   margin: 0;
-  height: 365px;
+  height: 400px;
   max-height: 50vh;
   display: flex;
   flex-direction: column;
@@ -160,35 +160,34 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow: hidden;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Scrollbar styling for filter columns */
+.filter-column::-webkit-scrollbar {
+  width: 6px;
+}
+
+.filter-column::-webkit-scrollbar-track {
+  background: #374151;
+  border-radius: 3px;
+}
+
+.filter-column::-webkit-scrollbar-thumb {
+  background: #6b7280;
+  border-radius: 3px;
+}
+
+.filter-column::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }
 
 .column-content {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  height: 100%;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-/* Scrollbar styling for columns */
-.column-content::-webkit-scrollbar {
-  width: 6px;
-}
-
-.column-content::-webkit-scrollbar-track {
-  background: #374151;
-  border-radius: 3px;
-}
-
-.column-content::-webkit-scrollbar-thumb {
-  background: #6b7280;
-  border-radius: 3px;
-}
-
-.column-content::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
+  padding: 16px 8px 16px 16px;
 }
 
 /* Radio Groups */
