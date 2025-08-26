@@ -86,7 +86,9 @@ export class DashboardFilterComponent implements OnInit {
     { id: 'chu-angers', label: 'CHU-Angers', count: Math.floor(Math.random() * 16), checked: false },
     { id: 'chu-caen', label: 'CHU-Caen', count: Math.floor(Math.random() * 16), checked: false },
     { id: 'chu-brest', label: 'CHU-Brest', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'remote-site', label: 'Remote site', count: Math.floor(Math.random() * 16), checked: false }
+    { id: 'remote-site', label: 'Remote site', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'ch-le-mans', label: 'CH Le Mans', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'az-sint-maarten', label: 'AZ Sint-Maarten', count: Math.floor(Math.random() * 16), checked: false }
   ];
   
   sectors: SectorFilterOption[] = [
