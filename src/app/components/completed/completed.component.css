@@ -1,28 +1,4 @@
 .completed-container {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.completed-header {
-  margin-bottom: 32px;
-}
-
-.completed-header h1 {
-  font-size: 28px;
-  font-weight: 700;
-  color: #4ade80;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.completed-header h1 i {
-  font-size: 24px;
-}
-
-.completed-content {
-  background-color: #374151;
-  border-radius: 12px;
-  padding: 24px;
-  color: white;
+  width: 100%;
+  height: 100%;
 }

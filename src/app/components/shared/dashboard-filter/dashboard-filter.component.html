@@ -1,0 +1,185 @@
+<div class="dashboard-filter-container">
+  <!-- Header Section -->
+  <div class="filter-header">
+    <div class="header-left">
+      <i [class]="icon" class="header-icon"></i>
+      <h2 class="header-title">{{title}}</h2>
+      <span class="found-count">{{foundCount}} attributions trouvées.</span>
+    </div>
+    <div class="header-right">
+      <i class="fas fa-save sort-icon"></i>
+      <span class="sort-label">Nom du cas</span>
+      <i class="fas fa-arrow-down-short-wide sort-icon"></i>
+    </div>
+  </div>
+
+  <!-- Dashboard Filter Accordion -->
+  <div class="dashboard-filter-accordion">
+    <fieldset class="filter-fieldset">
+      <div class="accordion-header">
+        <div class="filter-inputs">
+          <div class="input-group">
+            <input type="text" placeholder="Filters" [(ngModel)]="filterText" (input)="onFilterChange()" class="filter-input">
+          </div>
+          <div class="input-group">
+            <input type="text" placeholder="Site" [(ngModel)]="siteFilter" class="filter-input">
+          </div>
+          <div class="input-group">
+            <input type="text" placeholder="Sectors" [(ngModel)]="sectorsFilter" class="filter-input">
+          </div>
+          <div class="input-group">
+            <input type="text" placeholder="Assigned doctors" [(ngModel)]="assignedDoctorsFilter" class="filter-input">
+          </div>
+          <div class="input-group">
+            <div class="date-label">Date</div>
+          </div>
+        </div>
+        <button class="collapse-btn" (click)="toggleExpanded()">
+          <i class="fas" [ngClass]="isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+        </button>
+      </div>
+
+      <div class="accordion-content" [ngClass]="{collapsed: !isExpanded}">
+        <div class="filter-columns">
+          <!-- Filters Column -->
+          <div class="filter-column">
+            <div class="separator"></div>
+            
+            <!-- Case Type Radio Buttons -->
+            <div class="radio-group">
+              <div class="radio-option" *ngFor="let option of caseTypeOptions">
+                <input type="radio" 
+                       [id]="'case-' + option.id" 
+                       [value]="option.value" 
+                       [(ngModel)]="selectedCaseType"
+                       (change)="onFilterChange()"
+                       class="custom-radio">
+                <label [for]="'case-' + option.id" class="radio-label">{{option.label}}</label>
+              </div>
+            </div>
+            
+            <div class="separator gray"></div>
+            
+            <!-- Scan Type Radio Buttons -->
+            <div class="radio-group">
+              <div class="radio-option" *ngFor="let option of scanTypeOptions">
+                <input type="radio" 
+                       [id]="'scan-' + option.id" 
+                       [value]="option.value" 
+                       [(ngModel)]="selectedScanType"
+                       (change)="onFilterChange()"
+                       class="custom-radio">
+                <label [for]="'scan-' + option.id" class="radio-label">{{option.label}}</label>
+              </div>
+            </div>
+            
+            <div class="separator gray"></div>
+            
+            <!-- Filter Checkboxes -->
+            <div class="checkbox-list">
+              <div class="checkbox-option" *ngFor="let option of filterCheckboxes">
+                <input type="checkbox" 
+                       [id]="'filter-' + option.id" 
+                       [(ngModel)]="option.checked"
+                       (change)="onFilterChange()"
+                       class="custom-checkbox">
+                <label [for]="'filter-' + option.id" class="checkbox-label">{{option.label}}</label>
+                <span class="option-count">{{option.count}}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sites Column -->
+          <div class="filter-column">
+            <div class="separator"></div>
+            <div class="checkbox-list">
+              <div class="checkbox-option" *ngFor="let site of filteredSites">
+                <input type="checkbox" 
+                       [id]="'site-' + site.id" 
+                       [(ngModel)]="site.checked"
+                       (change)="onFilterChange()"
+                       class="custom-checkbox">
+                <label [for]="'site-' + site.id" class="checkbox-label">{{site.label}}</label>
+                <span class="option-count">{{site.count}}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sectors Column -->
+          <div class="filter-column">
+            <div class="separator"></div>
+            <div class="checkbox-list">
+              <div class="checkbox-option" *ngFor="let sector of filteredSectors">
+                <input type="checkbox" 
+                       [id]="'sector-' + sector.id" 
+                       [(ngModel)]="sector.checked"
+                       (change)="onFilterChange()"
+                       class="custom-checkbox">
+                <label [for]="'sector-' + sector.id" class="checkbox-label">{{sector.label}}</label>
+                <span class="option-count">{{sector.count}}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Assigned Doctors Column -->
+          <div class="filter-column">
+            <div class="separator"></div>
+            <div class="checkbox-list">
+              <div class="checkbox-option" *ngFor="let doctor of filteredAssignedDoctors">
+                <input type="checkbox" 
+                       [id]="'doctor-' + doctor.id" 
+                       [(ngModel)]="doctor.checked"
+                       (change)="onFilterChange()"
+                       class="custom-checkbox">
+                <label [for]="'doctor-' + doctor.id" class="checkbox-label">{{doctor.label}}</label>
+                <span class="option-count">{{doctor.count}}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Date Column -->
+          <div class="filter-column">
+            <div class="separator"></div>
+            <div class="date-options">
+              <div class="radio-option vertical" *ngFor="let option of dateOptions">
+                <input type="radio" 
+                       [id]="'date-' + option.id" 
+                       [value]="option.id" 
+                       [(ngModel)]="selectedDateRange"
+                       (change)="onDateRangeChange()"
+                       class="custom-radio">
+                <label [for]="'date-' + option.id" class="radio-label">{{option.label}}</label>
+              </div>
+              
+              <div class="date-inputs">
+                <div class="date-input-group">
+                  <input type="date" 
+                         [(ngModel)]="fromDate" 
+                         (change)="onManualDateChange()"
+                         class="date-input"
+                         placeholder="From">
+                  <i class="fas fa-calendar-alt date-icon"></i>
+                </div>
+                <div class="date-input-group">
+                  <input type="date" 
+                         [(ngModel)]="toDate" 
+                         (change)="onManualDateChange()"
+                         class="date-input"
+                         placeholder="To">
+                  <i class="fas fa-calendar-alt date-icon"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+  <!-- Results List Placeholder -->
+  <div class="results-section">
+    <div class="results-placeholder">
+      <p>RESULT_LIST - Liste des examens médicaux filtrés</p>
+    </div>
+  </div>
+</div>
