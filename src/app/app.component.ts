@@ -507,10 +507,6 @@ export class AppComponent {
     return description.substring(0, maxLength) + '...';
   }
   
-  constructor() {
-    this.sortConversations();
-  }
-
   constructor(private router: Router) {
     this.sortConversations();
   }
