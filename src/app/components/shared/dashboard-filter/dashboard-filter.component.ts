@@ -81,24 +81,28 @@ export class DashboardFilterComponent implements OnInit {
   ];
   
   sectors: FilterOption[] = [
-    { id: 'colon', label: 'Colon', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'cytologie', label: 'Cytologie', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'florescence', label: 'Florescence', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'lungs', label: 'Lungs', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'chest', label: 'Chest', count: Math.floor(Math.random() * 16), checked: false }
+    { id: 'oncologue', label: 'Oncologue', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-angers', 'chu-caen'] },
+    { id: 'pediatre', label: 'Pédiatre', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-angers'] },
+    { id: 'radiographer', label: 'Radiographer', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-caen'] },
+    { id: 'medecin-generaliste', label: 'Médecin généraliste', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-caen'] },
+    { id: 'cardiologue', label: 'Cardiologue', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-brest'] },
+    { id: 'urgentiste', label: 'Urgentiste', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-brest'] },
+    { id: 'neurologue', label: 'Neurologue', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-brest'] },
+    { id: 'chirurgien-orthopedique', label: 'Chirurgien orthopédique', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-angers'] },
+    { id: 'infirmiere-chef', label: 'Infirmière en chef', count: Math.floor(Math.random() * 16), checked: false, sites: ['remote-site'] }
   ];
   
   assignedDoctors: FilterOption[] = [
-    { id: 'damien', label: 'Damien Suchy', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'nicolas', label: 'Nicolas Dumont', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'deborah', label: 'Déborah Bernard', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'daniel', label: 'Daniel Lopez', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'sylvie', label: 'Sylvie Massip', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'claire', label: 'Claire Bouvier', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'julien', label: 'Julien Christman', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'fatima', label: 'Fatima Nezha', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'thomas', label: 'Thomas Clavi', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'marie', label: 'Marie Bauer', count: Math.floor(Math.random() * 16), checked: false }
+    { id: 'damien', label: 'Damien Suchy', count: Math.floor(Math.random() * 16), checked: false, site: 'chu-angers', sector: 'oncologue' },
+    { id: 'nicolas', label: 'Nicolas Dumont', count: Math.floor(Math.random() * 16), checked: false, site: 'chu-caen', sector: 'oncologue' },
+    { id: 'deborah', label: 'Déborah Bernard', count: Math.floor(Math.random() * 16), checked: false, site: 'chu-angers', sector: 'pediatre' },
+    { id: 'daniel', label: 'Daniel Lopez', count: Math.floor(Math.random() * 16), checked: false, site: 'chu-caen', sector: 'radiographer' },
+    { id: 'sylvie', label: 'Sylvie Massip', count: Math.floor(Math.random() * 16), checked: false, site: 'chu-caen', sector: 'medecin-generaliste' },
+    { id: 'claire', label: 'Claire Bouvier', count: Math.floor(Math.random() * 16), checked: false, site: 'chu-brest', sector: 'cardiologue' },
+    { id: 'julien', label: 'Julien Christman', count: Math.floor(Math.random() * 16), checked: false, site: 'chu-brest', sector: 'urgentiste' },
+    { id: 'fatima', label: 'Fatima Nezha', count: Math.floor(Math.random() * 16), checked: false, site: 'chu-brest', sector: 'neurologue' },
+    { id: 'thomas', label: 'Thomas Clavi', count: Math.floor(Math.random() * 16), checked: false, site: 'chu-angers', sector: 'chirurgien-orthopedique' },
+    { id: 'marie', label: 'Marie Bauer', count: Math.floor(Math.random() * 16), checked: false, site: 'remote-site', sector: 'infirmiere-chef' }
   ];
   
   dateOptions: DateOption[] = [
@@ -156,29 +160,36 @@ export class DashboardFilterComponent implements OnInit {
   }
 
   updateFilteredLists(): void {
+    const selectedDoctors = this.assignedDoctors.filter(doc => doc.checked);
+    const selectedSites = this.sites.filter(site => site.checked);
+    const selectedSectors = this.sectors.filter(sector => sector.checked);
+
     // Filter sites based on selected doctors
-    this.filteredSites = this.sites.filter(site => {
-      const selectedDoctors = this.assignedDoctors.filter(doc => doc.checked);
-      if (selectedDoctors.length === 0) return true;
-      // Logic to filter sites based on selected doctors would go here
-      return true;
-    });
+    if (selectedDoctors.length > 0) {
+      const doctorSites = selectedDoctors.map(doc => (doc as any).site);
+      this.filteredSites = this.sites.filter(site => doctorSites.includes(site.id));
+    } else {
+      this.filteredSites = [...this.sites];
+    }
 
     // Filter sectors based on selected sites
-    this.filteredSectors = this.sectors.filter(sector => {
-      const selectedSites = this.sites.filter(site => site.checked);
-      if (selectedSites.length === 0) return true;
-      // Logic to filter sectors based on selected sites would go here
-      return true;
-    });
+    if (selectedSites.length > 0) {
+      this.filteredSectors = this.sectors.filter(sector => {
+        const sectorSites = (sector as any).sites || [];
+        return selectedSites.some(site => sectorSites.includes(site.id));
+      });
+    } else {
+      this.filteredSectors = [...this.sectors];
+    }
 
-    // Assigned doctors are not filtered by other selections
-    this.filteredAssignedDoctors = this.assignedDoctors.filter(doctor => {
-      const selectedSites = this.sites.filter(site => site.checked);
-      if (selectedSites.length === 0) return true;
-      // Logic to filter doctors based on selected sites would go here
-      return true;
-    });
+    // Filter assigned doctors based on selected sites (doctors are not filtered by other doctors)
+    if (selectedSites.length > 0) {
+      this.filteredAssignedDoctors = this.assignedDoctors.filter(doctor => {
+        return selectedSites.some(site => (doctor as any).site === site.id);
+      });
+    } else {
+      this.filteredAssignedDoctors = [...this.assignedDoctors];
+    }
   }
 
   onFilterChange(): void {

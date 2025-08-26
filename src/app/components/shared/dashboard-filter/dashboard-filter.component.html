@@ -87,7 +87,7 @@
           <div class="filter-column">
             <div class="column-content">
               <div class="checkbox-list scrollable">
-                <label class="checkbox-option" *ngFor="let site of sites">
+                <label class="checkbox-option" *ngFor="let site of filteredSites">
                   <input type="checkbox" class="custom-checkbox" [(ngModel)]="site.checked" (change)="onFilterChange()">
                   <span class="checkbox-label">{{ site.label }}</span>
                   <span class="option-count">{{ site.count }}</span>
@@ -100,7 +100,7 @@
           <div class="filter-column">
             <div class="column-content">
               <div class="checkbox-list scrollable">
-                <label class="checkbox-option" *ngFor="let sector of sectors">
+                <label class="checkbox-option" *ngFor="let sector of filteredSectors">
                   <input type="checkbox" class="custom-checkbox" [(ngModel)]="sector.checked" (change)="onFilterChange()">
                   <span class="checkbox-label">{{ sector.label }}</span>
                   <span class="option-count">{{ sector.count }}</span>
@@ -113,7 +113,7 @@
           <div class="filter-column">
             <div class="column-content">
               <div class="checkbox-list scrollable">
-                <label class="checkbox-option" *ngFor="let doctor of assignedDoctors">
+                <label class="checkbox-option" *ngFor="let doctor of filteredAssignedDoctors">
                   <input type="checkbox" class="custom-checkbox" [(ngModel)]="doctor.checked" (change)="onFilterChange()">
                   <span class="checkbox-label">{{ doctor.label }}</span>
                   <span class="option-count">{{ doctor.count }}</span>
