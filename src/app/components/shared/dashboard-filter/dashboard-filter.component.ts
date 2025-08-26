@@ -92,15 +92,24 @@ export class DashboardFilterComponent implements OnInit {
   ];
   
   sectors: SectorFilterOption[] = [
-    { id: 'oncologue', label: 'Oncologue', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-angers', 'chu-caen'] },
-    { id: 'pediatre', label: 'Pédiatre', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-angers'] },
-    { id: 'radiographer', label: 'Radiographer', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-caen'] },
-    { id: 'medecin-generaliste', label: 'Médecin généraliste', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-caen'] },
-    { id: 'cardiologue', label: 'Cardiologue', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-brest'] },
-    { id: 'urgentiste', label: 'Urgentiste', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-brest'] },
-    { id: 'neurologue', label: 'Neurologue', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-brest'] },
-    { id: 'chirurgien-orthopedique', label: 'Chirurgien orthopédique', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-angers'] },
-    { id: 'infirmiere-chef', label: 'Infirmière en chef', count: Math.floor(Math.random() * 16), checked: false, sites: ['remote-site'] }
+    { id: 'oncology-angers', label: 'Oncology', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-angers'] },
+    { id: 'pediatric', label: 'Pediatric', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-angers'] },
+    { id: 'radiology', label: 'Radiology', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-angers'] },
+    { id: 'general-medicine', label: 'General medicine', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-brest'] },
+    { id: 'cardiology', label: 'Cardiology', count: Math.floor(Math.random() * 16), checked: false, sites: ['ch-le-mans'] },
+    { id: 'emergency', label: 'Emergency', count: Math.floor(Math.random() * 16), checked: false, sites: ['az-sint-maarten'] },
+    { id: 'neurology', label: 'Neurology', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-brest'] },
+    { id: 'orthopedic', label: 'Orthopedic', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-caen'] },
+    { id: 'colon', label: 'Colon', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-angers'] },
+    { id: 'cytologie', label: 'Cytologie', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-angers'] },
+    { id: 'florescence', label: 'Florescence', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-angers'] },
+    { id: 'lungs', label: 'Lungs', count: Math.floor(Math.random() * 16), checked: false, sites: ['az-sint-maarten'] },
+    { id: 'chest', label: 'Chest', count: Math.floor(Math.random() * 16), checked: false, sites: ['ch-le-mans'] },
+    { id: 'breast', label: 'Breast', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-brest'] },
+    { id: 'histologie', label: 'Histologie', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-brest'] },
+    { id: 'throat', label: 'Throat', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-caen'] },
+    { id: 'oncology-caen', label: 'Oncology', count: Math.floor(Math.random() * 16), checked: false, sites: ['chu-caen'] },
+    { id: 'general', label: 'General', count: Math.floor(Math.random() * 16), checked: false, sites: ['az-sint-maarten'] }
   ];
   
   assignedDoctors: AssignedDoctorFilterOption[] = [
