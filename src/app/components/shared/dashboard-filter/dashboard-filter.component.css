@@ -16,10 +16,10 @@
   gap: 12px;
 }
 
-.header-icon {
+.header-left i {
   font-size: 24px;
-  color: white;
-  filter: invert(1);
+  color: #000;
+  filter: invert(1) brightness(0);
 }
 
 .header-title {
@@ -32,7 +32,6 @@
 .found-count {
   font-size: 16px;
   color: #9ca3af;
-  margin-left: 8px;
 }
 
 .header-right {
@@ -41,7 +40,7 @@
   gap: 8px;
 }
 
-.sort-icon {
+.header-right i {
   font-size: 16px;
   color: white;
 }
