@@ -138,14 +138,33 @@
   flex: 1;
   background-color: #2a2a2a;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Column Titles */
+.column-titles {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr 1.2fr;
+  gap: 16px;
+  padding: 16px 16px 8px 16px;
+  background-color: #2a2a2a;
+  border-bottom: 1px solid #4b5563;
+}
+
+.column-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #d1d5db;
+  text-align: left;
 }
 
 .filter-columns {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr 1.2fr;
   gap: 16px;
-  padding: 16px;
-  height: 280px;
+  padding: 8px 16px 16px 16px;
+  flex: 1;
   overflow: hidden;
 }
 
@@ -154,6 +173,7 @@
   flex-direction: column;
   height: 100%;
   overflow-y: auto;
+  min-height: 0;
 }
 
 /* Scrollbar styling for filter columns */
@@ -179,7 +199,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 0 8px 0 0;
+  padding: 0 8px 8px 0;
+  flex: 1;
 }
 
 /* Radio Groups */
@@ -222,7 +243,7 @@
 }
 
 .custom-radio:checked {
-  border-color: #92d5b4;
+  border-color: #92d5b4 !important;
   background-color: #92d5b4;
 }
 
@@ -289,7 +310,7 @@
 }
 
 .custom-checkbox:checked {
-  border-color: #92d5b4;
+  border-color: #92d5b4 !important;
   background-color: #92d5b4;
 }
 
