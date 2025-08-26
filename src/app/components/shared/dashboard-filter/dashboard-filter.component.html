@@ -33,6 +33,9 @@
           <div class="input-group">
             <div class="date-label">Date</div>
           </div>
+          <button class="collapse-btn" (click)="toggleExpanded()">
+            <i class="fas" [ngClass]="isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+          </button>
         </div>
       </div>
 
