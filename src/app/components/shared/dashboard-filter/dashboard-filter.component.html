@@ -17,23 +17,25 @@
   <div class="dashboard-filter-accordion">
     <fieldset class="filter-fieldset">
       <div class="accordion-header">
-        <div class="filter-inputs">
-          <div class="input-group">
-            <input type="text" placeholder="Filters" [(ngModel)]="filterText" (input)="onFilterChange()" class="filter-input">
+        <div class="header-content">
+          <div class="filter-inputs-aligned">
+            <div class="input-group">
+              <input type="text" placeholder="Filters" [(ngModel)]="filterText" (input)="onFilterChange()" class="filter-input">
+            </div>
+            <div class="input-group">
+              <input type="text" placeholder="Site" [(ngModel)]="siteFilter" class="filter-input">
+            </div>
+            <div class="input-group">
+              <input type="text" placeholder="Sectors" [(ngModel)]="sectorsFilter" class="filter-input">
+            </div>
+            <div class="input-group">
+              <input type="text" placeholder="Assigned doctors" [(ngModel)]="assignedDoctorsFilter" class="filter-input">
+            </div>
+            <div class="input-group">
+              <div class="date-label">Date</div>
+            </div>
           </div>
-          <div class="input-group">
-            <input type="text" placeholder="Site" [(ngModel)]="siteFilter" class="filter-input">
-          </div>
-          <div class="input-group">
-            <input type="text" placeholder="Sectors" [(ngModel)]="sectorsFilter" class="filter-input">
-          </div>
-          <div class="input-group">
-            <input type="text" placeholder="Assigned doctors" [(ngModel)]="assignedDoctorsFilter" class="filter-input">
-          </div>
-          <div class="input-group">
-            <div class="date-label">Date</div>
-          </div>
-          <button class="collapse-btn" (click)="toggleExpanded()">
+          <button class="collapse-btn-positioned" (click)="toggleExpanded()">
             <i class="fas" [ngClass]="isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
           </button>
         </div>
