@@ -1,0 +1,79 @@
+<div class="sectors-container">
+  <div class="sectors-header">
+    <h1>Sector Management</h1>
+    <button class="btn-primary" (click)="openCreateModal()">
+      <i class="fas fa-plus"></i>
+      Add Sector
+    </button>
+  </div>
+  
+  <div class="search-section">
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input 
+        type="text" 
+        placeholder="Search sectors..." 
+        [(ngModel)]="searchQuery"
+        (input)="onSearchChange()"
+        class="search-input">
+    </div>
+  </div>
+  
+  <div class="sectors-grid" *ngIf="sectors.length > 0">
+    <div class="sector-card" *ngFor="let sector of sectors">
+      <div class="sector-header">
+        <div class="sector-icon">
+          <i class="fas fa-stethoscope"></i>
+        </div>
+        <div class="sector-info">
+          <h3>{{sector.name}}</h3>
+          <p class="sector-site">{{sector.siteName}}</p>
+        </div>
+        <div class="sector-status">
+          <span class="status-indicator" [ngClass]="{active: sector.isActive}">
+            <i class="fas fa-circle"></i>
+          </span>
+        </div>
+      </div>
+      
+      <div class="sector-description">
+        <p>{{sector.description}}</p>
+      </div>
+      
+      <div class="sector-actions">
+        <button class="btn-secondary" (click)="editSector(sector)">
+          <i class="fas fa-edit"></i>
+          Edit
+        </button>
+        <button class="btn-danger" (click)="deleteSector(sector.id)">
+          <i class="fas fa-trash"></i>
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button 
+      class="btn-pagination" 
+      (click)="previousPage()" 
+      [disabled]="currentPage === 1">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    
+    <span class="page-info">Page {{currentPage}} of {{totalPages}}</span>
+    
+    <button 
+      class="btn-pagination" 
+      (click)="nextPage()" 
+      [disabled]="currentPage === totalPages">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+  
+  <div class="no-results" *ngIf="sectors.length === 0">
+    <i class="fas fa-stethoscope"></i>
+    <h3>No sectors found</h3>
+    <p>Try adjusting your search criteria or add a new sector.</p>
+  </div>
+</div>

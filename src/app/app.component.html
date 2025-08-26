@@ -1,0 +1,92 @@
+<div class="app-container">
+  <header class="top-header">
+    <div class="header-left">
+      <div class="logo-section">
+        <div class="logo-icon">
+          <div class="pie-chart">
+            <div class="divider"></div>
+          </div>
+        </div>
+        <div class="logo-text">
+          <h1>Telemis</h1>
+          <span class="version">3.0.0</span>
+        </div>
+      </div>
+      
+      <nav class="main-nav">
+        <a routerLink="/exams" routerLinkActive="active" (click)="setBreadcrumb('Exams')">Exams</a>
+        <a routerLink="/worklists" routerLinkActive="active" (click)="setBreadcrumb('Worklists')">Worklists</a>
+        <a routerLink="/labels" routerLinkActive="active" (click)="setBreadcrumb('Labels')">Labels</a>
+        <a routerLink="/templates" routerLinkActive="active" (click)="setBreadcrumb('Templates')">Templates</a>
+      </nav>
+    </div>
+    
+    <div class="header-center">
+      <div class="breadcrumb">
+        <span>{{currentBreadcrumb}}</span>
+      </div>
+    </div>
+    
+    <div class="header-right">
+      <div class="header-actions">
+        <button class="action-btn" title="Shield">
+          <i class="fas fa-shield-alt"></i>
+        </button>
+        
+        <div class="dropdown" [class.open]="isManagementDropdownOpen">
+          <button class="action-btn dropdown-toggle" (click)="toggleManagementDropdown()" title="Management">
+            <i class="fas fa-lock"></i>
+            <span>Management</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="dropdown-menu">
+            <a routerLink="/users" (click)="closeDropdowns(); setBreadcrumb('Users')">
+              <i class="fas fa-users"></i>
+              Users
+            </a>
+            <a routerLink="/sites" (click)="closeDropdowns(); setBreadcrumb('Sites')">
+              <i class="fas fa-building"></i>
+              Sites
+            </a>
+            <a routerLink="/sectors" (click)="closeDropdowns(); setBreadcrumb('Sectors')">
+              <i class="fas fa-stethoscope"></i>
+              Sectors
+            </a>
+            <a routerLink="/patients" (click)="closeDropdowns(); setBreadcrumb('Patients')">
+              <i class="fas fa-user-injured"></i>
+              Patients
+            </a>
+            <a routerLink="/conversations" (click)="closeDropdowns(); setBreadcrumb('Conversations')">
+              <i class="fas fa-comments"></i>
+              Conversations
+            </a>
+          </div>
+        </div>
+        
+        <button class="action-btn" title="Stamp">
+          <i class="fas fa-stamp"></i>
+        </button>
+        
+        <button class="action-btn" title="Settings">
+          <i class="fas fa-cog"></i>
+        </button>
+        
+        <div class="dropdown" [class.open]="isMenuDropdownOpen">
+          <button class="action-btn dropdown-toggle" (click)="toggleMenuDropdown()" title="Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="dropdown-menu">
+            <a href="#" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

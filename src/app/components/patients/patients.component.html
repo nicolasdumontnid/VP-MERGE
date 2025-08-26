@@ -1,0 +1,90 @@
+<div class="patients-container">
+  <div class="patients-header">
+    <h1>Patient Management</h1>
+    <button class="btn-primary" (click)="openCreateModal()">
+      <i class="fas fa-plus"></i>
+      Add Patient
+    </button>
+  </div>
+  
+  <div class="search-section">
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input 
+        type="text" 
+        placeholder="Search patients..." 
+        [(ngModel)]="searchQuery"
+        (input)="onSearchChange()"
+        class="search-input">
+    </div>
+  </div>
+  
+  <div class="patients-grid" *ngIf="patients.length > 0">
+    <div class="patient-card" *ngFor="let patient of patients">
+      <div class="patient-header">
+        <div class="patient-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="patient-basic-info">
+          <h3>{{patient.firstName}} {{patient.lastName}}</h3>
+          <p>ID: {{patient.id}}</p>
+        </div>
+        <div class="patient-actions">
+          <button class="btn-icon" (click)="editPatient(patient)">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn-icon btn-danger" (click)="deletePatient(patient.id)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="patient-details">
+        <div class="detail-item">
+          <span class="detail-label">Date of Birth:</span>
+          <span class="detail-value">{{patient.dateOfBirth | date:'mediumDate'}}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Gender:</span>
+          <span class="detail-value">{{patient.gender === 'M' ? 'Male' : 'Female'}}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Blood Type:</span>
+          <span class="detail-value">{{patient.bloodType}}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Phone:</span>
+          <span class="detail-value">{{patient.phone}}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Email:</span>
+          <span class="detail-value">{{patient.email}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button 
+      class="btn-pagination" 
+      (click)="previousPage()" 
+      [disabled]="currentPage === 1">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    
+    <span class="page-info">Page {{currentPage}} of {{totalPages}}</span>
+    
+    <button 
+      class="btn-pagination" 
+      (click)="nextPage()" 
+      [disabled]="currentPage === totalPages">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+  
+  <div class="no-results" *ngIf="patients.length === 0">
+    <i class="fas fa-user-injured"></i>
+    <h3>No patients found</h3>
+    <p>Try adjusting your search criteria or add a new patient.</p>
+  </div>
+</div>

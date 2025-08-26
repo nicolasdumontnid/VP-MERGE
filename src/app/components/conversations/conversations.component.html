@@ -1,0 +1,140 @@
+<div class="conversations-container">
+  <div class="conversations-header">
+    <h1>Medical Conversations</h1>
+    <div class="header-actions">
+      <button class="btn-filter" [ngClass]="{active: showUnreadOnly}" (click)="toggleUnreadFilter()">
+        <i class="fas fa-envelope"></i>
+        Unread Only
+      </button>
+      <button class="btn-filter" [ngClass]="{active: showPinnedOnly}" (click)="togglePinnedFilter()">
+        <i class="fas fa-thumbtack"></i>
+        Pinned Only
+      </button>
+    </div>
+  </div>
+  
+  <div class="search-section">
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input 
+        type="text" 
+        placeholder="Search conversations..." 
+        [(ngModel)]="searchQuery"
+        (input)="onSearchChange()"
+        class="search-input">
+    </div>
+  </div>
+  
+  <div class="conversations-list" *ngIf="conversations.length > 0">
+    <div class="conversation-card" 
+         *ngFor="let conversation of conversations" 
+         [ngClass]="{unread: conversation.isUnread, pinned: conversation.isPinned}"
+         (click)="openConversation(conversation)">
+      <div class="conversation-header">
+        <div class="conversation-avatar">
+          <i class="fas fa-user-md"></i>
+        </div>
+        <div class="conversation-info">
+          <h3>{{conversation.examTitle}}</h3>
+          <p>{{conversation.patientName}}</p>
+          <span class="participants">{{getOtherParticipants(conversation)}}</span>
+        </div>
+        <div class="conversation-meta">
+          <span class="timestamp">{{conversation.updatedAt | date:'short'}}</span>
+          <div class="badges">
+            <span class="badge unread-badge" *ngIf="conversation.isUnread">
+              <i class="fas fa-circle"></i>
+            </span>
+            <span class="badge pinned-badge" *ngIf="conversation.isPinned">
+              <i class="fas fa-thumbtack"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="last-message">
+        <span class="sender">{{conversation.lastMessage.senderName}}:</span>
+        <span class="message-content">{{conversation.lastMessage.content}}</span>
+      </div>
+      
+      <div class="conversation-actions" (click)="$event.stopPropagation()">
+        <button class="btn-icon" (click)="togglePin(conversation)" [title]="conversation.isPinned ? 'Unpin' : 'Pin'">
+          <i class="fas fa-thumbtack" [ngClass]="{active: conversation.isPinned}"></i>
+        </button>
+        <button class="btn-icon" (click)="markAsRead(conversation)" *ngIf="conversation.isUnread" title="Mark as read">
+          <i class="fas fa-envelope-open"></i>
+        </button>
+        <button class="btn-icon btn-danger" (click)="deleteConversation(conversation.id)" title="Delete">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button 
+      class="btn-pagination" 
+      (click)="previousPage()" 
+      [disabled]="currentPage === 1">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    
+    <span class="page-info">Page {{currentPage}} of {{totalPages}}</span>
+    
+    <button 
+      class="btn-pagination" 
+      (click)="nextPage()" 
+      [disabled]="currentPage === totalPages">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+  
+  <div class="no-results" *ngIf="conversations.length === 0">
+    <i class="fas fa-comments"></i>
+    <h3>No conversations found</h3>
+    <p>Try adjusting your search criteria or filters.</p>
+  </div>
+</div>
+
+<!-- Conversation Detail Modal -->
+<div class="modal-overlay" *ngIf="selectedConversation" (click)="closeConversation()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{selectedConversation.examTitle}}</h2>
+      <button class="btn-close" (click)="closeConversation()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="conversation-details">
+        <p><strong>Patient:</strong> {{selectedConversation.patientName}}</p>
+        <p><strong>Participants:</strong> {{selectedConversation.participantNames.join(', ')}}</p>
+      </div>
+      
+      <div class="messages-container">
+        <div class="message" 
+             *ngFor="let message of selectedConversation.messages"
+             [ngClass]="{own: message.senderName.includes('Damien')}">
+          <div class="message-header">
+            <span class="sender">{{message.senderName}}</span>
+            <span class="timestamp">{{message.timestamp | date:'short'}}</span>
+          </div>
+          <div class="message-content">{{message.content}}</div>
+        </div>
+      </div>
+      
+      <div class="message-input">
+        <input 
+          type="text" 
+          placeholder="Type a message..." 
+          [(ngModel)]="newMessage"
+          (keyup.enter)="sendMessage()"
+          class="message-field">
+        <button class="btn-send" (click)="sendMessage()" [disabled]="!newMessage.trim()">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

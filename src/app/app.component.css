@@ -1,0 +1,272 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #303030;
+  color: white;
+}
+
+.top-header {
+  background-color: #252525;
+  border-bottom: 1px solid #404040;
+  padding: 0 24px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-icon {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.pie-chart {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: relative;
+  background: conic-gradient(
+    #ef4444 0deg 120deg,
+    #eab308 120deg 240deg,
+    #3b82f6 240deg 360deg
+  );
+  border: 2px solid #000000;
+}
+
+.pie-chart::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 50%;
+  background: #000000;
+  transform-origin: bottom center;
+  transform: translate(-50%, -100%) rotate(0deg);
+  box-shadow: 
+    0 0 0 0 #000000,
+    0 0 0 0 #000000 rotate(120deg),
+    0 0 0 0 #000000 rotate(240deg);
+}
+
+.pie-chart::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 50%;
+  background: #000000;
+  transform-origin: bottom center;
+  transform: translate(-50%, -100%) rotate(120deg);
+}
+
+.pie-chart .divider {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 50%;
+  background: #000000;
+  transform-origin: bottom center;
+  transform: translate(-50%, -100%) rotate(240deg);
+}
+
+.logo-text h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  line-height: 1;
+}
+
+.logo-text .version {
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.main-nav a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.main-nav a:hover {
+  background-color: #374151;
+}
+
+.main-nav a.active {
+  background-color: #4ade80;
+  color: #252525;
+}
+
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.breadcrumb {
+  background-color: #374151;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #d1d5db;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  color: white;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.action-btn:hover {
+  background-color: #374151;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #374151;
+  border: 1px solid #4b5563;
+  border-radius: 8px;
+  min-width: 180px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.dropdown.open .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+}
+
+.dropdown-menu a:hover {
+  background-color: #4b5563;
+}
+
+.dropdown-menu a:first-child {
+  border-radius: 8px 8px 0 0;
+}
+
+.dropdown-menu a:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .top-header {
+    padding: 0 16px;
+    height: auto;
+    min-height: 70px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .header-left {
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  
+  .main-nav {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .main-nav a {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+  
+  .header-center {
+    order: 3;
+    width: 100%;
+    margin-top: 8px;
+  }
+  
+  .logo-text h1 {
+    font-size: 24px;
+  }
+  
+  .main-content {
+    padding: 16px;
+  }
+}

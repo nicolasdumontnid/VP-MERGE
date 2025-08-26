@@ -1,0 +1,87 @@
+<div class="sites-container">
+  <div class="sites-header">
+    <h1>Site Management</h1>
+    <button class="btn-primary" (click)="openCreateModal()">
+      <i class="fas fa-plus"></i>
+      Add Site
+    </button>
+  </div>
+  
+  <div class="search-section">
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input 
+        type="text" 
+        placeholder="Search sites..." 
+        [(ngModel)]="searchQuery"
+        (input)="onSearchChange()"
+        class="search-input">
+    </div>
+  </div>
+  
+  <div class="sites-grid" *ngIf="sites.length > 0">
+    <div class="site-card" *ngFor="let site of sites">
+      <div class="site-header">
+        <div class="site-icon">
+          <i class="fas fa-hospital" *ngIf="site.type === 'public'"></i>
+          <i class="fas fa-clinic-medical" *ngIf="site.type === 'private'"></i>
+        </div>
+        <div class="site-info">
+          <h3>{{site.name}}</h3>
+          <span class="site-type" [ngClass]="'type-' + site.type">{{site.type | titlecase}}</span>
+        </div>
+        <div class="site-status">
+          <span class="status-indicator" [ngClass]="{active: site.isActive}">
+            <i class="fas fa-circle"></i>
+          </span>
+        </div>
+      </div>
+      
+      <div class="site-details">
+        <div class="detail-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>{{site.address}}, {{site.city}}</span>
+        </div>
+        <div class="detail-item">
+          <i class="fas fa-phone"></i>
+          <span>{{site.phone}}</span>
+        </div>
+      </div>
+      
+      <div class="site-actions">
+        <button class="btn-secondary" (click)="editSite(site)">
+          <i class="fas fa-edit"></i>
+          Edit
+        </button>
+        <button class="btn-danger" (click)="deleteSite(site.id)">
+          <i class="fas fa-trash"></i>
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button 
+      class="btn-pagination" 
+      (click)="previousPage()" 
+      [disabled]="currentPage === 1">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    
+    <span class="page-info">Page {{currentPage}} of {{totalPages}}</span>
+    
+    <button 
+      class="btn-pagination" 
+      (click)="nextPage()" 
+      [disabled]="currentPage === totalPages">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+  
+  <div class="no-results" *ngIf="sites.length === 0">
+    <i class="fas fa-building"></i>
+    <h3>No sites found</h3>
+    <p>Try adjusting your search criteria or add a new site.</p>
+  </div>
+</div>
