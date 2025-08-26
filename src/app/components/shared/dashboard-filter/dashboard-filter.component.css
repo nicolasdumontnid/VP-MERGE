@@ -67,6 +67,7 @@
   flex-direction: column;
   transition: max-height 0.3s ease;
   overflow: hidden;
+  position: relative;
 }
 
 .filter-fieldset.collapsed {
@@ -75,7 +76,6 @@
 
 .accordion-header {
   display: flex;
-  position: relative;
   align-items: center;
   padding: 16px;
   border-bottom: 1px solid #4b5563;
@@ -113,8 +113,8 @@
 
 .collapse-btn-positioned {
   position: absolute;
-  top: -8px;
-  right: 8px;
+  top: 8px;
+  right: 16px;
   background: none;
   border: none;
   color: white;
@@ -145,7 +145,7 @@
   grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr 1.2fr;
   gap: 16px;
   padding: 16px;
-  height: 100%;
+  height: 280px;
   overflow: hidden;
 }
 
@@ -154,7 +154,6 @@
   flex-direction: column;
   height: 100%;
   overflow-y: auto;
-  padding-right: 4px;
 }
 
 /* Scrollbar styling for filter columns */
@@ -180,7 +179,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 16px 8px 16px 16px;
+  padding: 0 8px 0 0;
 }
 
 /* Radio Groups */
@@ -223,8 +222,8 @@
 }
 
 .custom-radio:checked {
-  border-color: #4ade80;
-  background-color: #4ade80;
+  border-color: #92d5b4;
+  background-color: #92d5b4;
 }
 
 .custom-radio:checked::after {
@@ -290,8 +289,8 @@
 }
 
 .custom-checkbox:checked {
-  border-color: #4ade80;
-  background-color: #4ade80;
+  border-color: #92d5b4;
+  background-color: #92d5b4;
 }
 
 .custom-checkbox:checked::after {
