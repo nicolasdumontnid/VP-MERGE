@@ -16,7 +16,6 @@ export class AppComponent {
   currentBreadcrumb = 'Dashboard';
   isManagementDropdownOpen = false;
   isMenuDropdownOpen = false;
-  isConversationMenuOpen = false;
   
   // BOXES data
   inboxCount = Math.floor(Math.random() * 21);
@@ -115,12 +114,6 @@ export class AppComponent {
   toggleMenuDropdown(): void {
     this.isMenuDropdownOpen = !this.isMenuDropdownOpen;
     this.isManagementDropdownOpen = false;
-    this.isConversationMenuOpen = false;
-  }
-  
-  toggleConversationMenu(): void {
-    this.isConversationMenuOpen = !this.isConversationMenuOpen;
-    this.isConversationMenuOpen = false;
   }
   
   toggleConversationMenu(): void {
@@ -130,7 +123,6 @@ export class AppComponent {
   closeDropdowns(): void {
     this.isManagementDropdownOpen = false;
     this.isMenuDropdownOpen = false;
-    this.isConversationMenuOpen = false;
     this.isConversationMenuOpen = false;
   }
 
@@ -142,143 +134,6 @@ export class AppComponent {
   logout(): void {
     console.log('Logout clicked');
     this.closeDropdowns();
-  }
-  
-  // BOXES navigation methods
-  navigateToInbox(): void {
-    this.setBreadcrumb('Inbox');
-  }
-  
-  navigateToPending(): void {
-    this.setBreadcrumb('Pending');
-  }
-  
-  navigateToSecondOpinion(): void {
-    this.setBreadcrumb('Second Opinion');
-  }
-  
-  navigateToCompleted(): void {
-    this.setBreadcrumb('Completed');
-  }
-  
-  // PRESETS methods
-  filterPresets(): void {
-    if (!this.presetsFilter.trim()) {
-      this.filteredPresets = [...this.presets];
-    } else {
-      this.filteredPresets = this.presets.filter(preset =>
-        preset.name.toLowerCase().includes(this.presetsFilter.toLowerCase())
-      );
-    }
-  }
-  
-  togglePresetsCollapse(): void {
-    this.presetsCollapsed = !this.presetsCollapsed;
-  }
-  
-  selectPreset(preset: any): void {
-    this.setBreadcrumb(preset.name);
-  }
-  
-  // CHAT methods
-  filterConversations(): void {
-    if (!this.chatFilter.trim()) {
-      this.filteredConversations = [...this.conversations];
-    } else {
-      this.filteredConversations = this.conversations.filter(conv =>
-        conv.recipient.toLowerCase().includes(this.chatFilter.toLowerCase()) ||
-        conv.patientName.toLowerCase().includes(this.chatFilter.toLowerCase()) ||
-        conv.examDescription.toLowerCase().includes(this.chatFilter.toLowerCase())
-      );
-    }
-    this.sortConversations();
-  }
-  
-  toggleChatCollapse(): void {
-    this.chatCollapsed = !this.chatCollapsed;
-  }
-  
-  sortConversations(): void {
-    this.filteredConversations.sort((a, b) => {
-      if (a.isPinned && !b.isPinned) return -1;
-      if (!a.isPinned && b.isPinned) return 1;
-      if (a.isUnread && !b.isUnread) return -1;
-      if (!a.isUnread && b.isUnread) return 1;
-      return b.lastMessageDate.getTime() - a.lastMessageDate.getTime();
-    });
-  }
-  
-  openConversationModal(conversation: any): void {
-    this.selectedConversation = conversation;
-    if (conversation.isUnread) {
-      conversation.isUnread = false;
-    }
-  }
-  
-  closeConversationModal(): void {
-    this.selectedConversation = null;
-    this.newMessage = '';
-    this.isConversationMenuOpen = false;
-  }
-  
-  markAsUnread(conversation: any): void {
-    conversation.isUnread = true;
-    this.closeConversationModal();
-  }
-  
-  togglePin(conversation: any): void {
-    conversation.isPinned = !conversation.isPinned;
-    this.sortConversations();
-    this.isConversationMenuOpen = false;
-  }
-  
-  sendMessage(): void {
-    if (!this.newMessage.trim() || !this.selectedConversation) return;
-    
-    const message = {
-      sender: 'Damien',
-      content: this.newMessage.trim(),
-      timestamp: new Date()
-    };
-    
-    this.selectedConversation.messages.push(message);
-    this.selectedConversation.lastMessageDate = new Date();
-    this.newMessage = '';
-  }
-  
-  formatTimestamp(date: Date): string {
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const messageDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    
-    if (messageDate.getTime() === today.getTime()) {
-      return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-    } else {
-      return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' });
-    }
-  }
-  
-  formatExamDate(date: Date): string {
-    return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-  }
-  
-  formatMessageTime(date: Date): string {
-    return date.toLocaleString('fr-FR', { 
-      day: '2-digit', 
-      month: '2-digit', 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    });
-  }
-  
-  truncateDescription(description: string): string {
-    const maxLength = 60;
-    if (description.length <= maxLength) return description;
-    return description.substring(0, maxLength) + '...';
-  }
-  
-  constructor() {
-    this.sortConversations();
   }
   
   // BOXES navigation methods
