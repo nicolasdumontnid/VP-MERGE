@@ -86,6 +86,7 @@
 
 .input-group {
   flex: 1;
+  margin-bottom: 8px;
 }
 
 .filter-input {
