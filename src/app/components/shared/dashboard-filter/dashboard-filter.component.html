@@ -30,7 +30,7 @@
           <input type="text" placeholder="Assigned doctors" [(ngModel)]="assignedDoctorsFilter" class="filter-input">
         </div>
         <div class="input-group">
-          <input type="text" placeholder="Date" [(ngModel)]="dateTextInput" (input)="onDateTextInput()" class="filter-input" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}">
+          <input type="date" [(ngModel)]="dateHeaderInput" (change)="onDateHeaderChange()" class="filter-input">
         </div>
         <button class="collapse-btn-positioned" (click)="toggleExpanded()">
           <i class="fas" [ngClass]="isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>

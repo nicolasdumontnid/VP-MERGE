@@ -51,7 +51,7 @@ export class DashboardFilterComponent implements OnInit {
   // Date inputs
   fromDate = '';
   toDate = '';
-  dateTextInput = '';
+  dateHeaderInput = '';
   
   // Filter options
   caseTypeOptions: RadioOption[] = [
@@ -133,19 +133,20 @@ export class DashboardFilterComponent implements OnInit {
   }
 
   onDateTextInput(): void {
-    // Parse the date input and update from/to fields
-    const datePattern = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-    const match = this.dateTextInput.match(datePattern);
-    
-    if (match) {
-      const [, day, month, year] = match;
-      const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-      
-      if (!isNaN(date.getTime())) {
-        const formattedDate = this.formatDate(date);
-        this.fromDate = formattedDate;
-        this.toDate = formattedDate;
-      }
+    // Update from/to fields when date column input changes
+    if (this.dateTextInput) {
+      this.fromDate = this.dateTextInput;
+      this.toDate = this.dateTextInput;
+      this.selectedDateRange = 'from';
+    }
+  }
+
+  onDateHeaderChange(): void {
+    // Update from/to fields when header date input changes
+    if (this.dateHeaderInput) {
+      this.fromDate = this.dateHeaderInput;
+      this.toDate = this.dateHeaderInput;
+      this.selectedDateRange = 'from';
     }
   }
 
