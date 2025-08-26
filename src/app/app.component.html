@@ -205,11 +205,11 @@
               <i class="fas fa-ellipsis-v"></i>
             </button>
             <div class="dropdown-menu">
-              <a href="#" (click)="markAsUnread(selectedConversation)">
+              <a href="#" (click)="markAsUnread(selectedConversation); $event.preventDefault()">
                 <i class="fas fa-envelope"></i>
                 Mark as unread
               </a>
-              <a href="#" (click)="togglePin(selectedConversation)">
+              <a href="#" (click)="togglePin(selectedConversation); $event.preventDefault()">
                 <i class="fas fa-thumbtack"></i>
                 {{selectedConversation.isPinned ? 'Unpin' : 'Pin'}}
               </a>

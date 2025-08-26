@@ -447,6 +447,7 @@ export class AppComponent {
   
   markAsUnread(conversation: any): void {
     conversation.isUnread = true;
+    this.sortConversations();
     this.closeConversationModal();
   }
   
