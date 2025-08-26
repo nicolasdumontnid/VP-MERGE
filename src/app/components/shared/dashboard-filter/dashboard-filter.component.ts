@@ -213,33 +213,6 @@ export class DashboardFilterComponent implements OnInit {
     return date;
   }
 
-  onDateTextInput(): void {
-    // Parse the date input and update from/to fields
-    const datePattern = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-    const match = this.dateTextInput.match(datePattern);
-    
-    if (match) {
-      const [, day, month, year] = match;
-      const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-      
-      if (!isNaN(date.getTime())) {
-        const formattedDate = this.formatDate(date);
-        this.fromDate = formattedDate;
-        this.toDate = formattedDate;
-      }
-    }
-  }
-
-  onRadioHover(event: Event): void {
-    const target = event.target as HTMLElement;
-    target.style.backgroundColor = '#374151';
-  }
-
-  onRadioLeave(event: Event): void {
-    const target = event.target as HTMLElement;
-    target.style.backgroundColor = '';
-  }
-
   private formatDate(date: Date): string {
     return date.toISOString().split('T')[0];
   }
