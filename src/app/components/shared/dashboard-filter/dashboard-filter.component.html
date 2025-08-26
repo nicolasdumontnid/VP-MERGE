@@ -15,7 +15,7 @@
 
   <!-- Dashboard Filter Accordion -->
   <div class="dashboard-filter-accordion">
-    <fieldset class="filter-fieldset">
+    <fieldset class="filter-fieldset" [ngClass]="{'collapsed': !isExpanded}">
       <div class="accordion-header">
         <div class="input-group">
           <input type="text" placeholder="Filters" [(ngModel)]="filterText" (input)="onFilterChange()" class="filter-input">
@@ -37,7 +37,7 @@
         </button>
       </div>
 
-      <div class="accordion-content" [ngClass]="{'collapsed': !isExpanded}">
+      <div class="accordion-content">
         <div class="filter-columns">
           <!-- First Column - Filters -->
           <div class="filter-column">
