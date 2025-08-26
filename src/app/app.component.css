@@ -127,7 +127,7 @@
 }
 
 .section-content {
-  max-height: 400px;
+  max-height: 300px;
   overflow: hidden;
   transition: max-height 0.3s ease;
   overflow-y: auto;
@@ -139,7 +139,7 @@
 }
 
 .chat-section .section-content {
-  max-height: 500px;
+  max-height: 350px;
 }
 
 .chat-section .section-content.collapsed {
