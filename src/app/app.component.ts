@@ -391,7 +391,7 @@ export class AppComponent {
     }
   }
   
-  expandPresets(): void {
+  public expandPresets(): void {
     this.presetsCollapsed = false;
   }
   
@@ -420,7 +420,7 @@ export class AppComponent {
     this.sortConversations();
   }
   
-  expandChat(): void {
+  public expandChat(): void {
     this.chatCollapsed = false;
   }
   
