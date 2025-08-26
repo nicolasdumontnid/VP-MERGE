@@ -153,11 +153,14 @@
   gap: 16px;
   padding: 16px;
   height: 100%;
+  overflow: hidden;
 }
 
 .filter-column {
   display: flex;
   flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 }
 
 .column-content {
@@ -165,7 +168,27 @@
   flex-direction: column;
   gap: 12px;
   height: 100%;
-  overflow: hidden;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Scrollbar styling for columns */
+.column-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.column-content::-webkit-scrollbar-track {
+  background: #374151;
+  border-radius: 3px;
+}
+
+.column-content::-webkit-scrollbar-thumb {
+  background: #6b7280;
+  border-radius: 3px;
+}
+
+.column-content::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }
 
 /* Radio Groups */
