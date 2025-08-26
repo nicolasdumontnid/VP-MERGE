@@ -102,16 +102,6 @@
   color: #9ca3af;
 }
 
-.date-label {
-  padding: 8px 12px;
-  background-color: #4b5563;
-  border: 1px solid #6b7280;
-  border-radius: 4px;
-  color: white;
-  font-size: 14px;
-  text-align: center;
-}
-
 .collapse-btn-positioned {
   position: absolute;
   top: -8px;
@@ -344,18 +334,25 @@
   background-color: #6b7280;
 }
 
-/* Date Options */
-.date-options {
+/* Date Radio Options */
+.date-radio-options {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-bottom: 16px;
 }
 
-.date-inputs {
+.radio-option.vertical:hover {
+  background-color: #374151;
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin: -4px -8px;
+}
+
+.date-inputs-row {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 8px;
-  margin-top: 12px;
 }
 
 .date-input-group {

@@ -30,7 +30,7 @@
           <input type="text" placeholder="Assigned doctors" [(ngModel)]="assignedDoctorsFilter" class="filter-input">
         </div>
         <div class="input-group">
-          <div class="date-label">Date</div>
+          <input type="text" placeholder="Date" [(ngModel)]="dateTextInput" (input)="onDateTextInput()" class="filter-input" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}">
         </div>
         <button class="collapse-btn-positioned" (click)="toggleExpanded()">
           <i class="fas" [ngClass]="isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
@@ -128,43 +128,43 @@
           <!-- Fifth Column - Date -->
           <div class="filter-column">
             <div class="column-content">
-              <div class="date-options">
-                <label class="radio-option vertical">
+              <div class="separator white"></div>
+              
+              <div class="date-radio-options">
+                <label class="radio-option vertical" (mouseenter)="onRadioHover($event)" (mouseleave)="onRadioLeave($event)">
                   <input type="radio" name="dateRange" value="all" [(ngModel)]="selectedDateRange" (change)="onDateRangeChange()" class="custom-radio">
                   <span class="radio-label">All</span>
                 </label>
-                <label class="radio-option vertical">
+                <label class="radio-option vertical" (mouseenter)="onRadioHover($event)" (mouseleave)="onRadioLeave($event)">
                   <input type="radio" name="dateRange" value="today" [(ngModel)]="selectedDateRange" (change)="onDateRangeChange()" class="custom-radio">
                   <span class="radio-label">Today</span>
                 </label>
-                <label class="radio-option vertical">
+                <label class="radio-option vertical" (mouseenter)="onRadioHover($event)" (mouseleave)="onRadioLeave($event)">
                   <input type="radio" name="dateRange" value="yesterday" [(ngModel)]="selectedDateRange" (change)="onDateRangeChange()" class="custom-radio">
                   <span class="radio-label">Yesterday</span>
                 </label>
-                <label class="radio-option vertical">
+                <label class="radio-option vertical" (mouseenter)="onRadioHover($event)" (mouseleave)="onRadioLeave($event)">
                   <input type="radio" name="dateRange" value="last-week" [(ngModel)]="selectedDateRange" (change)="onDateRangeChange()" class="custom-radio">
                   <span class="radio-label">Last Week</span>
                 </label>
-                <label class="radio-option vertical">
+                <label class="radio-option vertical" (mouseenter)="onRadioHover($event)" (mouseleave)="onRadioLeave($event)">
                   <input type="radio" name="dateRange" value="last-6-months" [(ngModel)]="selectedDateRange" (change)="onDateRangeChange()" class="custom-radio">
                   <span class="radio-label">Last 6 Months</span>
                 </label>
-                <label class="radio-option vertical">
+                <label class="radio-option vertical" (mouseenter)="onRadioHover($event)" (mouseleave)="onRadioLeave($event)">
                   <input type="radio" name="dateRange" value="from" [(ngModel)]="selectedDateRange" (change)="onDateRangeChange()" class="custom-radio">
                   <span class="radio-label">From</span>
                 </label>
-
-                <div class="separator gray"></div>
-
-                <div class="date-inputs">
-                  <div class="date-input-group">
-                    <input type="date" class="date-input" [(ngModel)]="fromDate" (change)="onManualDateChange()">
-                    <i class="date-icon fas fa-calendar"></i>
-                  </div>
-                  <div class="date-input-group">
-                    <input type="date" class="date-input" [(ngModel)]="toDate" (change)="onManualDateChange()">
-                    <i class="date-icon fas fa-calendar"></i>
-                  </div>
+              </div>
+              
+              <div class="date-inputs-row">
+                <div class="date-input-group">
+                  <input type="date" class="date-input" [(ngModel)]="fromDate" (change)="onManualDateChange()" placeholder="From">
+                  <i class="date-icon fas fa-calendar"></i>
+                </div>
+                <div class="date-input-group">
+                  <input type="date" class="date-input" [(ngModel)]="toDate" (change)="onManualDateChange()" placeholder="To">
+                  <i class="date-icon fas fa-calendar"></i>
                 </div>
               </div>
             </div>
