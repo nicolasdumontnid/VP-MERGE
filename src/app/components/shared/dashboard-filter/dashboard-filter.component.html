@@ -15,31 +15,29 @@
 
   <!-- Dashboard Filter Accordion -->
   <div class="dashboard-filter-accordion">
-    <fieldset class="filter-fieldset">
-      <div class="accordion-header">
-        <div class="filter-inputs">
-          <div class="input-group">
-            <input type="text" placeholder="Filters" [(ngModel)]="filterText" (input)="onFilterChange()" class="filter-input">
-          </div>
-          <div class="input-group">
-            <input type="text" placeholder="Site" [(ngModel)]="siteFilter" class="filter-input">
-          </div>
-          <div class="input-group">
-            <input type="text" placeholder="Sectors" [(ngModel)]="sectorsFilter" class="filter-input">
-          </div>
-          <div class="input-group">
-            <input type="text" placeholder="Assigned doctors" [(ngModel)]="assignedDoctorsFilter" class="filter-input">
-          </div>
-          <div class="input-group">
-            <div class="date-label">Date</div>
+    <div class="accordion-container">
+      <fieldset class="filter-fieldset">
+        <div class="accordion-header">
+          <div class="filter-inputs">
+            <div class="input-group">
+              <input type="text" placeholder="Filters" [(ngModel)]="filterText" (input)="onFilterChange()" class="filter-input">
+            </div>
+            <div class="input-group">
+              <input type="text" placeholder="Site" [(ngModel)]="siteFilter" class="filter-input">
+            </div>
+            <div class="input-group">
+              <input type="text" placeholder="Sectors" [(ngModel)]="sectorsFilter" class="filter-input">
+            </div>
+            <div class="input-group">
+              <input type="text" placeholder="Assigned doctors" [(ngModel)]="assignedDoctorsFilter" class="filter-input">
+            </div>
+            <div class="input-group">
+              <div class="date-label">Date</div>
+            </div>
           </div>
         </div>
-        <button class="collapse-btn" (click)="toggleExpanded()">
-          <i class="fas" [ngClass]="isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
-        </button>
-      </div>
 
-      <div class="accordion-content" [ngClass]="{collapsed: !isExpanded}">
+        <div class="accordion-content" [ngClass]="{collapsed: !isExpanded}">
         <div class="filter-columns">
           <!-- Filters Column -->
           <div class="filter-column">
@@ -171,9 +169,14 @@
               </div>
             </div>
           </div>
+          </div>
         </div>
-      </div>
-    </fieldset>
+      </fieldset>
+      
+      <button class="collapse-btn-external" (click)="toggleExpanded()">
+        <i class="fas" [ngClass]="isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+      </button>
+    </div>
   </div>
 
   <!-- Results List Placeholder -->

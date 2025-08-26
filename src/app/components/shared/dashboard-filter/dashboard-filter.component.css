@@ -56,6 +56,10 @@
   margin-bottom: 24px;
 }
 
+.accordion-container {
+  position: relative;
+}
+
 .filter-fieldset {
   border: 2px solid #4b5563;
   border-radius: 8px;
@@ -127,7 +131,26 @@
   transition: background-color 0.3s ease;
 }
 
-.collapse-btn:hover {
+.collapse-btn-external {
+  position: absolute;
+  top: 16px;
+  right: -40px;
+  background: #374151;
+  border: 2px solid #4b5563;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.collapse-btn:hover,
+.collapse-btn-external:hover {
   background-color: #4b5563;
 }
 
