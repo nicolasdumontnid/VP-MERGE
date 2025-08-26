@@ -89,16 +89,16 @@ export class DashboardFilterComponent implements OnInit {
   ];
   
   assignedDoctors: FilterOption[] = [
-    { id: 'damien', label: 'Damien, Oncologue, CHU-Angers', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'nicolas', label: 'Nicolas, Oncologue, CHU-Caen', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'deborah', label: 'Déborah, Pédiatre, CHU-Angers', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'daniel', label: 'Daniel, Radiographer, CHU-Caen', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'sylvie', label: 'Sylvie, Médecin généraliste, CHU-Caen', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'claire', label: 'Claire, Cardiologue, CHU-Brest', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'julien', label: 'Julien, Urgentiste, CHU-Brest', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'fatima', label: 'Fatima, Neurologue, CHU-Brest', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'thomas', label: 'Thomas, Chirurgien orthopédique, CHU-Angers', count: Math.floor(Math.random() * 16), checked: false },
-    { id: 'marie', label: 'Marie, Infirmière en chef, Remote site', count: Math.floor(Math.random() * 16), checked: false }
+    { id: 'damien', label: 'Damien Suchy', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'nicolas', label: 'Nicolas Dumont', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'deborah', label: 'Déborah Bernard', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'daniel', label: 'Daniel Lopez', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'sylvie', label: 'Sylvie Massip', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'claire', label: 'Claire Bouvier', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'julien', label: 'Julien Christman', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'fatima', label: 'Fatima Nezha', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'thomas', label: 'Thomas Clavi', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'marie', label: 'Marie Bauer', count: Math.floor(Math.random() * 16), checked: false }
   ];
   
   dateOptions: DateOption[] = [
