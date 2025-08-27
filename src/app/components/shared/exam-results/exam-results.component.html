@@ -1,4 +1,27 @@
 <div [class]="getPageTypeClass()">
+  <!-- Display Mode Selector -->
+  <div class="display-mode-selector">
+    <div class="dropdown" [class.open]="isDisplayMenuOpen">
+      <button class="display-menu-btn" (click)="toggleDisplayMenu()" title="Display options">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="dropdown-menu">
+        <button class="dropdown-item" [class.active]="displayMode === 'card'" (click)="setDisplayMode('card')">
+          <i class="fas fa-th-large"></i>
+          <span>Card View</span>
+        </button>
+        <button class="dropdown-item" [class.active]="displayMode === 'row'" (click)="setDisplayMode('row')">
+          <i class="fas fa-list"></i>
+          <span>Row View</span>
+        </button>
+        <button class="dropdown-item" [class.active]="displayMode === 'table'" (click)="setDisplayMode('table')">
+          <i class="fas fa-table"></i>
+          <span>Table View</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Pagination Controls -->
   <div class="pagination-controls">
     <div class="items-per-page">
@@ -35,8 +58,8 @@
     </div>
   </div>
 
-  <!-- Exam List -->
-  <div class="exam-list" *ngIf="exams.length > 0">
+  <!-- Card View (Default) -->
+  <div class="exam-list card-view" *ngIf="exams.length > 0 && displayMode === 'card'">
     <div class="exam-card" [class]="getBorderClass()" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of exams">
       <!-- Exam Header -->
       <div class="exam-header">
@@ -162,6 +185,151 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Row View -->
+  <div class="exam-list row-view" *ngIf="exams.length > 0 && displayMode === 'row'">
+    <div class="exam-row" [class]="getBorderClass()" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of exams">
+      <!-- Row Header -->
+      <div class="row-header">
+        <div class="exam-info-row">
+          <span class="sector-info" title="Sector">{{exam.sectorName}}</span>
+          <span class="site-info" title="Site">{{exam.siteName}}</span>
+          <span class="exam-date" title="Exam date">{{exam.examDate | date:'dd/MM/yyyy'}}</span>
+          <span class="exam-reference" title="Reference">{{exam.reference}}</span>
+        </div>
+        
+        <div class="assignment-info">
+          <div class="assigned-user-row">
+            <i class="fas fa-user-md"></i>
+            <span [class]="showUnassignedBadge() ? 'unassigned-text' : ''">
+              {{showUnassignedBadge() ? 'Awaiting assignment' : (exam.assignedRadiologist || 'Unassigned')}}
+            </span>
+            <span class="completion-percentage" *ngIf="!showUnassignedBadge()">100%</span>
+            <i class="fas fa-check" style="color: #10b981" *ngIf="!showUnassignedBadge()"></i>
+          </div>
+          
+          <div class="shared-users-row" *ngIf="exam.sharedUsers.length > 0">
+            <div class="shared-user-row" *ngFor="let user of exam.sharedUsers">
+              <span class="user-name">{{user.name}}</span>
+              <span class="completion-percentage">{{user.completion}}%</span>
+              <i [class]="getStatusIcon(user.status)" 
+                 [style.color]="getStatusColor(user.status)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Row Content -->
+      <div class="row-content">
+        <div class="patient-info-row">
+          <span class="patient-name">{{exam.patientName}}</span>
+          <span class="patient-gender">{{exam.patientAge}} years</span>
+          <span class="patient-dob">{{exam.patientWeight}} kg</span>
+        </div>
+        
+        <div class="separator-line"></div>
+        
+        <div class="images-row">
+          <div class="element-thumbnail-row" *ngFor="let element of exam.elements.slice(0, 10)">
+            <img [src]="element.thumbnail" [alt]="element.name" 
+                 onerror="this.src='https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop&auto=format&sat=-100'">
+            <div class="play-overlay" *ngIf="element.type === 'video'">
+              <i class="fas fa-play"></i>
+            </div>
+          </div>
+          <div class="more-images" *ngIf="exam.elements.length > 10">
+            +{{exam.elements.length - 10}} more
+          </div>
+        </div>
+      </div>
+      
+      <!-- Row Actions -->
+      <div class="row-actions">
+        <button [class]="getActionButtonClass()" (click)="onAddLabel(exam)" title="Add label">
+          <i class="fas fa-tag"></i>
+        </button>
+        <button [class]="getActionButtonClass(true)" (click)="onAssignUser(exam)" title="Assign user">
+          <i class="fas fa-user"></i>
+        </button>
+        <button [class]="getActionButtonClass()" (click)="onShareExam(exam)" title="Share exam">
+          <i class="fas fa-users"></i>
+        </button>
+        <button [class]="getActionButtonClass()" (click)="onMoveToWorklist(exam)" title="Move to worklist">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+        <button [class]="getActionButtonClass()" (click)="onPauseExam(exam)" *ngIf="!showCompletedBadge()" title="Pause exam">
+          <i class="fas fa-pause"></i>
+        </button>
+        <button [class]="getActionButtonClass(true)" *ngIf="showCompletedBadge()" title="View exam">
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table View -->
+  <div class="exam-table-container" *ngIf="exams.length > 0 && displayMode === 'table'">
+    <table class="exam-table">
+      <thead>
+        <tr>
+          <th>Reference</th>
+          <th>Patient</th>
+          <th>Exam</th>
+          <th>Site</th>
+          <th>Sector</th>
+          <th>Date</th>
+          <th>Assigned</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="exam-table-row" [class]="getBorderClass()" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of exams">
+          <td class="reference-cell">{{exam.reference}}</td>
+          <td class="patient-cell">
+            <div class="patient-info-table">
+              <span class="patient-name">{{exam.patientName}}</span>
+              <span class="patient-details">{{exam.patientAge}}y, {{exam.patientWeight}}kg</span>
+            </div>
+          </td>
+          <td class="exam-cell">
+            <div class="exam-info-table">
+              <span class="exam-title">{{exam.title}}</span>
+              <span class="exam-region">{{exam.anatomicalRegion}}</span>
+            </div>
+          </td>
+          <td class="site-cell">{{exam.siteName}}</td>
+          <td class="sector-cell">{{exam.sectorName}}</td>
+          <td class="date-cell">{{exam.examDate | date:'dd/MM/yyyy'}}</td>
+          <td class="assigned-cell">
+            <span [class]="showUnassignedBadge() ? 'unassigned-text' : ''">
+              {{showUnassignedBadge() ? 'Unassigned' : (exam.assignedRadiologist || 'Unassigned')}}
+            </span>
+          </td>
+          <td class="status-cell">
+            <span class="diagnosis-badge" [ngClass]="'diagnosis-' + exam.diagnosis">{{exam.diagnosis}}</span>
+            <span class="urgent-badge" *ngIf="exam.isUrgent">URGENT</span>
+          </td>
+          <td class="actions-cell">
+            <div class="table-actions">
+              <button [class]="getActionButtonClass(true)" title="Open exam">
+                <i class="fas fa-external-link-alt"></i>
+              </button>
+              <button [class]="getActionButtonClass()" (click)="onAddLabel(exam)" title="Add label">
+                <i class="fas fa-tag"></i>
+              </button>
+              <button [class]="getActionButtonClass(true)" (click)="onAssignUser(exam)" title="Assign user">
+                <i class="fas fa-user"></i>
+              </button>
+              <button [class]="getActionButtonClass()" (click)="onShareExam(exam)" title="Share exam">
+                <i class="fas fa-users"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <!-- No Results -->

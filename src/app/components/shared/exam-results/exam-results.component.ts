@@ -5,6 +5,8 @@ import { DetailedExam } from '../../../models/detailed-exam.interface';
 import { ExamElement } from '../../../models/exam-element.interface';
 import { SharedUser } from '../../../models/shared-user.interface';
 
+export type DisplayMode = 'card' | 'row' | 'table';
+
 @Component({
   selector: 'app-exam-results',
   standalone: true,
@@ -32,6 +34,9 @@ export class ExamResultsComponent {
   @Output() shareExam = new EventEmitter<DetailedExam>();
   @Output() moveToWorklist = new EventEmitter<DetailedExam>();
   @Output() pauseExam = new EventEmitter<DetailedExam>();
+
+  displayMode: DisplayMode = 'card';
+  isDisplayMenuOpen = false;
 
   onItemsPerPageChange(): void {
     this.itemsPerPageChange.emit(this.itemsPerPage);
@@ -161,5 +166,18 @@ export class ExamResultsComponent {
       return 'action-btn primary';
     }
     return 'action-btn';
+  }
+
+  toggleDisplayMenu(): void {
+    this.isDisplayMenuOpen = !this.isDisplayMenuOpen;
+  }
+
+  setDisplayMode(mode: DisplayMode): void {
+    this.displayMode = mode;
+    this.isDisplayMenuOpen = false;
+  }
+
+  closeDisplayMenu(): void {
+    this.isDisplayMenuOpen = false;
   }
 }
