@@ -31,7 +31,7 @@
               "src/assets"
             ],
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "outputPath": "dist",
             "polyfills": ["zone.js"],
             "scripts": [],
