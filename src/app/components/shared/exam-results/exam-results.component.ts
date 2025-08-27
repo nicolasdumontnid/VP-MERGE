@@ -1,45 +1,9 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface ExamElement {
-  type: 'radio' | 'mri' | 'slide' | 'video' | 'macro' | 'pdf' | 'excel' | 'text';
-  thumbnail: string;
-  name: string;
-}
-
-interface SharedUser {
-  name: string;
-  completion: number;
-  status: 'pending' | 'in-progress' | 'not-viewed' | 'completed';
-}
-
-interface DetailedExam {
-  id: string;
-  patientId: string;
-  patientName: string;
-  title: string;
-  anatomicalRegion: string;
-  examDate: Date;
-  patientWeight: number;
-  patientAge: number;
-  diagnosis: 'positive' | 'negative' | 'pending';
-  department: string;
-  description: string;
-  conclusion: string;
-  prescribingPhysician: string;
-  assignedRadiologist: string | null;
-  siteId: string;
-  siteName: string;
-  sectorId: string;
-  sectorName: string;
-  status: 'scheduled' | 'in-progress' | 'completed' | 'cancelled';
-  isUrgent: boolean;
-  reference: string;
-  elements: ExamElement[];
-  sharedUsers: SharedUser[];
-  showImagesInline: boolean;
-}
+import { DetailedExam } from '../../../models/detailed-exam.interface';
+import { ExamElement } from '../../../models/exam-element.interface';
+import { SharedUser } from '../../../models/shared-user.interface';
 
 @Component({
   selector: 'app-exam-results',

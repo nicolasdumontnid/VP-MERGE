@@ -7,25 +7,9 @@ import { ExamService } from '../../../services/exam.service';
 import { SearchResult } from '../../../models/search-criteria.interface';
 import { DashboardFilterComponent } from '../shared/dashboard-filter/dashboard-filter.component';
 import { ExamResultsComponent } from '../shared/exam-results/exam-results.component';
-
-interface ExamElement {
-  type: 'radio' | 'mri' | 'slide' | 'video' | 'macro' | 'pdf' | 'excel' | 'text';
-  thumbnail: string;
-  name: string;
-}
-
-interface SharedUser {
-  name: string;
-  completion: number;
-  status: 'pending' | 'in-progress' | 'not-viewed' | 'completed';
-}
-
-interface DetailedExam extends Exam {
-  reference: string;
-  elements: ExamElement[];
-  sharedUsers: SharedUser[];
-  showImagesInline: boolean;
-}
+import { DetailedExam } from '../../../models/detailed-exam.interface';
+import { ExamElement } from '../../../models/exam-element.interface';
+import { SharedUser } from '../../../models/shared-user.interface';
 
 @Component({
   selector: 'app-pending',
