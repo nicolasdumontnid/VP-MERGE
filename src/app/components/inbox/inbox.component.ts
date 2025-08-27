@@ -49,29 +49,35 @@ export class InboxComponent implements OnInit {
 
   // Sample thumbnails for different types
   private radioThumbnails = [
-    'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop',
-    'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=100&h=100&fit=crop',
-    'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=100&h=100&fit=crop',
-    'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=100&h=100&fit=crop'
+    'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop&auto=format',
+    'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=100&h=100&fit=crop&auto=format',
+    'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=100&h=100&fit=crop&auto=format',
+    'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=100&h=100&fit=crop&auto=format',
+    'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=100&h=100&fit=crop&auto=format',
+    'https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=100&h=100&fit=crop&auto=format',
+    'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop&auto=format&sat=-100',
+    'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=100&h=100&fit=crop&auto=format&sat=-100'
   ];
 
   private slideThumbnails = [
-    'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=100&h=100&fit=crop',
-    'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=100&h=100&fit=crop',
-    'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=100&h=100&fit=crop',
-    'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=100&h=100&fit=crop'
+    'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=100&h=100&fit=crop&auto=format&sat=-100',
+    'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=100&h=100&fit=crop&auto=format&sat=-100',
+    'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop&auto=format&sat=-100',
+    'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=100&h=100&fit=crop&auto=format&sat=-100',
+    'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=100&h=100&fit=crop&auto=format&sat=-100',
+    'https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=100&h=100&fit=crop&auto=format&sat=-100'
   ];
 
   private videoThumbnails = [
-    'https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=100&h=100&fit=crop',
-    'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=100&h=100&fit=crop',
-    'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop'
+    'https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=100&h=100&fit=crop&auto=format&sat=-100',
+    'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop&auto=format&sat=-100',
+    'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=100&h=100&fit=crop&auto=format&sat=-100'
   ];
 
   private macroThumbnails = [
-    'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=100&h=100&fit=crop',
-    'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=100&h=100&fit=crop',
-    'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=100&h=100&fit=crop'
+    'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=100&h=100&fit=crop&auto=format&sat=-100',
+    'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=100&h=100&fit=crop&auto=format&sat=-100',
+    'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=100&h=100&fit=crop&auto=format&sat=-100'
   ];
 
   constructor(private examService: ExamService) {}

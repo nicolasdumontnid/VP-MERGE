@@ -142,7 +142,7 @@
       <div class="exam-elements" [class.inline-view]="exam.showImagesInline">
         <div class="element-item" *ngFor="let element of exam.elements" [title]="element.name">
           <div class="element-thumbnail">
-            <img [src]="element.thumbnail" [alt]="element.name" onerror="this.src='https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop'">
+            <img [src]="element.thumbnail" [alt]="element.name" onerror="this.src='https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop&auto=format&sat=-100'">
             <div class="play-overlay" *ngIf="element.type === 'video'">
               <i class="fas fa-play"></i>
             </div>
