@@ -69,6 +69,11 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   
   get totalPagesForCurrentView(): number {
     if (this.viewMode === 'patient') {
+      // If itemsPerPage >= 10, show all patients on one page
+      if (this._currentItemsPerPage >= 10) {
+        return 1;
+      }
+      // Otherwise, calculate pages normally
       return Math.ceil(this.totalPatientsCount / this._currentItemsPerPage);
     }
     return Math.ceil(this.exams.length / this._currentItemsPerPage);
@@ -76,6 +81,10 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   
   get totalItemsForCurrentView(): number {
     if (this.viewMode === 'patient') {
+      // If itemsPerPage >= 10, show all patients count
+      if (this._currentItemsPerPage >= 10) {
+        return Math.min(6, this.totalPatientsCount);
+      }
       return this.totalPatientsCount;
     }
     return this.exams.length;
@@ -122,13 +131,19 @@ export class ExamResultsComponent implements OnInit, OnChanges {
     this._paginatedExams = this.exams.slice(examStartIndex, examEndIndex);
 
     // Paginate patients
-    const patientStartIndex = (this._currentPage - 1) * this._currentItemsPerPage;
-    const patientEndIndex = patientStartIndex + this._currentItemsPerPage;
-    this._paginatedPatients = this._groupedPatients.slice(patientStartIndex, patientEndIndex);
-
-    // Special logic for patient view: if itemsPerPage >= 10, show all patients (max 6)
-    if (this.viewMode === 'patient' && this._currentItemsPerPage >= 10) {
-      this._paginatedPatients = this._groupedPatients.slice(0, Math.min(6, this._groupedPatients.length));
+    if (this.viewMode === 'patient') {
+      // Special logic for patient view: if itemsPerPage >= 10, show all patients (max 6)
+      if (this._currentItemsPerPage >= 10) {
+        this._paginatedPatients = this._groupedPatients.slice(0, Math.min(6, this._groupedPatients.length));
+      } else {
+        // Normal pagination for patient view when itemsPerPage < 10
+        const patientStartIndex = (this._currentPage - 1) * this._currentItemsPerPage;
+        const patientEndIndex = patientStartIndex + this._currentItemsPerPage;
+        this._paginatedPatients = this._groupedPatients.slice(patientStartIndex, patientEndIndex);
+      }
+    } else {
+      // For exam view, we don't need patient pagination
+      this._paginatedPatients = [];
     }
   }
 
