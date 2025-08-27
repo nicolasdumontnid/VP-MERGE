@@ -99,11 +99,9 @@ export class SecondOpinionComponent implements OnInit {
       pageSize: itemsPerPage
     }).subscribe({
       next: (result: SearchResult<Exam>) => {
-        // Filter for unassigned exams (second opinion)
-        const unassignedExams = result.data.filter(exam => !exam.assignedRadiologist);
-        this.exams = unassignedExams.map(exam => this.enhanceExam(exam));
-        this.totalPages = Math.ceil(unassignedExams.length / itemsPerPage);
-        this.totalItems = unassignedExams.length;
+        this.exams = result.data.map(exam => this.enhanceExam(exam));
+        this.totalPages = result.totalPages;
+        this.totalItems = result.total;
         this.currentPage = result.page;
         this.itemsPerPage = itemsPerPage;
       }
@@ -163,7 +161,7 @@ export class SecondOpinionComponent implements OnInit {
       reference: this.generateReference(),
       elements,
       sharedUsers,
-      showImagesInline: false
+      showImagesInline: true
     };
   }
 

@@ -96,8 +96,7 @@ export class CompletedComponent implements OnInit {
     this.examService.search({
       query,
       page,
-      pageSize: itemsPerPage,
-      filters: { status: 'completed' }
+      pageSize: itemsPerPage
     }).subscribe({
       next: (result: SearchResult<Exam>) => {
         this.exams = result.data.map(exam => this.enhanceExam(exam));
@@ -162,7 +161,7 @@ export class CompletedComponent implements OnInit {
       reference: this.generateReference(),
       elements,
       sharedUsers,
-      showImagesInline: false
+      showImagesInline: true
     };
   }
 
