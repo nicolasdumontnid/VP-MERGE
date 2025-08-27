@@ -39,7 +39,9 @@ export class ExamResultsComponent {
   isDisplayMenuOpen = false;
 
   onItemsPerPageChange(): void {
-    this.itemsPerPageChange.emit(this.itemsPerPage);
+    const newValue = parseInt((event?.target as HTMLSelectElement)?.value || this.itemsPerPage.toString());
+    this.itemsPerPage = newValue;
+    this.itemsPerPageChange.emit(newValue);
   }
 
   goToPage(page: number): void {
