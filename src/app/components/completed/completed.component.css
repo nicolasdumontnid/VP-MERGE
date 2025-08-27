@@ -2,3 +2,239 @@
   width: 100%;
   height: 100%;
 }
+
+/* Exam List Styles */
+.exams-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.exam-card {
+  background-color: #374151;
+  border-radius: 12px;
+  padding: 24px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.exam-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.exam-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.exam-icon {
+  width: 48px;
+  height: 48px;
+  background-color: #10b981;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: white;
+}
+
+.exam-basic-info {
+  flex: 1;
+}
+
+.exam-basic-info h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: white;
+}
+
+.exam-basic-info p {
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.status-scheduled { background-color: #3b82f6; color: white; }
+.status-in-progress { background-color: #f59e0b; color: white; }
+.status-completed { background-color: #10b981; color: white; }
+.status-cancelled { background-color: #ef4444; color: white; }
+
+.exam-details {
+  margin-bottom: 20px;
+}
+
+.detail-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 12px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail-label {
+  font-size: 14px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.detail-value {
+  font-size: 14px;
+  color: white;
+}
+
+.diagnosis-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.diagnosis-positive { background-color: #ef4444; color: white; }
+.diagnosis-negative { background-color: #10b981; color: white; }
+.diagnosis-pending { background-color: #f59e0b; color: white; }
+
+.exam-conclusion {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #4b5563;
+}
+
+.exam-conclusion h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #10b981;
+  margin-bottom: 8px;
+}
+
+.exam-conclusion p {
+  color: #d1d5db;
+  line-height: 1.5;
+}
+
+.exam-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-danger {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background-color: #6b7280;
+  color: #252525;
+}
+
+.btn-primary:hover {
+  background-color: #5b6572;
+}
+
+.btn-secondary {
+  background-color: #6b7280;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #7c8692;
+}
+
+.btn-danger {
+  background-color: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.btn-pagination {
+  background-color: #374151;
+  color: white;
+  border: 1px solid #4b5563;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-pagination:hover:not(:disabled) {
+  background-color: #4b5563;
+}
+
+.btn-pagination:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-info {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 48px 24px;
+  color: #9ca3af;
+}
+
+.no-results i {
+  font-size: 64px;
+  margin-bottom: 16px;
+  color: #4b5563;
+}
+
+.no-results h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #d1d5db;
+}
+
+@media (max-width: 768px) {
+  .detail-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .exam-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
