@@ -224,9 +224,9 @@
 
   <!-- Patient View - Card View -->
   <div class="patient-list card-view" *ngIf="exams.length > 0 && displayMode === 'card' && viewMode === 'patient'">
-    <div class="patient-card" [class]="getBorderClass()" *ngFor="let patientGroup of groupedByPatient">
+    <div class="patient-accordion" [class]="getBorderClass()" *ngFor="let patientGroup of groupedByPatient">
       <!-- Patient Header -->
-      <div class="patient-header">
+      <div class="patient-header" (click)="togglePatientCard(patientGroup.patientName)">
         <div class="patient-basic-info">
           <h3 class="patient-name" title="Patient name">
             <i class="fas fa-user"></i>
@@ -238,10 +238,13 @@
             <span class="exam-count" title="Number of exams">{{patientGroup.exams.length}} exam(s)</span>
           </div>
         </div>
+        <div class="accordion-chevron">
+          <i class="fas fa-chevron-down" [class.expanded]="patientGroup.isExpanded"></i>
+        </div>
       </div>
 
       <!-- Exams List for this Patient -->
-      <div class="patient-exams">
+      <div class="patient-exams" [class.collapsed]="!patientGroup.isExpanded">
         <div class="exam-row-patient" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of patientGroup.exams">
           <div class="exam-info-patient">
             <div class="exam-details-patient">

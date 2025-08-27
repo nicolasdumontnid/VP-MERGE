@@ -40,6 +40,7 @@ export class ExamResultsComponent {
   viewMode: ViewMode = 'exam';
   isDisplayMenuOpen = false;
   isViewMenuOpen = false;
+  expandedPatients = new Set<string>();
 
   get groupedByPatient() {
     const grouped = new Map<string, DetailedExam[]>();
@@ -52,8 +53,17 @@ export class ExamResultsComponent {
     return Array.from(grouped.entries()).map(([patientName, exams]) => ({
       patientName,
       exams,
-      patientInfo: exams[0] // Use first exam for patient info
+      patientInfo: exams[0], // Use first exam for patient info
+      isExpanded: this.expandedPatients.has(patientName)
     }));
+  }
+
+  togglePatientCard(patientName: string): void {
+    if (this.expandedPatients.has(patientName)) {
+      this.expandedPatients.delete(patientName);
+    } else {
+      this.expandedPatients.add(patientName);
+    }
   }
   onItemsPerPageChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
