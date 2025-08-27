@@ -45,10 +45,11 @@ export class ExamResultsComponent {
   get groupedByPatient() {
     const grouped = new Map<string, DetailedExam[]>();
     this.exams.forEach(exam => {
-      if (!grouped.has(exam.patientName)) {
-        grouped.set(exam.patientName, []);
+      const patientKey = exam.patientName;
+      if (!grouped.has(patientKey)) {
+        grouped.set(patientKey, []);
       }
-      grouped.get(exam.patientName)!.push(exam);
+      grouped.get(patientKey)!.push(exam);
     });
     return Array.from(grouped.entries()).map(([patientName, exams]) => ({
       patientName,
