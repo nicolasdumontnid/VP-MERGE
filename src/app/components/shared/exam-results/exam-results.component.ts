@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { OnInit, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DetailedExam } from '../../../../models/detailed-exam.interface';
@@ -16,7 +17,7 @@ export type ViewMode = 'exam' | 'patient';
   styleUrls: ['./exam-results.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ExamResultsComponent {
+export class ExamResultsComponent implements OnInit, OnChanges {
   @Input() exams: DetailedExam[] = [];
   @Input() currentPage = 1;
   @Input() itemsPerPage = 10;
@@ -42,14 +43,11 @@ export class ExamResultsComponent {
   isViewMenuOpen = false;
   expandedPatients = new Set<string>();
   
-  // Cached grouped patients for pagination
-  private _allGroupedPatients: any[] = [];
 
+  // Pagination properties
+  private _currentItemsPerPage = 10;
+  private _currentPage = 1;
   get groupedByPatient() {
-    // Debug: log the exams to see what we have
-    console.log('Total exams:', this.exams.length);
-    console.log('Exams:', this.exams.map(e => ({ id: e.id, patient: e.patientName })));
-    
     const grouped = new Map<string, DetailedExam[]>();
     
     // Group exams by patient name
@@ -68,31 +66,21 @@ export class ExamResultsComponent {
       isExpanded: this.expandedPatients.has(patientName)
     }));
     
-    console.log('Grouped patients:', result.length);
-    console.log('Patient groups:', result.map(p => ({ name: p.patientName, examCount: p.exams.length })));
-    
     return result;
   }
   
   get paginatedGroupedPatients() {
-    // Get all grouped patients
     const allPatients = this.groupedByPatient;
-    this._allGroupedPatients = allPatients;
-    
-    // Apply pagination to patients based on itemsPerPage
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    
-    console.log('Pagination - Current page:', this.currentPage);
-    console.log('Pagination - Items per page:', this.itemsPerPage);
-    console.log('Pagination - Start index:', startIndex);
-    console.log('Pagination - End index:', endIndex);
-    console.log('Pagination - Total patients:', allPatients.length);
-    
+    const startIndex = (this._currentPage - 1) * this._currentItemsPerPage;
+    const endIndex = startIndex + this._currentItemsPerPage;
     const paginatedPatients = allPatients.slice(startIndex, endIndex);
-    console.log('Pagination - Showing patients:', paginatedPatients.length);
-    
     return paginatedPatients;
+  }
+  
+  get paginatedExams() {
+    const startIndex = (this._currentPage - 1) * this._currentItemsPerPage;
+    const endIndex = startIndex + this._currentItemsPerPage;
+    return this.exams.slice(startIndex, endIndex);
   }
   
   get totalPatientsCount(): number {
@@ -101,16 +89,26 @@ export class ExamResultsComponent {
   
   get totalPagesForCurrentView(): number {
     if (this.viewMode === 'patient') {
-      return Math.ceil(this.totalPatientsCount / this.itemsPerPage);
+      return Math.ceil(this.totalPatientsCount / this._currentItemsPerPage);
     }
-    return this.totalPages;
+    return Math.ceil(this.exams.length / this._currentItemsPerPage);
   }
   
   get totalItemsForCurrentView(): number {
     if (this.viewMode === 'patient') {
       return this.totalPatientsCount;
     }
-    return this.totalItems;
+    return this.exams.length;
+  }
+  
+  ngOnInit() {
+    this._currentItemsPerPage = this.itemsPerPage;
+    this._currentPage = this.currentPage;
+  }
+  
+  ngOnChanges() {
+    this._currentItemsPerPage = this.itemsPerPage;
+    this._currentPage = this.currentPage;
   }
 
   togglePatientCard(patientName: string): void {
@@ -123,32 +121,33 @@ export class ExamResultsComponent {
   onItemsPerPageChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const newValue = parseInt(target.value);
-    this.itemsPerPageChange.emit(newValue);
+    this._currentItemsPerPage = newValue;
+    this._currentPage = 1; // Reset to first page
   }
 
   goToPage(page: number): void {
-    if (page >= 1 && page <= this.totalPages) {
-      this.pageChange.emit(page);
+    if (page >= 1 && page <= this.totalPagesForCurrentView) {
+      this._currentPage = page;
     }
   }
 
   goToFirstPage(): void {
-    this.pageChange.emit(1);
+    this._currentPage = 1;
   }
 
   goToLastPage(): void {
-    this.pageChange.emit(this.totalPagesForCurrentView);
+    this._currentPage = this.totalPagesForCurrentView;
   }
 
   previousPage(): void {
-    if (this.currentPage > 1) {
-      this.pageChange.emit(this.currentPage - 1);
+    if (this._currentPage > 1) {
+      this._currentPage = this._currentPage - 1;
     }
   }
 
   nextPage(): void {
-    if (this.currentPage < this.totalPagesForCurrentView) {
-      this.pageChange.emit(this.currentPage + 1);
+    if (this._currentPage < this.totalPagesForCurrentView) {
+      this._currentPage = this._currentPage + 1;
     }
   }
 
@@ -156,7 +155,7 @@ export class ExamResultsComponent {
     const pages: number[] = [];
     const maxVisible = 5;
     const totalPages = this.totalPagesForCurrentView;
-    let start = Math.max(1, this.currentPage - Math.floor(maxVisible / 2));
+    let start = Math.max(1, this._currentPage - Math.floor(maxVisible / 2));
     let end = Math.min(totalPages, start + maxVisible - 1);
     
     if (end - start + 1 < maxVisible) {
@@ -169,6 +168,10 @@ export class ExamResultsComponent {
     return pages;
   }
 
+  get currentPageForDisplay(): number {
+    return this._currentPage;
+  }
+  
   getStatusIcon(status: string): string {
     switch (status) {
       case 'pending': return 'fas fa-pause';
@@ -271,8 +274,7 @@ export class ExamResultsComponent {
   setViewMode(mode: ViewMode): void {
     this.viewMode = mode;
     this.isViewMenuOpen = false;
-    // Reset to first page when changing view mode
-    this.pageChange.emit(1);
+    this._currentPage = 1; // Reset to first page when changing view mode
   }
 
   closeViewMenu(): void {
