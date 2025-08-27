@@ -102,21 +102,22 @@
           <span class="section-title">BOXES</span>
         </div>
         <div class="menu-item" (click)="navigateToInbox()">
+        <div class="menu-item" [class.active]="activeMenuItem === 'inbox'" (click)="navigateToInbox()">
           <i class="fas fa-inbox"></i>
           <span>Inbox</span>
           <span class="count">{{inboxCount}}</span>
         </div>
-        <div class="menu-item" (click)="navigateToPending()">
+        <div class="menu-item" [class.active]="activeMenuItem === 'pending'" (click)="navigateToPending()">
           <i class="fas fa-pause"></i>
           <span>Pending</span>
           <span class="count">{{pendingCount}}</span>
         </div>
-        <div class="menu-item" (click)="navigateToSecondOpinion()">
+        <div class="menu-item" [class.active]="activeMenuItem === 'second-opinion'" (click)="navigateToSecondOpinion()">
           <i class="fas fa-users"></i>
           <span>Second Opinion</span>
           <span class="count">{{secondOpinionCount}}</span>
         </div>
-        <div class="menu-item" (click)="navigateToCompleted()">
+        <div class="menu-item" [class.active]="activeMenuItem === 'completed'" (click)="navigateToCompleted()">
           <i class="fas fa-check-square"></i>
           <span>Completed</span>
           <span class="count">{{completedCount}}</span>
@@ -137,7 +138,9 @@
           </button>
         </div>
         <div class="section-content" [ngClass]="{collapsed: presetsCollapsed}">
-          <div class="menu-item" *ngFor="let preset of filteredPresets" (click)="selectPreset(preset)">
+          <div class="menu-item" *ngFor="let preset of filteredPresets" 
+               [class.active]="activeMenuItem === 'preset-' + preset.name" 
+               (click)="selectPreset(preset)">
             <span>{{preset.name}}</span>
             <span class="count">{{preset.count}}</span>
           </div>

@@ -18,6 +18,9 @@ export class AppComponent {
   isManagementDropdownOpen = false;
   isMenuDropdownOpen = false;
   
+  // Active states for menu items
+  activeMenuItem: string | null = null;
+  
   // BOXES data
   inboxCount = Math.floor(Math.random() * 21);
   pendingCount = Math.floor(Math.random() * 21);
@@ -353,6 +356,12 @@ export class AppComponent {
 
   public setBreadcrumb(breadcrumb: string): void {
     this.currentBreadcrumb = breadcrumb;
+    // Clear active state when navigating via other means (like top nav)
+    if (!breadcrumb.includes('Inbox') && !breadcrumb.includes('Pending') && 
+        !breadcrumb.includes('Second Opinion') && !breadcrumb.includes('Completed') &&
+        !this.presets.some(p => breadcrumb.includes(p.name))) {
+      this.activeMenuItem = null;
+    }
     this.closeDropdowns();
   }
 
@@ -363,21 +372,25 @@ export class AppComponent {
   
   // BOXES navigation methods
   navigateToInbox(): void {
+    this.activeMenuItem = 'inbox';
     this.setBreadcrumb('Inbox');
     this.router.navigate(['/inbox']);
   }
   
   navigateToPending(): void {
+    this.activeMenuItem = 'pending';
     this.setBreadcrumb('Pending');
     this.router.navigate(['/pending']);
   }
   
   navigateToSecondOpinion(): void {
+    this.activeMenuItem = 'second-opinion';
     this.setBreadcrumb('Second Opinion');
     this.router.navigate(['/second-opinion']);
   }
   
   navigateToCompleted(): void {
+    this.activeMenuItem = 'completed';
     this.setBreadcrumb('Completed');
     this.router.navigate(['/completed']);
   }
@@ -402,6 +415,7 @@ export class AppComponent {
   }
   
   selectPreset(preset: any): void {
+    this.activeMenuItem = 'preset-' + preset.name;
     this.setBreadcrumb(preset.name);
   }
   
