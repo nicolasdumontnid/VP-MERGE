@@ -13,7 +13,7 @@
 .patients-header h1 {
   font-size: 28px;
   font-weight: 700;
-  color: #4ade80;
+  color: #6b7280;
 }
 
 .search-section {
@@ -46,7 +46,7 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #4ade80;
+  border-color: #6b7280;
 }
 
 .search-input::placeholder {
@@ -84,7 +84,7 @@
 .patient-avatar {
   width: 48px;
   height: 48px;
-  background-color: #4ade80;
+  background-color: #6b7280;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -160,7 +160,7 @@
 }
 
 .btn-primary {
-  background-color: #4ade80;
+  background-color: #6b7280;
   color: #252525;
   border: none;
   padding: 12px 20px;
@@ -174,7 +174,7 @@
 }
 
 .btn-primary:hover {
-  background-color: #22c55e;
+  background-color: #5b6572;
 }
 
 .pagination {

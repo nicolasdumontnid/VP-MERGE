@@ -13,7 +13,7 @@
 .users-header h1 {
   font-size: 28px;
   font-weight: 700;
-  color: #4ade80;
+  color: #6b7280;
 }
 
 .search-section {
@@ -46,7 +46,7 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #4ade80;
+  border-color: #6b7280;
 }
 
 .search-input::placeholder {
@@ -82,7 +82,7 @@
 .user-avatar {
   width: 56px;
   height: 56px;
-  background-color: #4ade80;
+  background-color: #6b7280;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -104,7 +104,7 @@
 
 .user-specialty {
   font-size: 14px;
-  color: #4ade80;
+  color: #6b7280;
   font-weight: 500;
   margin-bottom: 2px;
 }
@@ -176,12 +176,12 @@
 }
 
 .btn-primary {
-  background-color: #4ade80;
+  background-color: #6b7280;
   color: #252525;
 }
 
 .btn-primary:hover {
-  background-color: #22c55e;
+  background-color: #5b6572;
 }
 
 .btn-secondary {
