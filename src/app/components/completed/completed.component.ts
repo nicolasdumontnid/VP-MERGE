@@ -150,11 +150,12 @@ export class CompletedComponent implements OnInit {
       });
     }
 
-    const sharedUsers: SharedUser[] = ([
+    const allSharedUsers: SharedUser[] = [
       { name: 'Dr. Martin', completion: 100, status: 'completed' },
       { name: 'Dr. Dubois', completion: 100, status: 'completed' },
       { name: 'Dr. Leroy', completion: 100, status: 'completed' }
-    ] as SharedUser[]).slice(0, Math.floor(Math.random() * 4));
+    ];
+    const sharedUsers = allSharedUsers.slice(0, Math.floor(Math.random() * 4));
 
     return {
       ...exam,
