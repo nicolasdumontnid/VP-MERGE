@@ -56,7 +56,7 @@
   </div>
 
   <!-- Examen View - Card View (Default) -->
-  <div class="exam-list card-view" *ngIf="paginatedExams.length > 0 && displayMode === 'card' && viewMode === 'exam'">
+  <div class="exam-list card-view" *ngIf="exams.length > 0 && paginatedExams.length > 0 && displayMode === 'card' && viewMode === 'exam'">
     <div class="exam-card" [class]="getBorderClass()" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of paginatedExams">
       <!-- Exam Header -->
       <div class="exam-header">
@@ -185,7 +185,7 @@
   </div>
 
   <!-- Patient View - Card View -->
-  <div class="patient-list card-view" *ngIf="exams.length > 0 && displayMode === 'card' && viewMode === 'patient'">
+  <div class="patient-list card-view" *ngIf="exams.length > 0 && paginatedGroupedPatients.length > 0 && displayMode === 'card' && viewMode === 'patient'">
     <div class="patient-accordion" [class]="getBorderClass()" *ngFor="let patientGroup of paginatedGroupedPatients">
       <!-- Patient Header -->
       <div class="patient-header" (click)="togglePatientCard(patientGroup.patientName)">
@@ -260,7 +260,7 @@
     </div>
   </div>
   <!-- Examen View - Row View -->
-  <div class="exam-list row-view" *ngIf="paginatedExams.length > 0 && displayMode === 'row' && viewMode === 'exam'">
+  <div class="exam-list row-view" *ngIf="exams.length > 0 && paginatedExams.length > 0 && displayMode === 'row' && viewMode === 'exam'">
     <div class="exam-row" [class]="getBorderClass()" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of paginatedExams">
       <!-- Row Header -->
       <div class="row-header">
@@ -341,7 +341,7 @@
   </div>
 
   <!-- Examen View - Table View -->
-  <div class="exam-table-container" *ngIf="paginatedExams.length > 0 && displayMode === 'table' && viewMode === 'exam'">
+  <div class="exam-table-container" *ngIf="exams.length > 0 && paginatedExams.length > 0 && displayMode === 'table' && viewMode === 'exam'">
     <table class="exam-table">
       <thead>
         <tr>

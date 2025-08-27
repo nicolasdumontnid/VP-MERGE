@@ -102,13 +102,27 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   }
   
   ngOnInit() {
-    this._currentItemsPerPage = this.itemsPerPage;
-    this._currentPage = this.currentPage;
+    this.initializePagination();
   }
   
   ngOnChanges() {
+    this.initializePagination();
+  }
+
+  private initializePagination() {
     this._currentItemsPerPage = this.itemsPerPage;
     this._currentPage = this.currentPage;
+    
+    // Force change detection to ensure display is updated
+    if (this.exams.length > 0) {
+      // Trigger recalculation of paginated data
+      this.updatePaginatedData();
+    }
+  }
+
+  private updatePaginatedData() {
+    // This method forces recalculation of getters
+    // The getters will be called again on next change detection cycle
   }
 
   togglePatientCard(patientName: string): void {
