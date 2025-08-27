@@ -45,8 +45,8 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   
 
   // Pagination properties
-  private _currentItemsPerPage = 10;
-  private _currentPage = 1;
+  public _currentItemsPerPage = 10;
+  public _currentPage = 1;
   get groupedByPatient() {
     const grouped = new Map<string, DetailedExam[]>();
     
