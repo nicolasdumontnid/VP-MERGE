@@ -129,7 +129,7 @@
       <!-- Image Display Toggle -->
       <div class="image-toggle">
         <label class="toggle-switch">
-          <input type="checkbox" [(ngModel)]="exam.showImagesInline" (change)="toggleImageDisplay(exam)">
+          <input type="checkbox" [(ngModel)]="exam.showImagesInline">
           <span class="slider"></span>
           <span class="toggle-label">{{exam.showImagesInline ? 'Inline view' : 'Grid view'}}</span>
         </label>
@@ -139,7 +139,7 @@
       <div class="exam-elements" [class.inline-view]="exam.showImagesInline">
         <div class="element-item" *ngFor="let element of exam.elements" [title]="element.name">
           <div class="element-thumbnail">
-            <img [src]="element.thumbnail" [alt]="element.name" onerror="this.src='https://via.placeholder.com/100x100/333/fff?text=N/A'">
+            <img [src]="element.thumbnail" [alt]="element.name" onerror="this.src='https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=100&h=100&fit=crop'">
             <div class="play-overlay" *ngIf="element.type === 'video'">
               <i class="fas fa-play"></i>
             </div>

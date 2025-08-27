@@ -221,10 +221,6 @@ export class PendingComponent implements OnInit {
     return pages;
   }
 
-  toggleImageDisplay(exam: DetailedExam): void {
-    exam.showImagesInline = !exam.showImagesInline;
-  }
-
   getStatusIcon(status: string): string {
     switch (status) {
       case 'pending': return 'fas fa-pause';
