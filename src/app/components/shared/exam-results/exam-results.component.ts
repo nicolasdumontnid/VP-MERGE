@@ -84,6 +84,7 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   ngOnInit() {
     this._currentItemsPerPage = this.itemsPerPage;
     this._currentPage = this.currentPage;
+    this.expandedPatients.clear(); // Reset expanded state
     this.updateData();
   }
   
@@ -121,16 +122,10 @@ export class ExamResultsComponent implements OnInit, OnChanges {
     const examEndIndex = examStartIndex + this._currentItemsPerPage;
     this._paginatedExams = this.exams.slice(examStartIndex, examEndIndex);
 
-    // Paginate patients
-    if (this.viewMode === 'patient') {
-      // Paginate patients based on itemsPerPage
-      const patientStartIndex = (this._currentPage - 1) * this._currentItemsPerPage;
-      const patientEndIndex = patientStartIndex + this._currentItemsPerPage;
-      this._paginatedPatients = this._groupedPatients.slice(patientStartIndex, patientEndIndex);
-    } else {
-      // For exam view, we don't need patient pagination
-      this._paginatedPatients = [];
-    }
+    // Paginate patients - always paginate based on itemsPerPage
+    const patientStartIndex = (this._currentPage - 1) * this._currentItemsPerPage;
+    const patientEndIndex = patientStartIndex + this._currentItemsPerPage;
+    this._paginatedPatients = this._groupedPatients.slice(patientStartIndex, patientEndIndex);
   }
 
   togglePatientCard(patientName: string): void {
@@ -139,7 +134,14 @@ export class ExamResultsComponent implements OnInit, OnChanges {
     } else {
       this.expandedPatients.add(patientName);
     }
-    this.updateData();
+    // Update the expanded state in the grouped patients
+    this._groupedPatients.forEach(patient => {
+      if (patient.patientName === patientName) {
+        patient.isExpanded = this.expandedPatients.has(patientName);
+      }
+    });
+    // Update paginated patients to reflect the change
+    this.updatePaginatedData();
   }
 
   onItemsPerPageChange(event: Event): void {
