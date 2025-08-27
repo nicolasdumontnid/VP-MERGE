@@ -41,6 +41,9 @@ export class ExamResultsComponent {
   isDisplayMenuOpen = false;
   isViewMenuOpen = false;
   expandedPatients = new Set<string>();
+  
+  // Cached grouped patients for pagination
+  private _allGroupedPatients: any[] = [];
 
   get groupedByPatient() {
     // Debug: log the exams to see what we have
@@ -70,6 +73,35 @@ export class ExamResultsComponent {
     
     return result;
   }
+  
+  get paginatedGroupedPatients() {
+    // Cache all grouped patients
+    this._allGroupedPatients = this.groupedByPatient;
+    
+    // Apply pagination to patients
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    
+    return this._allGroupedPatients.slice(startIndex, endIndex);
+  }
+  
+  get totalPatientsCount(): number {
+    return this._allGroupedPatients.length;
+  }
+  
+  get totalPagesForCurrentView(): number {
+    if (this.viewMode === 'patient') {
+      return Math.ceil(this.totalPatientsCount / this.itemsPerPage);
+    }
+    return this.totalPages;
+  }
+  
+  get totalItemsForCurrentView(): number {
+    if (this.viewMode === 'patient') {
+      return this.totalPatientsCount;
+    }
+    return this.totalItems;
+  }
 
   togglePatientCard(patientName: string): void {
     if (this.expandedPatients.has(patientName)) {
@@ -95,7 +127,7 @@ export class ExamResultsComponent {
   }
 
   goToLastPage(): void {
-    this.pageChange.emit(this.totalPages);
+    this.pageChange.emit(this.totalPagesForCurrentView);
   }
 
   previousPage(): void {
@@ -105,7 +137,7 @@ export class ExamResultsComponent {
   }
 
   nextPage(): void {
-    if (this.currentPage < this.totalPages) {
+    if (this.currentPage < this.totalPagesForCurrentView) {
       this.pageChange.emit(this.currentPage + 1);
     }
   }
@@ -113,8 +145,9 @@ export class ExamResultsComponent {
   getPageNumbers(): number[] {
     const pages: number[] = [];
     const maxVisible = 5;
+    const totalPages = this.totalPagesForCurrentView;
     let start = Math.max(1, this.currentPage - Math.floor(maxVisible / 2));
-    let end = Math.min(this.totalPages, start + maxVisible - 1);
+    let end = Math.min(totalPages, start + maxVisible - 1);
     
     if (end - start + 1 < maxVisible) {
       start = Math.max(1, end - maxVisible + 1);
@@ -228,6 +261,8 @@ export class ExamResultsComponent {
   setViewMode(mode: ViewMode): void {
     this.viewMode = mode;
     this.isViewMenuOpen = false;
+    // Reset to first page when changing view mode
+    this.pageChange.emit(1);
   }
 
   closeViewMenu(): void {
