@@ -1083,9 +1083,11 @@
   margin-bottom: 0;
 }
 
+.patient-exams-content {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
 }
 
 .exam-row-patient {
