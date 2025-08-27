@@ -38,8 +38,8 @@ export class ExamResultsComponent {
   displayMode: DisplayMode = 'card';
   isDisplayMenuOpen = false;
 
-  onItemsPerPageChange(): void {
-    const newValue = parseInt((event?.target as HTMLSelectElement)?.value || this.itemsPerPage.toString());
+  onItemsPerPageChange(event: Event): void {
+    const newValue = parseInt((event.target as HTMLSelectElement).value || this.itemsPerPage.toString());
     this.itemsPerPage = newValue;
     this.itemsPerPageChange.emit(newValue);
   }
