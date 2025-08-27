@@ -18,4 +18,5 @@ export interface Exam {
   sectorId: string;
   sectorName: string;
   status: 'scheduled' | 'in-progress' | 'completed' | 'cancelled';
+  isUrgent: boolean;
 }

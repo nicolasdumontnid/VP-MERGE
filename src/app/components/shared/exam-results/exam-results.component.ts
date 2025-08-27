@@ -34,6 +34,7 @@ interface DetailedExam {
   sectorId: string;
   sectorName: string;
   status: 'scheduled' | 'in-progress' | 'completed' | 'cancelled';
+  isUrgent: boolean;
   reference: string;
   elements: ExamElement[];
   sharedUsers: SharedUser[];

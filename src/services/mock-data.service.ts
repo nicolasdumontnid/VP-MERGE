@@ -93,6 +93,9 @@ export class MockDataService {
         
         const age = new Date().getFullYear() - patient.dateOfBirth.getFullYear();
         
+        // Make the first exam of the first patient urgent
+        const isUrgent = patientIndex === 0 && i === 0;
+        
         exams.push({
           id: `E${String(patientIndex + 1).padStart(3, '0')}-${String(i + 1).padStart(2, '0')}`,
           patientId: patient.id,
@@ -112,7 +115,8 @@ export class MockDataService {
           siteName: randomSite.name,
           sectorId: randomSector.id,
           sectorName: randomSector.name,
-          status: ['scheduled', 'in-progress', 'completed', 'cancelled'][Math.floor(Math.random() * 4)] as 'scheduled' | 'in-progress' | 'completed' | 'cancelled'
+          status: ['scheduled', 'in-progress', 'completed', 'cancelled'][Math.floor(Math.random() * 4)] as 'scheduled' | 'in-progress' | 'completed' | 'cancelled',
+          isUrgent
         });
       }
     });

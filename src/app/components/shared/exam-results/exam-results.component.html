@@ -37,7 +37,7 @@
 
   <!-- Exam List -->
   <div class="exam-list" *ngIf="exams.length > 0">
-    <div class="exam-card" [class]="getBorderClass()" *ngFor="let exam of exams">
+    <div class="exam-card" [class]="getBorderClass()" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of exams">
       <!-- Exam Header -->
       <div class="exam-header">
         <div class="exam-basic-info">
@@ -66,6 +66,9 @@
                 [ngClass]="'diagnosis-' + exam.diagnosis" 
                 title="Diagnosis">
             {{exam.diagnosis}}
+          </span>
+          <span class="urgent-badge" *ngIf="exam.isUrgent" title="Urgent exam">
+            URGENT
           </span>
           <span class="unassigned-badge" *ngIf="showUnassignedBadge()" title="Unassigned exam">
             UNASSIGNED
