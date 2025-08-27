@@ -1074,16 +1074,15 @@
 
 .patient-exams:not(.collapsed) {
   max-height: 2000px;
-  padding: 0 20px 20px 20px;
+  padding: 16px 20px 20px 20px;
+  background-color: #252525;
+  border-top: 1px solid #404040;
 }
 
-.patient-exams .exam-row-patient:first-child {
-  margin-top: 16px;
+.patient-exams .exam-row-patient:last-child {
+  margin-bottom: 0;
 }
 
-.patient-exams.collapsed .exam-row-patient:first-child {
-  margin-top: 0;
-}
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -1091,18 +1090,26 @@
 
 .exam-row-patient {
   background-color: #374151;
+  border: 1px solid #4b5563;
   border-radius: 8px;
   padding: 16px;
+  margin-bottom: 12px;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .exam-row-patient:hover {
-  background-color: #3f4651;
+  background-color: #4b5563;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .exam-row-patient.urgent-exam {
   border-left: 4px solid #fbbf24;
-  box-shadow: 0 0 0 1px #fbbf24;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 0 1px #fbbf24;
+}
+
+.exam-row-patient.urgent-exam:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 0 1px #fbbf24;
 }
 
 .exam-info-patient {
@@ -1120,13 +1127,15 @@
   font-size: 16px;
   font-weight: 600;
   color: white;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #4b5563;
 }
 
 .exam-meta-patient {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   margin-bottom: 12px;
   font-size: 14px;
   color: #d1d5db;
@@ -1134,12 +1143,15 @@
 
 .exam-meta-patient span {
   display: block;
+  padding: 2px 0;
 }
 
 .assignment-info-patient {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #4b5563;
 }
 
 .assigned-user-patient {
@@ -1171,9 +1183,10 @@
 
 .separator-vertical {
   width: 2px;
-  background-color: white;
+  background-color: #6b7280;
   margin: 0 16px;
   min-height: 80px;
+  border-radius: 1px;
 }
 
 .images-patient {

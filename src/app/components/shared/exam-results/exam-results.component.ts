@@ -43,7 +43,13 @@ export class ExamResultsComponent {
   expandedPatients = new Set<string>();
 
   get groupedByPatient() {
+    // Debug: log the exams to see what we have
+    console.log('Total exams:', this.exams.length);
+    console.log('Exams:', this.exams.map(e => ({ id: e.id, patient: e.patientName })));
+    
     const grouped = new Map<string, DetailedExam[]>();
+    
+    // Group exams by patient name
     this.exams.forEach(exam => {
       const patientKey = exam.patientName;
       if (!grouped.has(patientKey)) {
@@ -51,12 +57,18 @@ export class ExamResultsComponent {
       }
       grouped.get(patientKey)!.push(exam);
     });
-    return Array.from(grouped.entries()).map(([patientName, exams]) => ({
+    
+    const result = Array.from(grouped.entries()).map(([patientName, exams]) => ({
       patientName,
       exams,
       patientInfo: exams[0], // Use first exam for patient info
       isExpanded: this.expandedPatients.has(patientName)
     }));
+    
+    console.log('Grouped patients:', result.length);
+    console.log('Patient groups:', result.map(p => ({ name: p.patientName, examCount: p.exams.length })));
+    
+    return result;
   }
 
   togglePatientCard(patientName: string): void {
