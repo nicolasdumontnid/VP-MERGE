@@ -118,9 +118,24 @@ export class SecondOpinionComponent implements OnInit {
     const elements: ExamElement[] = [];
     const elementCount = 20 + Math.floor(Math.random() * 10);
     
+    // Determine number of videos (0, 1, or 2 maximum)
+    const videoCount = Math.floor(Math.random() * 3); // 0, 1, or 2
+    let videosAdded = 0;
+    
     for (let i = 0; i < elementCount; i++) {
-      const types: ExamElement['type'][] = ['radio', 'mri', 'slide', 'video', 'macro', 'pdf', 'excel', 'text'];
+      let types: ExamElement['type'][] = ['radio', 'mri', 'slide', 'macro', 'pdf', 'excel', 'text'];
+      
+      // Only add video to possible types if we haven't reached the limit
+      if (videosAdded < videoCount) {
+        types.push('video');
+      }
+      
       const type = types[Math.floor(Math.random() * types.length)];
+      
+      // Track video count
+      if (type === 'video') {
+        videosAdded++;
+      }
       
       let thumbnail = '';
       switch (type) {
