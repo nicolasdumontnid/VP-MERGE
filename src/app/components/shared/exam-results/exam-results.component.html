@@ -27,7 +27,7 @@
     <div class="items-per-page">
       <label>Items per page:</label>
       <select [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange($event)" class="items-select">
-        <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
+        <option *ngFor="let option of itemsPerPageOptions" [value]="option" [selected]="option === itemsPerPage">{{option}}</option>
       </select>
     </div>
     
