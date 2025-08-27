@@ -13,7 +13,7 @@
 .conversations-header h1 {
   font-size: 28px;
   font-weight: 700;
-  color: #4ade80;
+  color: #6b7280;
 }
 
 .header-actions {
@@ -40,9 +40,9 @@
 }
 
 .btn-filter.active {
-  background-color: #4ade80;
+  background-color: #6b7280;
   color: #252525;
-  border-color: #4ade80;
+  border-color: #6b7280;
 }
 
 .search-section {
@@ -75,7 +75,7 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #4ade80;
+  border-color: #6b7280;
 }
 
 .search-input::placeholder {
@@ -105,8 +105,8 @@
 }
 
 .conversation-card.unread {
-  border-left-color: #4ade80;
-  background-color: rgba(74, 222, 128, 0.1);
+  border-left-color: #6b7280;
+  background-color: rgba(107, 114, 128, 0.1);
 }
 
 .conversation-card.pinned {
@@ -124,7 +124,7 @@
 .conversation-avatar {
   width: 48px;
   height: 48px;
-  background-color: #4ade80;
+  background-color: #6b7280;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -183,7 +183,7 @@
 }
 
 .unread-badge {
-  background-color: #4ade80;
+  background-color: #6b7280;
   color: #252525;
 }
 
@@ -200,7 +200,7 @@
 
 .sender {
   font-weight: 500;
-  color: #4ade80;
+  color: #6b7280;
 }
 
 .message-content {
@@ -276,7 +276,7 @@
 .modal-header h2 {
   font-size: 20px;
   font-weight: 600;
-  color: #4ade80;
+  color: #6b7280;
 }
 
 .btn-close {
@@ -351,7 +351,7 @@
 
 .sender {
   font-weight: 500;
-  color: #4ade80;
+  color: #6b7280;
 }
 
 .message-content {
@@ -363,7 +363,7 @@
 }
 
 .message.own .message-content {
-  background-color: #4ade80;
+  background-color: #6b7280;
   color: #252525;
 }
 
@@ -387,7 +387,7 @@
 
 .message-field:focus {
   outline: none;
-  border-color: #4ade80;
+  border-color: #6b7280;
 }
 
 .message-field::placeholder {
@@ -395,7 +395,7 @@
 }
 
 .btn-send {
-  background-color: #4ade80;
+  background-color: #6b7280;
   color: #252525;
   border: none;
   padding: 12px 16px;
@@ -408,7 +408,7 @@
 }
 
 .btn-send:hover:not(:disabled) {
-  background-color: #22c55e;
+  background-color: #5b6572;
 }
 
 .btn-send:disabled {
