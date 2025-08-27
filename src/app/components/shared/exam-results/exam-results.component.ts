@@ -120,7 +120,7 @@ export class ExamResultsComponent implements OnInit, OnChanges {
       isExpanded: this.expandedPatients.has(patientName)
     }));
 
-    // Update paginated data
+    // Always update paginated data after grouping
     this.updatePaginatedData();
   }
 
@@ -161,6 +161,8 @@ export class ExamResultsComponent implements OnInit, OnChanges {
     const newValue = parseInt(target.value);
     this._currentItemsPerPage = newValue;
     this._currentPage = 1; // Reset to first page
+    // Force refresh of grouped patients and paginated data
+    this.updateData();
     this.updatePaginatedData();
     this.itemsPerPageChange.emit(newValue);
   }
@@ -325,6 +327,8 @@ export class ExamResultsComponent implements OnInit, OnChanges {
     this.viewMode = mode;
     this.isViewMenuOpen = false;
     this._currentPage = 1; // Reset to first page when changing view mode
+    // Force refresh when changing view mode
+    this.updateData();
     this.updatePaginatedData();
   }
 
