@@ -72,6 +72,25 @@
         <i class="fas fa-angle-double-right"></i>
       </button>
     </div>
+    
+    <!-- View Mode Selector -->
+    <div class="view-mode-selector">
+      <div class="dropdown" [class.open]="isViewMenuOpen">
+        <button class="view-menu-btn" (click)="toggleViewMenu()" title="View options">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="dropdown-menu">
+          <button class="dropdown-item" [class.active]="viewMode === 'exam'" (click)="setViewMode('exam')">
+            <i class="fas fa-x-ray"></i>
+            <span>Examen view</span>
+          </button>
+          <button class="dropdown-item" [class.active]="viewMode === 'patient'" (click)="setViewMode('patient')">
+            <i class="fas fa-user"></i>
+            <span>Patient view</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Examen View - Card View (Default) -->
