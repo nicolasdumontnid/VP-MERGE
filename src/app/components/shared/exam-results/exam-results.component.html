@@ -1,42 +1,4 @@
 <div [class]="getPageTypeClass()">
-  <!-- Display Mode Selector -->
-  <div class="display-mode-selector">
-    <div class="dropdown" [class.open]="isViewMenuOpen">
-      <button class="display-menu-btn" (click)="toggleViewMenu()" title="View options">
-        <i class="fas fa-bars"></i>
-      </button>
-      <div class="dropdown-menu">
-        <button class="dropdown-item" [class.active]="viewMode === 'exam'" (click)="setViewMode('exam')">
-          <i class="fas fa-x-ray"></i>
-          <span>Examen view</span>
-        </button>
-        <button class="dropdown-item" [class.active]="viewMode === 'patient'" (click)="setViewMode('patient')">
-          <i class="fas fa-user"></i>
-          <span>Patient view</span>
-        </button>
-      </div>
-    </div>
-    
-    <div class="dropdown" [class.open]="isDisplayMenuOpen">
-      <button class="display-menu-btn" (click)="toggleDisplayMenu()" title="Display options">
-        <i class="fas fa-th"></i>
-      </button>
-      <div class="dropdown-menu">
-        <button class="dropdown-item" [class.active]="displayMode === 'card'" (click)="setDisplayMode('card')">
-          <i class="fas fa-th-large"></i>
-          <span>Card View</span>
-        </button>
-        <button class="dropdown-item" [class.active]="displayMode === 'row'" (click)="setDisplayMode('row')">
-          <i class="fas fa-list"></i>
-          <span>Row View</span>
-        </button>
-        <button class="dropdown-item" [class.active]="displayMode === 'table'" (click)="setDisplayMode('table')">
-          <i class="fas fa-table"></i>
-          <span>Table View</span>
-        </button>
-      </div>
-    </div>
-  </div>
 
   <!-- Pagination Controls -->
   <div class="pagination-controls">
