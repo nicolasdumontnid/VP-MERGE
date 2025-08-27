@@ -150,7 +150,7 @@ export class CompletedComponent implements OnInit {
       });
     }
 
-    const sharedUsers: SharedUser[] = [
+    const sharedUsers: SharedUser[] = ([
       { name: 'Dr. Martin', completion: 100, status: 'completed' },
       { name: 'Dr. Dubois', completion: 100, status: 'completed' },
       { name: 'Dr. Leroy', completion: 100, status: 'completed' }

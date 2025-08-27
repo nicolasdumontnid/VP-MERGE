@@ -151,7 +151,7 @@ export class SecondOpinionComponent implements OnInit {
       });
     }
 
-    const sharedUsers: SharedUser[] = [
+    const sharedUsers: SharedUser[] = ([
       { name: 'Dr. Martin', completion: Math.floor(Math.random() * 100), status: 'in-progress' },
       { name: 'Dr. Dubois', completion: Math.floor(Math.random() * 100), status: 'completed' },
       { name: 'Dr. Leroy', completion: Math.floor(Math.random() * 100), status: 'pending' }
