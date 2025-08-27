@@ -1,9 +1,25 @@
 <div [class]="getPageTypeClass()">
   <!-- Display Mode Selector -->
   <div class="display-mode-selector">
+    <div class="dropdown" [class.open]="isViewMenuOpen">
+      <button class="display-menu-btn" (click)="toggleViewMenu()" title="View options">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="dropdown-menu">
+        <button class="dropdown-item" [class.active]="viewMode === 'exam'" (click)="setViewMode('exam')">
+          <i class="fas fa-x-ray"></i>
+          <span>Examen view</span>
+        </button>
+        <button class="dropdown-item" [class.active]="viewMode === 'patient'" (click)="setViewMode('patient')">
+          <i class="fas fa-user"></i>
+          <span>Patient view</span>
+        </button>
+      </div>
+    </div>
+    
     <div class="dropdown" [class.open]="isDisplayMenuOpen">
       <button class="display-menu-btn" (click)="toggleDisplayMenu()" title="Display options">
-        <i class="fas fa-bars"></i>
+        <i class="fas fa-th"></i>
       </button>
       <div class="dropdown-menu">
         <button class="dropdown-item" [class.active]="displayMode === 'card'" (click)="setDisplayMode('card')">
@@ -58,8 +74,8 @@
     </div>
   </div>
 
-  <!-- Card View (Default) -->
-  <div class="exam-list card-view" *ngIf="exams.length > 0 && displayMode === 'card'">
+  <!-- Examen View - Card View (Default) -->
+  <div class="exam-list card-view" *ngIf="exams.length > 0 && displayMode === 'card' && viewMode === 'exam'">
     <div class="exam-card" [class]="getBorderClass()" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of exams">
       <!-- Exam Header -->
       <div class="exam-header">
@@ -187,8 +203,80 @@
     </div>
   </div>
 
-  <!-- Row View -->
-  <div class="exam-list row-view" *ngIf="exams.length > 0 && displayMode === 'row'">
+  <!-- Patient View - Card View -->
+  <div class="patient-list card-view" *ngIf="exams.length > 0 && displayMode === 'card' && viewMode === 'patient'">
+    <div class="patient-card" [class]="getBorderClass()" *ngFor="let patientGroup of groupedByPatient">
+      <!-- Patient Header -->
+      <div class="patient-header">
+        <div class="patient-basic-info">
+          <h3 class="patient-name" title="Patient name">
+            <i class="fas fa-user"></i>
+            {{patientGroup.patientName}}
+          </h3>
+          <div class="patient-meta">
+            <span class="patient-age" title="Patient age">{{patientGroup.patientInfo.patientAge}} years</span>
+            <span class="patient-weight" title="Patient weight">{{patientGroup.patientInfo.patientWeight}} kg</span>
+            <span class="exam-count" title="Number of exams">{{patientGroup.exams.length}} exam(s)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exams List for this Patient -->
+      <div class="patient-exams">
+        <div class="exam-row-patient" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of patientGroup.exams">
+          <div class="exam-info-patient">
+            <div class="exam-details-patient">
+              <div class="exam-title-patient">{{exam.title}}</div>
+              <div class="exam-meta-patient">
+                <span class="sector-info">{{exam.sectorName}}</span>
+                <span class="site-info">{{exam.siteName}}</span>
+                <span class="exam-date">{{exam.examDate | date:'dd/MM/yyyy'}}</span>
+                <span class="exam-reference">{{exam.reference}}</span>
+              </div>
+              
+              <!-- Assignment Info -->
+              <div class="assignment-info-patient">
+                <div class="assigned-user-patient">
+                  <i class="fas fa-user-md"></i>
+                  <span [class]="showUnassignedBadge() ? 'unassigned-text' : ''">
+                    {{showUnassignedBadge() ? 'Awaiting assignment' : (exam.assignedRadiologist || 'Unassigned')}}
+                  </span>
+                  <span class="completion-percentage" *ngIf="!showUnassignedBadge()">100%</span>
+                  <i class="fas fa-check" style="color: #10b981" *ngIf="!showUnassignedBadge()"></i>
+                </div>
+                
+                <div class="shared-users-patient" *ngIf="exam.sharedUsers.length > 0">
+                  <div class="shared-user-patient" *ngFor="let user of exam.sharedUsers">
+                    <span class="user-name">{{user.name}}</span>
+                    <span class="completion-percentage">{{user.completion}}%</span>
+                    <i [class]="getStatusIcon(user.status)" 
+                       [style.color]="getStatusColor(user.status)"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="separator-vertical"></div>
+            
+            <div class="images-patient">
+              <div class="element-thumbnail-patient" *ngFor="let element of exam.elements.slice(0, 10)">
+                <img [src]="element.thumbnail" [alt]="element.name" 
+                     onerror="this.src='https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop&auto=format&sat=-100'">
+                <div class="play-overlay" *ngIf="element.type === 'video'">
+                  <i class="fas fa-play"></i>
+                </div>
+              </div>
+              <div class="more-images-patient" *ngIf="exam.elements.length > 10">
+                +{{exam.elements.length - 10}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Examen View - Row View -->
+  <div class="exam-list row-view" *ngIf="exams.length > 0 && displayMode === 'row' && viewMode === 'exam'">
     <div class="exam-row" [class]="getBorderClass()" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of exams">
       <!-- Row Header -->
       <div class="row-header">
@@ -268,8 +356,8 @@
     </div>
   </div>
 
-  <!-- Table View -->
-  <div class="exam-table-container" *ngIf="exams.length > 0 && displayMode === 'table'">
+  <!-- Examen View - Table View -->
+  <div class="exam-table-container" *ngIf="exams.length > 0 && displayMode === 'table' && viewMode === 'exam'">
     <table class="exam-table">
       <thead>
         <tr>

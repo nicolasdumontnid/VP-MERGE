@@ -6,6 +6,7 @@ import { ExamElement } from '../../../../models/exam-element.interface';
 import { SharedUser } from '../../../../models/shared-user.interface';
 
 export type DisplayMode = 'card' | 'row' | 'table';
+export type ViewMode = 'exam' | 'patient';
 
 @Component({
   selector: 'app-exam-results',
@@ -36,8 +37,24 @@ export class ExamResultsComponent {
   @Output() pauseExam = new EventEmitter<DetailedExam>();
 
   displayMode: DisplayMode = 'card';
+  viewMode: ViewMode = 'exam';
   isDisplayMenuOpen = false;
+  isViewMenuOpen = false;
 
+  get groupedByPatient() {
+    const grouped = new Map<string, DetailedExam[]>();
+    this.exams.forEach(exam => {
+      if (!grouped.has(exam.patientName)) {
+        grouped.set(exam.patientName, []);
+      }
+      grouped.get(exam.patientName)!.push(exam);
+    });
+    return Array.from(grouped.entries()).map(([patientName, exams]) => ({
+      patientName,
+      exams,
+      patientInfo: exams[0] // Use first exam for patient info
+    }));
+  }
   onItemsPerPageChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const newValue = parseInt(target.value);
@@ -172,6 +189,7 @@ export class ExamResultsComponent {
 
   toggleDisplayMenu(): void {
     this.isDisplayMenuOpen = !this.isDisplayMenuOpen;
+    this.isViewMenuOpen = false;
   }
 
   setDisplayMode(mode: DisplayMode): void {
@@ -179,6 +197,19 @@ export class ExamResultsComponent {
     this.isDisplayMenuOpen = false;
   }
 
+  toggleViewMenu(): void {
+    this.isViewMenuOpen = !this.isViewMenuOpen;
+    this.isDisplayMenuOpen = false;
+  }
+
+  setViewMode(mode: ViewMode): void {
+    this.viewMode = mode;
+    this.isViewMenuOpen = false;
+  }
+
+  closeViewMenu(): void {
+    this.isViewMenuOpen = false;
+  }
   closeDisplayMenu(): void {
     this.isDisplayMenuOpen = false;
   }

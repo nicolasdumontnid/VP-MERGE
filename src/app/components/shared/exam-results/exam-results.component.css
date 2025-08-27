@@ -16,6 +16,8 @@
   top: 20px;
   right: 20px;
   z-index: 20;
+  display: flex;
+  gap: 8px;
 }
 
 .display-menu-btn {
@@ -746,9 +748,8 @@
 .action-buttons {
   display: flex;
   gap: 8px;
+  justify-content: flex-start;
   margin-bottom: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #404040;
 }
 
 .action-btn {
@@ -992,11 +993,213 @@
   background: #6b7280;
 }
 
+/* Patient View Styles */
+.patient-list.card-view {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.patient-card {
+  background-color: #2a2a2a;
+  border: 1px solid #404040;
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.patient-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.patient-header {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #404040;
+}
+
+.patient-basic-info h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.patient-basic-info h3 i {
+  color: #6b7280;
+}
+
+.patient-meta {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.patient-exams {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.exam-row-patient {
+  background-color: #374151;
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.3s ease;
+}
+
+.exam-row-patient:hover {
+  background-color: #3f4651;
+}
+
+.exam-row-patient.urgent-exam {
+  border-left: 4px solid #fbbf24;
+  box-shadow: 0 0 0 1px #fbbf24;
+}
+
+.exam-info-patient {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.exam-details-patient {
+  flex: 1;
+  min-width: 300px;
+}
+
+.exam-title-patient {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.exam-meta-patient {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #d1d5db;
+}
+
+.exam-meta-patient span {
+  display: block;
+}
+
+.assignment-info-patient {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.assigned-user-patient {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #d1d5db;
+}
+
+.assigned-user-patient i {
+  color: #6b7280;
+}
+
+.shared-users-patient {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.shared-user-patient {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #9ca3af;
+  padding-left: 20px;
+}
+
+.separator-vertical {
+  width: 2px;
+  background-color: white;
+  margin: 0 16px;
+  min-height: 80px;
+}
+
+.images-patient {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.element-thumbnail-patient {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.element-thumbnail-patient img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.more-images-patient {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  height: 60px;
+  background-color: #4b5563;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #9ca3af;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Scrollbar for patient images */
+.images-patient::-webkit-scrollbar {
+  height: 6px;
+}
+
+.images-patient::-webkit-scrollbar-track {
+  background: #374151;
+  border-radius: 3px;
+}
+
+.images-patient::-webkit-scrollbar-thumb {
+  background: #6b7280;
+  border-radius: 3px;
+}
+
+.images-patient::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .pagination-controls {
     flex-direction: column;
     gap: 16px;
+  }
+  
+  .display-mode-selector {
+    flex-direction: column;
+    gap: 4px;
   }
   
   .exam-header {
@@ -1026,5 +1229,20 @@
   
   .exam-elements {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+  
+  .exam-info-patient {
+    flex-direction: column;
+  }
+  
+  .separator-vertical {
+    width: 100%;
+    height: 2px;
+    margin: 12px 0;
+    min-height: auto;
+  }
+  
+  .exam-details-patient {
+    min-width: auto;
   }
 }
