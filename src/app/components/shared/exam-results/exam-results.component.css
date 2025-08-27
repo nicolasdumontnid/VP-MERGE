@@ -1,4 +1,8 @@
-.inbox-container {
+/* Base container styles */
+.inbox-container,
+.pending-container,
+.second-opinion-container,
+.completed-container {
   width: 100%;
   height: 100vh;
   background-color: #1a1a1a;
@@ -70,8 +74,23 @@
 }
 
 .page-btn.active {
+  color: white;
+}
+
+.active-inbox {
   background-color: #6b7280;
-  color: #1a1a1a;
+}
+
+.active-pending {
+  background-color: #f59e0b;
+}
+
+.active-second-opinion {
+  background-color: #8b5cf6;
+}
+
+.active-completed {
+  background-color: #10b981;
 }
 
 .page-numbers {
@@ -95,9 +114,44 @@
   transition: all 0.3s ease;
 }
 
+.border-inbox {
+  border-left: 4px solid #6b7280;
+}
+
+.border-pending {
+  border-left: 4px solid #f59e0b;
+}
+
+.border-second-opinion {
+  border-left: 4px solid #8b5cf6;
+}
+
+.border-completed {
+  border-left: 4px solid #10b981;
+}
+
 .exam-card:hover {
-  border-color: #6b7280;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.border-inbox:hover {
+  border-color: #6b7280;
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.2);
+}
+
+.border-pending:hover {
+  border-color: #f59e0b;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+}
+
+.border-second-opinion:hover {
+  border-color: #8b5cf6;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.border-completed:hover {
+  border-color: #10b981;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
 }
 
 /* Exam Header */
@@ -154,6 +208,13 @@
   font-size: 12px;
 }
 
+.exam-status {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+
 .diagnosis-badge {
   padding: 6px 12px;
   border-radius: 20px;
@@ -175,6 +236,26 @@
 .diagnosis-pending {
   background-color: #f59e0b;
   color: white;
+}
+
+.unassigned-badge {
+  background-color: #8b5cf6;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.completed-badge {
+  background-color: #10b981;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 /* Patient Info */
@@ -223,6 +304,11 @@
   color: #6b7280;
 }
 
+.unassigned-text {
+  color: #8b5cf6;
+  font-style: italic;
+}
+
 .shared-users {
   display: flex;
   flex-wrap: wrap;
@@ -255,6 +341,30 @@
   font-weight: 500;
 }
 
+.completed-container .completion-percentage {
+  color: #10b981;
+}
+
+/* Conclusion Section */
+.conclusion-section {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #404040;
+}
+
+.conclusion-section h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #10b981;
+  margin-bottom: 8px;
+}
+
+.conclusion-section p {
+  color: #d1d5db;
+  line-height: 1.5;
+  margin: 0;
+}
+
 /* Action Buttons */
 .action-buttons {
   display: flex;
@@ -279,6 +389,24 @@
 
 .action-btn:hover {
   background-color: #4b5563;
+}
+
+.action-btn.primary {
+  background-color: #8b5cf6;
+  border-color: #8b5cf6;
+}
+
+.action-btn.primary:hover {
+  background-color: #7c3aed;
+}
+
+.action-btn.view-btn {
+  background-color: #10b981;
+  border-color: #10b981;
+}
+
+.action-btn.view-btn:hover {
+  background-color: #059669;
 }
 
 /* Image Toggle */
@@ -320,6 +448,18 @@
 
 .toggle-switch input:checked + .slider {
   background-color: #6b7280;
+}
+
+.toggle-switch input:checked + .slider-pending {
+  background-color: #f59e0b;
+}
+
+.toggle-switch input:checked + .slider-second-opinion {
+  background-color: #8b5cf6;
+}
+
+.toggle-switch input:checked + .slider-completed {
+  background-color: #10b981;
 }
 
 .toggle-switch input:checked + .slider::before {
@@ -416,7 +556,22 @@
 .no-results i {
   font-size: 64px;
   margin-bottom: 16px;
-  color: #4b5563;
+}
+
+.no-results-icon-inbox {
+  color: #6b7280;
+}
+
+.no-results-icon-pending {
+  color: #f59e0b;
+}
+
+.no-results-icon-second-opinion {
+  color: #8b5cf6;
+}
+
+.no-results-icon-completed {
+  color: #10b981;
 }
 
 .no-results h3 {
@@ -427,24 +582,36 @@
 
 /* Scrollbar Styling */
 .exam-elements::-webkit-scrollbar,
-.inbox-container::-webkit-scrollbar {
+.inbox-container::-webkit-scrollbar,
+.pending-container::-webkit-scrollbar,
+.second-opinion-container::-webkit-scrollbar,
+.completed-container::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 .exam-elements::-webkit-scrollbar-track,
-.inbox-container::-webkit-scrollbar-track {
+.inbox-container::-webkit-scrollbar-track,
+.pending-container::-webkit-scrollbar-track,
+.second-opinion-container::-webkit-scrollbar-track,
+.completed-container::-webkit-scrollbar-track {
   background: #2a2a2a;
 }
 
 .exam-elements::-webkit-scrollbar-thumb,
-.inbox-container::-webkit-scrollbar-thumb {
+.inbox-container::-webkit-scrollbar-thumb,
+.pending-container::-webkit-scrollbar-thumb,
+.second-opinion-container::-webkit-scrollbar-thumb,
+.completed-container::-webkit-scrollbar-thumb {
   background: #4b5563;
   border-radius: 4px;
 }
 
 .exam-elements::-webkit-scrollbar-thumb:hover,
-.inbox-container::-webkit-scrollbar-thumb:hover {
+.inbox-container::-webkit-scrollbar-thumb:hover,
+.pending-container::-webkit-scrollbar-thumb:hover,
+.second-opinion-container::-webkit-scrollbar-thumb:hover,
+.completed-container::-webkit-scrollbar-thumb:hover {
   background: #6b7280;
 }
 

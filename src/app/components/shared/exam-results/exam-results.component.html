@@ -1,0 +1,170 @@
+<div [class]="getPageTypeClass()">
+  <!-- Pagination Controls -->
+  <div class="pagination-controls">
+    <div class="items-per-page">
+      <label>Items per page:</label>
+      <select [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange()" class="items-select">
+        <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
+      </select>
+    </div>
+    
+    <div class="pagination-nav">
+      <button class="page-btn" (click)="goToFirstPage()" [disabled]="currentPage === 1" title="First page">
+        <i class="fas fa-angle-double-left"></i>
+      </button>
+      <button class="page-btn" (click)="previousPage()" [disabled]="currentPage === 1" title="Previous page">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      
+      <div class="page-numbers">
+        <button 
+          *ngFor="let page of getPageNumbers()" 
+          class="page-btn" 
+          [class]="page === currentPage ? 'page-btn active ' + getActiveBtnClass() : 'page-btn'"
+          (click)="goToPage(page)">
+          {{page}}
+        </button>
+      </div>
+      
+      <button class="page-btn" (click)="nextPage()" [disabled]="currentPage === totalPages" title="Next page">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+      <button class="page-btn" (click)="goToLastPage()" [disabled]="currentPage === totalPages" title="Last page">
+        <i class="fas fa-angle-double-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Exam List -->
+  <div class="exam-list" *ngIf="exams.length > 0">
+    <div class="exam-card" [class]="getBorderClass()" *ngFor="let exam of exams">
+      <!-- Exam Header -->
+      <div class="exam-header">
+        <div class="exam-basic-info">
+          <div class="exam-title">
+            <h3 title="Exam title">{{exam.title}}</h3>
+            <span class="exam-reference" title="Exam reference">{{exam.reference}}</span>
+          </div>
+          <div class="exam-meta">
+            <span class="site-info" title="Site">
+              <i class="fas fa-hospital"></i>
+              {{exam.siteName}}
+            </span>
+            <span class="exam-date" title="Exam date">
+              <i class="fas fa-calendar"></i>
+              {{exam.examDate | date:'dd/MM/yyyy'}}
+            </span>
+            <span class="element-count" title="Number of elements">
+              <i class="fas fa-images"></i>
+              {{exam.elements.length}} elements
+            </span>
+          </div>
+        </div>
+        
+        <div class="exam-status">
+          <span class="diagnosis-badge" 
+                [ngClass]="'diagnosis-' + exam.diagnosis" 
+                title="Diagnosis">
+            {{exam.diagnosis}}
+          </span>
+          <span class="unassigned-badge" *ngIf="showUnassignedBadge()" title="Unassigned exam">
+            UNASSIGNED
+          </span>
+          <span class="completed-badge" *ngIf="showCompletedBadge()" title="Completed exam">
+            COMPLETED
+          </span>
+        </div>
+      </div>
+
+      <!-- Patient Info -->
+      <div class="patient-info">
+        <div class="patient-details">
+          <span class="patient-name" title="Patient name">
+            <i class="fas fa-user"></i>
+            {{exam.patientName}}
+          </span>
+          <span class="patient-age" title="Patient age">{{exam.patientAge}} years</span>
+          <span class="patient-weight" title="Patient weight">{{exam.patientWeight}} kg</span>
+        </div>
+      </div>
+
+      <!-- Assignment and Sharing -->
+      <div class="assignment-section">
+        <div class="assigned-user" title="Assigned radiologist">
+          <i class="fas fa-user-md"></i>
+          <span [class]="showUnassignedBadge() ? 'unassigned-text' : ''">
+            {{showUnassignedBadge() ? 'Awaiting assignment' : (exam.assignedRadiologist || 'Unassigned')}}
+          </span>
+        </div>
+        
+        <div class="shared-users" *ngIf="exam.sharedUsers.length > 0">
+          <span class="shared-label">Shared with:</span>
+          <div class="shared-user" *ngFor="let user of exam.sharedUsers">
+            <span class="user-name" title="Shared user">{{user.name}}</span>
+            <span class="completion-percentage" title="Completion percentage">{{user.completion}}%</span>
+            <i [class]="getStatusIcon(user.status)" 
+               [style.color]="getStatusColor(user.status)"
+               [title]="user.status"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conclusion Section (only for completed) -->
+      <div class="conclusion-section" *ngIf="showConclusion()">
+        <h4>Conclusion</h4>
+        <p>{{exam.conclusion}}</p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button [class]="getActionButtonClass()" (click)="onAddLabel(exam)" title="Add label">
+          <i class="fas fa-tag"></i>
+        </button>
+        <button [class]="getActionButtonClass(true)" (click)="onAssignUser(exam)" title="Assign user">
+          <i class="fas fa-user"></i>
+        </button>
+        <button [class]="getActionButtonClass()" (click)="onShareExam(exam)" title="Share exam">
+          <i class="fas fa-users"></i>
+        </button>
+        <button [class]="getActionButtonClass()" (click)="onMoveToWorklist(exam)" title="Move to worklist">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+        <button [class]="getActionButtonClass()" (click)="onPauseExam(exam)" *ngIf="!showCompletedBadge()" title="Pause exam">
+          <i class="fas fa-pause"></i>
+        </button>
+        <button [class]="getActionButtonClass(true)" *ngIf="showCompletedBadge()" title="View exam">
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>
+
+      <!-- Image Display Toggle -->
+      <div class="image-toggle">
+        <label class="toggle-switch">
+          <input type="checkbox" [(ngModel)]="exam.showImagesInline">
+          <span class="slider" [class]="'slider-' + pageType"></span>
+          <span class="toggle-label">{{exam.showImagesInline ? 'Inline view' : 'Grid view'}}</span>
+        </label>
+      </div>
+
+      <!-- Elements/Images -->
+      <div class="exam-elements" [class.inline-view]="exam.showImagesInline">
+        <div class="element-item" *ngFor="let element of exam.elements" [title]="element.name">
+          <div class="element-thumbnail">
+            <img [src]="element.thumbnail" [alt]="element.name" onerror="this.src='https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop&auto=format&sat=-100'">
+            <div class="play-overlay" *ngIf="element.type === 'video'">
+              <i class="fas fa-play"></i>
+            </div>
+          </div>
+          <span class="element-name">{{element.name}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Results -->
+  <div class="no-results" *ngIf="exams.length === 0">
+    <i [class]="noResultsIcon + ' no-results-icon-' + pageType"></i>
+    <h3>{{noResultsTitle}}</h3>
+    <p>{{noResultsMessage}}</p>
+  </div>
+</div>

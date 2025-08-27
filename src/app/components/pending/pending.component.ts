@@ -6,6 +6,7 @@ import { Exam } from '../../../models/exam.interface';
 import { ExamService } from '../../../services/exam.service';
 import { SearchResult } from '../../../models/search-criteria.interface';
 import { DashboardFilterComponent } from '../shared/dashboard-filter/dashboard-filter.component';
+import { ExamResultsComponent } from '../shared/exam-results/exam-results.component';
 
 interface ExamElement {
   type: 'radio' | 'mri' | 'slide' | 'video' | 'macro' | 'pdf' | 'excel' | 'text';
@@ -29,7 +30,7 @@ interface DetailedExam extends Exam {
 @Component({
   selector: 'app-pending',
   standalone: true,
-  imports: [CommonModule, FormsModule, DashboardFilterComponent],
+  imports: [CommonModule, FormsModule, DashboardFilterComponent, ExamResultsComponent],
   templateUrl: './pending.component.html',
   styleUrls: ['./pending.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -195,71 +196,14 @@ export class PendingComponent implements OnInit {
     return result;
   }
 
-  onItemsPerPageChange(): void {
-    this.itemsPerPageSubject.next(this.itemsPerPage);
+  onItemsPerPageChange(newItemsPerPage: number): void {
+    this.itemsPerPage = newItemsPerPage;
+    this.itemsPerPageSubject.next(newItemsPerPage);
     this.pageSubject.next(1);
   }
 
-  goToPage(page: number): void {
-    if (page >= 1 && page <= this.totalPages) {
-      this.pageSubject.next(page);
-    }
-  }
-
-  goToFirstPage(): void {
-    this.pageSubject.next(1);
-  }
-
-  goToLastPage(): void {
-    this.pageSubject.next(this.totalPages);
-  }
-
-  previousPage(): void {
-    if (this.currentPage > 1) {
-      this.pageSubject.next(this.currentPage - 1);
-    }
-  }
-
-  nextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.pageSubject.next(this.currentPage + 1);
-    }
-  }
-
-  getPageNumbers(): number[] {
-    const pages: number[] = [];
-    const maxVisible = 5;
-    let start = Math.max(1, this.currentPage - Math.floor(maxVisible / 2));
-    let end = Math.min(this.totalPages, start + maxVisible - 1);
-    
-    if (end - start + 1 < maxVisible) {
-      start = Math.max(1, end - maxVisible + 1);
-    }
-    
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
-    }
-    return pages;
-  }
-
-  getStatusIcon(status: string): string {
-    switch (status) {
-      case 'pending': return 'fas fa-pause';
-      case 'in-progress': return 'fas fa-hourglass-half';
-      case 'not-viewed': return 'fas fa-times';
-      case 'completed': return 'fas fa-check';
-      default: return 'fas fa-question';
-    }
-  }
-
-  getStatusColor(status: string): string {
-    switch (status) {
-      case 'pending': return '#f59e0b';
-      case 'in-progress': return '#3b82f6';
-      case 'not-viewed': return '#ef4444';
-      case 'completed': return '#10b981';
-      default: return '#6b7280';
-    }
+  onPageChange(page: number): void {
+    this.pageSubject.next(page);
   }
 
   addLabel(exam: DetailedExam): void {
