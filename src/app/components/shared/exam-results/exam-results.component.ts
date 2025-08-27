@@ -44,47 +44,27 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   expandedPatients = new Set<string>();
   
 
-  // Pagination properties
-  public _currentItemsPerPage = 10;
-  public _currentPage = 1;
+  // Internal pagination state
+  _currentItemsPerPage = 10;
+  _currentPage = 1;
+  _groupedPatients: any[] = [];
+  _paginatedExams: DetailedExam[] = [];
+  _paginatedPatients: any[] = [];
+
   get groupedByPatient() {
-    const grouped = new Map<string, DetailedExam[]>();
-    
-    // Group exams by patient name
-    this.exams.forEach(exam => {
-      const patientKey = exam.patientName;
-      if (!grouped.has(patientKey)) {
-        grouped.set(patientKey, []);
-      }
-      grouped.get(patientKey)!.push(exam);
-    });
-    
-    const result = Array.from(grouped.entries()).map(([patientName, exams]) => ({
-      patientName,
-      exams,
-      patientInfo: exams[0], // Use first exam for patient info
-      isExpanded: this.expandedPatients.has(patientName)
-    }));
-    
-    return result;
+    return this._groupedPatients;
   }
   
   get paginatedGroupedPatients() {
-    const allPatients = this.groupedByPatient;
-    const startIndex = (this._currentPage - 1) * this._currentItemsPerPage;
-    const endIndex = startIndex + this._currentItemsPerPage;
-    const paginatedPatients = allPatients.slice(startIndex, endIndex);
-    return paginatedPatients;
+    return this._paginatedPatients;
   }
   
   get paginatedExams() {
-    const startIndex = (this._currentPage - 1) * this._currentItemsPerPage;
-    const endIndex = startIndex + this._currentItemsPerPage;
-    return this.exams.slice(startIndex, endIndex);
+    return this._paginatedExams;
   }
   
   get totalPatientsCount(): number {
-    return this.groupedByPatient.length;
+    return this._groupedPatients.length;
   }
   
   get totalPagesForCurrentView(): number {
@@ -102,27 +82,54 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   }
   
   ngOnInit() {
-    this.initializePagination();
+    this._currentItemsPerPage = this.itemsPerPage;
+    this._currentPage = this.currentPage;
+    this.updateData();
   }
   
   ngOnChanges() {
-    this.initializePagination();
-  }
-
-  private initializePagination() {
     this._currentItemsPerPage = this.itemsPerPage;
     this._currentPage = this.currentPage;
+    this.updateData();
+  }
+
+  private updateData() {
+    // Group patients
+    const grouped = new Map<string, DetailedExam[]>();
+    this.exams.forEach(exam => {
+      const patientKey = exam.patientName;
+      if (!grouped.has(patientKey)) {
+        grouped.set(patientKey, []);
+      }
+      grouped.get(patientKey)!.push(exam);
+    });
     
-    // Force change detection to ensure display is updated
-    if (this.exams.length > 0) {
-      // Trigger recalculation of paginated data
-      this.updatePaginatedData();
-    }
+    this._groupedPatients = Array.from(grouped.entries()).map(([patientName, exams]) => ({
+      patientName,
+      exams,
+      patientInfo: exams[0],
+      isExpanded: this.expandedPatients.has(patientName)
+    }));
+
+    // Update paginated data
+    this.updatePaginatedData();
   }
 
   private updatePaginatedData() {
-    // This method forces recalculation of getters
-    // The getters will be called again on next change detection cycle
+    // Paginate exams
+    const examStartIndex = (this._currentPage - 1) * this._currentItemsPerPage;
+    const examEndIndex = examStartIndex + this._currentItemsPerPage;
+    this._paginatedExams = this.exams.slice(examStartIndex, examEndIndex);
+
+    // Paginate patients
+    const patientStartIndex = (this._currentPage - 1) * this._currentItemsPerPage;
+    const patientEndIndex = patientStartIndex + this._currentItemsPerPage;
+    this._paginatedPatients = this._groupedPatients.slice(patientStartIndex, patientEndIndex);
+
+    // Special logic for patient view: if itemsPerPage >= 10, show all patients (max 6)
+    if (this.viewMode === 'patient' && this._currentItemsPerPage >= 10) {
+      this._paginatedPatients = this._groupedPatients.slice(0, Math.min(6, this._groupedPatients.length));
+    }
   }
 
   togglePatientCard(patientName: string): void {
@@ -131,37 +138,51 @@ export class ExamResultsComponent implements OnInit, OnChanges {
     } else {
       this.expandedPatients.add(patientName);
     }
+    this.updateData();
   }
+
   onItemsPerPageChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const newValue = parseInt(target.value);
     this._currentItemsPerPage = newValue;
     this._currentPage = 1; // Reset to first page
+    this.updatePaginatedData();
+    this.itemsPerPageChange.emit(newValue);
   }
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPagesForCurrentView) {
       this._currentPage = page;
+      this.updatePaginatedData();
+      this.pageChange.emit(page);
     }
   }
 
   goToFirstPage(): void {
     this._currentPage = 1;
+    this.updatePaginatedData();
+    this.pageChange.emit(1);
   }
 
   goToLastPage(): void {
     this._currentPage = this.totalPagesForCurrentView;
+    this.updatePaginatedData();
+    this.pageChange.emit(this.totalPagesForCurrentView);
   }
 
   previousPage(): void {
     if (this._currentPage > 1) {
       this._currentPage = this._currentPage - 1;
+      this.updatePaginatedData();
+      this.pageChange.emit(this._currentPage);
     }
   }
 
   nextPage(): void {
     if (this._currentPage < this.totalPagesForCurrentView) {
       this._currentPage = this._currentPage + 1;
+      this.updatePaginatedData();
+      this.pageChange.emit(this._currentPage);
     }
   }
 
@@ -289,11 +310,13 @@ export class ExamResultsComponent implements OnInit, OnChanges {
     this.viewMode = mode;
     this.isViewMenuOpen = false;
     this._currentPage = 1; // Reset to first page when changing view mode
+    this.updatePaginatedData();
   }
 
   closeViewMenu(): void {
     this.isViewMenuOpen = false;
   }
+
   closeDisplayMenu(): void {
     this.isDisplayMenuOpen = false;
   }
