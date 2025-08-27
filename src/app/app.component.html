@@ -102,7 +102,7 @@
           <span class="section-title">BOXES</span>
         </div>
         <div class="menu-item" (click)="navigateToInbox()">
-        <div class="menu-item" [class.active]="activeMenuItem === 'inbox'" (click)="navigateToInbox()">
+        <div class="menu-item" [class.active]="activeMenuItem === 'inbox'" (click)="setActiveMenuItem('inbox'); navigateToInbox()">
           <i class="fas fa-inbox"></i>
           <span>Inbox</span>
           <span class="count">{{inboxCount}}</span>
