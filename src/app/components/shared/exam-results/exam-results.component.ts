@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DetailedExam } from '../../../models/detailed-exam.interface';
-import { ExamElement } from '../../../models/exam-element.interface';
-import { SharedUser } from '../../../models/shared-user.interface';
+import { DetailedExam } from '../../../../models/detailed-exam.interface';
+import { ExamElement } from '../../../../models/exam-element.interface';
+import { SharedUser } from '../../../../models/shared-user.interface';
 
 export type DisplayMode = 'card' | 'row' | 'table';
 
