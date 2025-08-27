@@ -155,7 +155,7 @@ export class SecondOpinionComponent implements OnInit {
       { name: 'Dr. Martin', completion: Math.floor(Math.random() * 100), status: 'in-progress' },
       { name: 'Dr. Dubois', completion: Math.floor(Math.random() * 100), status: 'completed' },
       { name: 'Dr. Leroy', completion: Math.floor(Math.random() * 100), status: 'pending' }
-    ].slice(0, Math.floor(Math.random() * 4));
+    ] as SharedUser[]).slice(0, Math.floor(Math.random() * 4));
 
     return {
       ...exam,

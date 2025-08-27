@@ -154,7 +154,7 @@ export class CompletedComponent implements OnInit {
       { name: 'Dr. Martin', completion: 100, status: 'completed' },
       { name: 'Dr. Dubois', completion: 100, status: 'completed' },
       { name: 'Dr. Leroy', completion: 100, status: 'completed' }
-    ].slice(0, Math.floor(Math.random() * 4));
+    ] as SharedUser[]).slice(0, Math.floor(Math.random() * 4));
 
     return {
       ...exam,
