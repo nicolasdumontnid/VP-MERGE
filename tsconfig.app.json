@@ -6,6 +6,11 @@
     "types": []
   },
   "files": ["src/main.ts"],
-  "include": ["src/**/*.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/models/detailed-exam.interface.ts",
+    "src/models/exam-element.interface.ts",
+    "src/models/shared-user.interface.ts"
+  ],
   "exclude": ["src/**/*.spec.ts"]
 }
