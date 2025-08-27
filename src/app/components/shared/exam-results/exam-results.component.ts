@@ -75,18 +75,28 @@ export class ExamResultsComponent {
   }
   
   get paginatedGroupedPatients() {
-    // Cache all grouped patients
-    this._allGroupedPatients = this.groupedByPatient;
+    // Get all grouped patients
+    const allPatients = this.groupedByPatient;
+    this._allGroupedPatients = allPatients;
     
-    // Apply pagination to patients
+    // Apply pagination to patients based on itemsPerPage
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     
-    return this._allGroupedPatients.slice(startIndex, endIndex);
+    console.log('Pagination - Current page:', this.currentPage);
+    console.log('Pagination - Items per page:', this.itemsPerPage);
+    console.log('Pagination - Start index:', startIndex);
+    console.log('Pagination - End index:', endIndex);
+    console.log('Pagination - Total patients:', allPatients.length);
+    
+    const paginatedPatients = allPatients.slice(startIndex, endIndex);
+    console.log('Pagination - Showing patients:', paginatedPatients.length);
+    
+    return paginatedPatients;
   }
   
   get totalPatientsCount(): number {
-    return this._allGroupedPatients.length;
+    return this.groupedByPatient.length;
   }
   
   get totalPagesForCurrentView(): number {
