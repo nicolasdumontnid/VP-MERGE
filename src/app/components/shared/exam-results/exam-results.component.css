@@ -154,6 +154,17 @@
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
 }
 
+/* Urgent exam styling */
+.urgent-exam {
+  border-left: 4px solid #fbbf24 !important;
+  box-shadow: 0 0 0 1px #fbbf24;
+}
+
+.urgent-exam:hover {
+  border-color: #f59e0b !important;
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3), 0 0 0 1px #f59e0b !important;
+}
+
 /* Exam Header */
 .exam-header {
   display: flex;
@@ -236,6 +247,26 @@
 .diagnosis-pending {
   background-color: #f59e0b;
   color: white;
+}
+
+.urgent-badge {
+  background-color: #fbbf24;
+  color: #1f2937;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 .unassigned-badge {
