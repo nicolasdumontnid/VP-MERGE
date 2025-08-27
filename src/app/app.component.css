@@ -19,7 +19,8 @@
   padding: 16px 0;
   overflow-y: auto;
   flex-shrink: 0;
-  height: calc(100vh - 70px);
+  min-height: 100vh;
+  height: 100%;
 }
 
 .menu-item {

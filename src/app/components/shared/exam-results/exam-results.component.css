@@ -4,7 +4,7 @@
 .second-opinion-container,
 .completed-container {
   width: 100%;
-  height: 100vh;
+  min-height: calc(100vh - 70px);
   background-color: #1a1a1a;
   color: white;
   overflow-y: auto;
