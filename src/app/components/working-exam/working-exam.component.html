@@ -1,11 +1,4 @@
 <div class="working-exam-container">
-  <div class="working-exam-header">
-    <h2>{{exam?.patientName}} - {{exam?.reference}}</h2>
-    <button class="close-btn" (click)="onCloseExam()">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-  
   <div class="working-exam-content">
     <div class="patient-history-panel">
       <app-patient-history [exam]="exam"></app-patient-history>
