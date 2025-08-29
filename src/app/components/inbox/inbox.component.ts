@@ -88,6 +88,14 @@ export class InboxComponent implements OnInit {
   }
 
   private loadExams(query: string, page: number, itemsPerPage: number): void {
+    // For patient view, we need to load ALL exams to group them properly
+    // For exam view, we use normal pagination
+    const searchCriteria = {
+      query,
+      page: 1, // Always load from page 1 to get all data for patient grouping
+      pageSize: 1000 // Load a large number to get all exams
+    };
+    
     this.examService.search({
       query,
       page,

@@ -49,17 +49,19 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   // Internal pagination state
   _currentItemsPerPage = 10;
   _currentPage = 1;
-  _groupedPatients: any[] = [];
+  _allGroupedPatients: any[] = [];
 
   constructor(private cdr: ChangeDetectorRef) {}
 
   get groupedByPatient() {
-    return this._groupedPatients;
+    return this._allGroupedPatients;
   }
   
   get paginatedGroupedPatients() {
-    // For patient view, show all patients (no pagination for now)
-    return this._groupedPatients;
+    // For patient view, paginate the patients themselves
+    const startIndex = (this._currentPage - 1) * this._currentItemsPerPage;
+    const endIndex = startIndex + this._currentItemsPerPage;
+    return this._allGroupedPatients.slice(startIndex, endIndex);
   }
   
   get paginatedExams() {
@@ -68,13 +70,13 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   }
   
   get totalPatientsCount(): number {
-    return this._groupedPatients.length;
+    return this._allGroupedPatients.length;
   }
   
   get totalPagesForCurrentView(): number {
     if (this.viewMode === 'patient') {
-      // Show all patients on one page for now
-      return 1;
+      // Calculate pages based on number of patients
+      return Math.ceil(this.totalPatientsCount / this._currentItemsPerPage);
     }
     // Server-side pagination for exams
     return this.totalPages;
@@ -102,7 +104,8 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   }
 
   private updateData() {
-    // Group patients
+    // Group patients from ALL exams (not just current page)
+    // We need to get all exams to properly group patients
     const grouped = new Map<string, DetailedExam[]>();
     this.exams.forEach(exam => {
       const patientKey = exam.patientName;
@@ -112,7 +115,7 @@ export class ExamResultsComponent implements OnInit, OnChanges {
       grouped.get(patientKey)!.push(exam);
     });
     
-    this._groupedPatients = Array.from(grouped.entries()).map(([patientName, exams]) => ({
+    this._allGroupedPatients = Array.from(grouped.entries()).map(([patientName, exams]) => ({
       patientName,
       exams,
       patientInfo: exams[0],
@@ -129,7 +132,7 @@ export class ExamResultsComponent implements OnInit, OnChanges {
       this.expandedPatients.add(patientName);
     }
     // Update the expanded state in the grouped patients
-    this._groupedPatients.forEach(patient => {
+    this._allGroupedPatients.forEach(patient => {
       if (patient.patientName === patientName) {
         patient.isExpanded = this.expandedPatients.has(patientName);
       }
@@ -142,16 +145,16 @@ export class ExamResultsComponent implements OnInit, OnChanges {
     const newValue = parseInt(target.value);
     this._currentItemsPerPage = newValue;
     
-    if (this.viewMode === 'patient') {
-      // For patient view, reset to page 1 and update locally
-      this._currentPage = 1;
-      this.cdr.detectChanges();
-    } else {
-      // For exam view, emit to parent to handle server-side pagination
-      this._currentPage = 1;
-    }
+    // Always reset to page 1 when changing items per page
+    this._currentPage = 1;
     
-    this.itemsPerPageChange.emit(newValue);
+    if (this.viewMode === 'exam') {
+      // For exam view, emit to parent to handle server-side pagination
+      this.itemsPerPageChange.emit(newValue);
+    } else {
+      // For patient view, just update locally
+      this.cdr.detectChanges();
+    }
   }
 
   goToPage(page: number): void {
@@ -336,7 +339,16 @@ export class ExamResultsComponent implements OnInit, OnChanges {
     this.viewMode = mode;
     this.isViewMenuOpen = false;
     this._currentPage = 1; // Reset to first page when changing view mode
-    this.updateData();
+    
+    if (mode === 'patient') {
+      // For patient view, we need ALL exams to group properly
+      // But we only have the current page of exams
+      // We need to request all exams from the parent
+      this.updateData();
+      this.cdr.detectChanges();
+    } else {
+      this.updateData();
+    }
   }
 
   closeViewMenu(): void {
