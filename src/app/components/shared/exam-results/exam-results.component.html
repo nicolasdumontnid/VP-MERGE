@@ -185,8 +185,8 @@
   </div>
 
   <!-- Patient View - Card View -->
-  <div class="patient-list card-view" *ngIf="displayMode === 'card' && viewMode === 'patient' && paginatedGroupedPatients.length > 0">
-    <div class="patient-accordion" [class]="getBorderClass()" *ngFor="let patientGroup of paginatedGroupedPatients">
+  <div class="patient-list card-view" *ngIf="displayMode === 'card' && viewMode === 'patient' && groupedByPatient.length > 0">
+    <div class="patient-accordion" [class]="getBorderClass()" *ngFor="let patientGroup of groupedByPatient">
       <!-- Patient Header -->
       <div class="patient-header" (click)="togglePatientCard(patientGroup.patientName)">
         <div class="patient-basic-info">
@@ -405,7 +405,7 @@
   </div>
 
   <!-- No Results -->
-  <div class="no-results" *ngIf="exams.length === 0 || (viewMode === 'exam' && paginatedExams.length === 0) || (viewMode === 'patient' && paginatedGroupedPatients.length === 0)">
+  <div class="no-results" *ngIf="exams.length === 0 || (viewMode === 'exam' && paginatedExams.length === 0) || (viewMode === 'patient' && groupedByPatient.length === 0)">
     <i [class]="noResultsIcon + ' no-results-icon-' + pageType"></i>
     <h3>{{noResultsTitle}}</h3>
     <p>{{noResultsMessage}}</p>

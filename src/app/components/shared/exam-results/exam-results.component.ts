@@ -58,10 +58,8 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   }
   
   get paginatedGroupedPatients() {
-    // For patient view, we need to paginate the grouped patients client-side
-    const startIndex = (this._currentPage - 1) * this._currentItemsPerPage;
-    const endIndex = startIndex + this._currentItemsPerPage;
-    return this._groupedPatients.slice(startIndex, endIndex);
+    // For patient view, show all patients (no pagination for now)
+    return this._groupedPatients;
   }
   
   get paginatedExams() {
@@ -75,8 +73,8 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   
   get totalPagesForCurrentView(): number {
     if (this.viewMode === 'patient') {
-      // Client-side pagination for patients
-      return Math.ceil(this.totalPatientsCount / this._currentItemsPerPage);
+      // Show all patients on one page for now
+      return 1;
     }
     // Server-side pagination for exams
     return this.totalPages;
