@@ -534,10 +534,6 @@ export class AppComponent {
     if (description.length <= maxLength) return description;
     return description.substring(0, maxLength) + '...';
   }
-  
-  constructor(private router: Router) {
-    this.sortConversations();
-  }
 
   openWorkingExam(exam: any): void {
     this.isWorkingExam = true;
@@ -547,4 +543,8 @@ export class AppComponent {
   }
 
   closeWorkingExam(): void {
+    this.isWorkingExam = false;
+    this.currentWorkingExam = null;
+    this.workingExamBreadcrumb = '';
+  }
 }
