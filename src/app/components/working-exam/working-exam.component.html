@@ -1,7 +1,7 @@
 <div class="working-exam-container">
   <div class="working-exam-content">
     <div class="patient-history-panel">
-      <app-patient-history [exam]="exam"></app-patient-history>
+      <app-patient-history [exam]="exam" (close)="onCloseExam()"></app-patient-history>
     </div>
     
     <div class="viewer-panel">
