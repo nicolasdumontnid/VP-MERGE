@@ -17,7 +17,7 @@
     <div class="report-editor" *ngIf="exam">
       <div class="exam-info">
         <h4>{{exam.patientName}}</h4>
-        <p>{{exam.examType}} - {{exam.examDate | date:'dd/MM/yyyy'}}</p>
+        <p>{{exam.title}} - {{exam.examDate | date:'dd/MM/yyyy'}}</p>
         <p class="reference">Ref: {{exam.reference}}</p>
       </div>
       
