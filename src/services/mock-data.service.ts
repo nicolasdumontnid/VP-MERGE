@@ -85,7 +85,10 @@ export class MockDataService {
       'Dr. Michel Bernard', 'Dr. Anne Rousseau', 'Dr. François Moreau', 'Dr. Catherine Petit'
     ];
     
+    console.log('Generating exams for', patients.length, 'patients');
+    
     patients.forEach((patient, patientIndex) => {
+      console.log(`Generating 10 exams for patient ${patientIndex + 1}: ${patient.firstName} ${patient.lastName}`);
       for (let i = 0; i < 10; i++) {
         // Premier examen toujours dans le mois courant
         let examDate: Date;
@@ -186,7 +189,7 @@ export class MockDataService {
           conclusion = 'Analyse en cours, résultats en attente de validation.';
         }
         
-        exams.push({
+        const newExam = {
           id: `E${String(patientIndex + 1).padStart(3, '0')}-${String(i + 1).padStart(2, '0')}`,
           patientId: patient.id,
           patientName: `${patient.firstName} ${patient.lastName}`,
@@ -209,9 +212,15 @@ export class MockDataService {
           sectorName: randomSector.name,
           status,
           isUrgent
-        });
+        };
+        
+        exams.push(newExam);
+        console.log(`Created exam ${newExam.id} for patient ${patient.firstName} ${patient.lastName}`);
       }
     });
+    
+    console.log('Total exams generated:', exams.length);
+    console.log('Unique patients in exams:', [...new Set(exams.map(e => e.patientName))]);
     
     return exams;
   }
