@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { OnInit, OnChanges } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DetailedExam } from '../../../../models/detailed-exam.interface';
@@ -52,6 +53,8 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   _paginatedExams: DetailedExam[] = [];
   _paginatedPatients: any[] = [];
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   get groupedByPatient() {
     return this._groupedPatients;
   }
@@ -93,6 +96,7 @@ export class ExamResultsComponent implements OnInit, OnChanges {
     this._currentItemsPerPage = this.itemsPerPage;
     this._currentPage = this.currentPage;
     this.updateData();
+    this.cdr.detectChanges();
   }
 
   private updateData() {
@@ -115,6 +119,7 @@ export class ExamResultsComponent implements OnInit, OnChanges {
 
     // Always update paginated data after grouping
     this.updatePaginatedData();
+    this.cdr.detectChanges();
   }
 
   private updatePaginatedData() {
@@ -127,6 +132,7 @@ export class ExamResultsComponent implements OnInit, OnChanges {
     const patientStartIndex = (this._currentPage - 1) * this._currentItemsPerPage;
     const patientEndIndex = patientStartIndex + this._currentItemsPerPage;
     this._paginatedPatients = this._groupedPatients.slice(patientStartIndex, patientEndIndex);
+    this.cdr.detectChanges();
   }
 
   togglePatientCard(patientName: string): void {

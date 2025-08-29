@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged } from 'rxjs';
@@ -65,7 +66,10 @@ export class SecondOpinionComponent implements OnInit {
     'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=100&h=100&fit=crop&auto=format&sat=-100'
   ];
 
-  constructor(private examService: ExamService) {}
+  constructor(
+    private examService: ExamService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.setupSearch();
@@ -96,6 +100,9 @@ export class SecondOpinionComponent implements OnInit {
         this.totalItems = result.total;
         this.currentPage = result.page;
         this.itemsPerPage = itemsPerPage;
+        
+        // Force change detection
+        this.cdr.detectChanges();
       }
     });
   }
