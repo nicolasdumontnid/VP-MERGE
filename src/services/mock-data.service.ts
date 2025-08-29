@@ -77,24 +77,114 @@ export class MockDataService {
     const sites = this.generateSites();
     const sectors = this.generateSectors();
     
-    const anatomicalRegions = ['Chest', 'Abdomen', 'Head', 'Pelvis', 'Spine', 'Extremities'];
-    const examTypes = ['CT Scan', 'MRI', 'X-Ray', 'Ultrasound', 'PET Scan', 'Biopsy'];
-    const departments = ['Radiology', 'Oncology', 'Internal Medicine', 'Surgery', 'Emergency'];
+    const anatomicalRegions = ['Thorax', 'Abdomen', 'Crâne', 'Bassin', 'Colonne vertébrale', 'Membres', 'Cou', 'Pelvis', 'Genou', 'Épaule'];
+    const examTypes = ['Scanner', 'IRM', 'Radiographie', 'Échographie', 'TEP Scan', 'Biopsie', 'Mammographie', 'Endoscopie'];
+    const departments = ['Radiologie', 'Oncologie', 'Médecine interne', 'Chirurgie', 'Urgences', 'Cardiologie', 'Neurologie'];
+    const prescribingDoctors = [
+      'Dr. Jean Dupont', 'Dr. Marie Leclerc', 'Dr. Pierre Martin', 'Dr. Sophie Durand',
+      'Dr. Michel Bernard', 'Dr. Anne Rousseau', 'Dr. François Moreau', 'Dr. Catherine Petit'
+    ];
     
     patients.forEach((patient, patientIndex) => {
       for (let i = 0; i < 10; i++) {
-        const examDate = i === 0 
-          ? this.getRandomDate(new Date(2025, 0, 1), new Date()) // Current month
-          : this.getRandomDate(new Date(2024, 9, 1), new Date()); // Last 3 months
+        // Premier examen toujours dans le mois courant
+        let examDate: Date;
+        if (i === 0) {
+          const now = new Date();
+          const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+          examDate = this.getRandomDate(startOfMonth, now);
+        } else {
+          // Autres examens répartis sur les 3 derniers mois
+          const now = new Date();
+          const threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+          examDate = this.getRandomDate(threeMonthsAgo, now);
+        }
         
         const randomSite = sites[Math.floor(Math.random() * sites.length)];
-        const randomSector = sectors.find(s => s.siteId === randomSite.id) || sectors[0];
-        const assignedUser = Math.random() > 0.3 ? users[Math.floor(Math.random() * users.length)].firstName + ' ' + users[Math.floor(Math.random() * users.length)].lastName : null;
+        const availableSectors = sectors.filter(s => s.siteId === randomSite.id);
+        const randomSector = availableSectors.length > 0 ? availableSectors[Math.floor(Math.random() * availableSectors.length)] : sectors[0];
         
-        const age = new Date().getFullYear() - patient.dateOfBirth.getFullYear();
+        // Assignation : 70% de chance d'avoir un radiologue assigné
+        const assignedUser = Math.random() > 0.3 ? 
+          users[Math.floor(Math.random() * users.length)].firstName + ' ' + users[Math.floor(Math.random() * users.length)].lastName : 
+          null;
         
-        // Make the first exam of the first patient urgent
-        const isUrgent = patientIndex === 0 && i === 0;
+        // Calculer l'âge à la date de l'examen
+        const ageAtExam = examDate.getFullYear() - patient.dateOfBirth.getFullYear() - 
+          (examDate < new Date(examDate.getFullYear(), patient.dateOfBirth.getMonth(), patient.dateOfBirth.getDate()) ? 1 : 0);
+        
+        // Poids réaliste selon l'âge et le genre
+        let weight: number;
+        if (ageAtExam < 18) {
+          weight = Math.floor(Math.random() * 30) + 30; // 30-60kg pour les enfants/ados
+        } else {
+          weight = patient.gender === 'M' ? 
+            Math.floor(Math.random() * 40) + 60 : // 60-100kg pour les hommes
+            Math.floor(Math.random() * 35) + 50;   // 50-85kg pour les femmes
+        }
+        
+        // Quelques examens urgents (10% de chance)
+        const isUrgent = Math.random() < 0.1;
+        
+        const examType = examTypes[Math.floor(Math.random() * examTypes.length)];
+        const anatomicalRegion = anatomicalRegions[Math.floor(Math.random() * anatomicalRegions.length)];
+        const department = departments[Math.floor(Math.random() * departments.length)];
+        const prescribingPhysician = prescribingDoctors[Math.floor(Math.random() * prescribingDoctors.length)];
+        
+        // Diagnostic avec probabilités réalistes
+        const diagnosisRandom = Math.random();
+        let diagnosis: 'positive' | 'negative' | 'pending';
+        if (diagnosisRandom < 0.15) {
+          diagnosis = 'positive'; // 15% positif
+        } else if (diagnosisRandom < 0.70) {
+          diagnosis = 'negative'; // 55% négatif
+        } else {
+          diagnosis = 'pending';  // 30% en attente
+        }
+        
+        // Statut de l'examen
+        const statusRandom = Math.random();
+        let status: 'scheduled' | 'in-progress' | 'completed' | 'cancelled';
+        if (statusRandom < 0.10) {
+          status = 'scheduled';   // 10% programmé
+        } else if (statusRandom < 0.25) {
+          status = 'in-progress'; // 15% en cours
+        } else if (statusRandom < 0.95) {
+          status = 'completed';   // 70% terminé
+        } else {
+          status = 'cancelled';   // 5% annulé
+        }
+        
+        // Description détaillée
+        const descriptions = [
+          `${examType} de contrôle de la région ${anatomicalRegion.toLowerCase()} suite à des symptômes persistants.`,
+          `Examen ${examType.toLowerCase()} programmé pour investigation diagnostique de la zone ${anatomicalRegion.toLowerCase()}.`,
+          `${examType} de suivi post-traitement pour évaluation de l'évolution clinique.`,
+          `Exploration par ${examType.toLowerCase()} dans le cadre d'un bilan de santé approfondi.`,
+          `${examType} urgent suite à traumatisme ou symptômes aigus au niveau ${anatomicalRegion.toLowerCase()}.`
+        ];
+        
+        // Conclusions variées selon le diagnostic
+        let conclusion: string;
+        if (diagnosis === 'positive') {
+          const positiveConclusions = [
+            'Anomalie détectée nécessitant un suivi médical rapproché.',
+            'Lésion identifiée, traitement recommandé.',
+            'Pathologie confirmée, orientation vers spécialiste.',
+            'Résultats anormaux, investigations complémentaires nécessaires.'
+          ];
+          conclusion = positiveConclusions[Math.floor(Math.random() * positiveConclusions.length)];
+        } else if (diagnosis === 'negative') {
+          const negativeConclusions = [
+            'Examen normal, aucune anomalie détectée.',
+            'Résultats dans les limites de la normale.',
+            'Pas de signe pathologique visible.',
+            'Structures anatomiques normales.'
+          ];
+          conclusion = negativeConclusions[Math.floor(Math.random() * negativeConclusions.length)];
+        } else {
+          conclusion = 'Analyse en cours, résultats en attente de validation.';
+        }
         
         exams.push({
           id: `E${String(patientIndex + 1).padStart(3, '0')}-${String(i + 1).padStart(2, '0')}`,
@@ -102,22 +192,22 @@ export class MockDataService {
           patientName: `${patient.firstName} ${patient.lastName}`,
           patientBirthDate: patient.dateOfBirth,
           patientGender: patient.gender,
-          title: `${examTypes[Math.floor(Math.random() * examTypes.length)]} - ${anatomicalRegions[Math.floor(Math.random() * anatomicalRegions.length)]}`,
-          anatomicalRegion: anatomicalRegions[Math.floor(Math.random() * anatomicalRegions.length)],
+          title: `${examType} - ${anatomicalRegion}`,
+          anatomicalRegion,
           examDate,
-          patientWeight: 50 + Math.floor(Math.random() * 50),
-          patientAge: age,
-          diagnosis: ['positive', 'negative', 'pending'][Math.floor(Math.random() * 3)] as 'positive' | 'negative' | 'pending',
-          department: departments[Math.floor(Math.random() * departments.length)],
-          description: `${examTypes[Math.floor(Math.random() * examTypes.length)]} examination of ${anatomicalRegions[Math.floor(Math.random() * anatomicalRegions.length)].toLowerCase()} region for diagnostic purposes.`,
-          conclusion: Math.random() > 0.5 ? 'Normal findings' : 'Requires follow-up examination',
-          prescribingPhysician: users[Math.floor(Math.random() * users.length)].firstName + ' ' + users[Math.floor(Math.random() * users.length)].lastName,
+          patientWeight: weight,
+          patientAge: ageAtExam,
+          diagnosis,
+          department,
+          description: descriptions[Math.floor(Math.random() * descriptions.length)],
+          conclusion,
+          prescribingPhysician,
           assignedRadiologist: assignedUser,
           siteId: randomSite.id,
           siteName: randomSite.name,
           sectorId: randomSector.id,
           sectorName: randomSector.name,
-          status: ['scheduled', 'in-progress', 'completed', 'cancelled'][Math.floor(Math.random() * 4)] as 'scheduled' | 'in-progress' | 'completed' | 'cancelled',
+          status,
           isUrgent
         });
       }
