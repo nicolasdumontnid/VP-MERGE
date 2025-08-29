@@ -101,6 +101,7 @@ export class InboxComponent implements OnInit {
         this.currentPage = result.page;
         this.itemsPerPage = itemsPerPage;
         console.log('Enhanced exams:', this.exams.length);
+        console.log('Total pages:', this.totalPages, 'Current page:', this.currentPage);
         
         // Force change detection
         this.cdr.detectChanges();

@@ -50,8 +50,6 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   _currentItemsPerPage = 10;
   _currentPage = 1;
   _groupedPatients: any[] = [];
-  _paginatedExams: DetailedExam[] = [];
-  _paginatedPatients: any[] = [];
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -60,11 +58,15 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   }
   
   get paginatedGroupedPatients() {
-    return this._paginatedPatients;
+    // For patient view, we need to paginate the grouped patients client-side
+    const startIndex = (this._currentPage - 1) * this._currentItemsPerPage;
+    const endIndex = startIndex + this._currentItemsPerPage;
+    return this._groupedPatients.slice(startIndex, endIndex);
   }
   
   get paginatedExams() {
-    return this._paginatedExams;
+    // For exam view, use the exams directly from server pagination
+    return this.exams;
   }
   
   get totalPatientsCount(): number {
@@ -73,16 +75,18 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   
   get totalPagesForCurrentView(): number {
     if (this.viewMode === 'patient') {
+      // Client-side pagination for patients
       return Math.ceil(this.totalPatientsCount / this._currentItemsPerPage);
     }
-    return Math.ceil(this.exams.length / this._currentItemsPerPage);
+    // Server-side pagination for exams
+    return this.totalPages;
   }
   
   get totalItemsForCurrentView(): number {
     if (this.viewMode === 'patient') {
       return this.totalPatientsCount;
     }
-    return this.exams.length;
+    return this.totalItems;
   }
   
   ngOnInit() {
@@ -117,21 +121,6 @@ export class ExamResultsComponent implements OnInit, OnChanges {
       isExpanded: this.expandedPatients.has(patientName)
     }));
 
-    // Always update paginated data after grouping
-    this.updatePaginatedData();
-    this.cdr.detectChanges();
-  }
-
-  private updatePaginatedData() {
-    // Paginate exams
-    const examStartIndex = (this._currentPage - 1) * this._currentItemsPerPage;
-    const examEndIndex = examStartIndex + this._currentItemsPerPage;
-    this._paginatedExams = this.exams.slice(examStartIndex, examEndIndex);
-
-    // Paginate patients - always paginate based on itemsPerPage
-    const patientStartIndex = (this._currentPage - 1) * this._currentItemsPerPage;
-    const patientEndIndex = patientStartIndex + this._currentItemsPerPage;
-    this._paginatedPatients = this._groupedPatients.slice(patientStartIndex, patientEndIndex);
     this.cdr.detectChanges();
   }
 
@@ -147,54 +136,77 @@ export class ExamResultsComponent implements OnInit, OnChanges {
         patient.isExpanded = this.expandedPatients.has(patientName);
       }
     });
-    // Update paginated patients to reflect the change
-    this.updatePaginatedData();
+    this.cdr.detectChanges();
   }
 
   onItemsPerPageChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const newValue = parseInt(target.value);
     this._currentItemsPerPage = newValue;
-    this._currentPage = 1; // Reset to first page
-    // Force refresh of grouped patients and paginated data
-    this.updateData();
-    this.updatePaginatedData();
+    
+    if (this.viewMode === 'patient') {
+      // For patient view, reset to page 1 and update locally
+      this._currentPage = 1;
+      this.cdr.detectChanges();
+    } else {
+      // For exam view, emit to parent to handle server-side pagination
+      this._currentPage = 1;
+    }
+    
     this.itemsPerPageChange.emit(newValue);
   }
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPagesForCurrentView) {
       this._currentPage = page;
-      this.updatePaginatedData();
-      this.pageChange.emit(page);
+      
+      if (this.viewMode === 'exam') {
+        // For exam view, emit to parent for server-side pagination
+        this.pageChange.emit(page);
+      } else {
+        // For patient view, just update locally
+        this.cdr.detectChanges();
+      }
     }
   }
 
   goToFirstPage(): void {
     this._currentPage = 1;
-    this.updatePaginatedData();
-    this.pageChange.emit(1);
+    if (this.viewMode === 'exam') {
+      this.pageChange.emit(1);
+    } else {
+      this.cdr.detectChanges();
+    }
   }
 
   goToLastPage(): void {
     this._currentPage = this.totalPagesForCurrentView;
-    this.updatePaginatedData();
-    this.pageChange.emit(this.totalPagesForCurrentView);
+    if (this.viewMode === 'exam') {
+      this.pageChange.emit(this.totalPagesForCurrentView);
+    } else {
+      this.cdr.detectChanges();
+    }
   }
 
   previousPage(): void {
     if (this._currentPage > 1) {
       this._currentPage = this._currentPage - 1;
-      this.updatePaginatedData();
-      this.pageChange.emit(this._currentPage);
+      if (this.viewMode === 'exam') {
+        this.pageChange.emit(this._currentPage);
+      } else {
+        this.cdr.detectChanges();
+      }
     }
   }
 
   nextPage(): void {
     if (this._currentPage < this.totalPagesForCurrentView) {
       this._currentPage = this._currentPage + 1;
-      this.updatePaginatedData();
-      this.pageChange.emit(this._currentPage);
+      if (this.viewMode === 'exam') {
+        this.pageChange.emit(this._currentPage);
+      } else {
+        this.cdr.detectChanges();
+      }
     }
   }
 
@@ -326,9 +338,7 @@ export class ExamResultsComponent implements OnInit, OnChanges {
     this.viewMode = mode;
     this.isViewMenuOpen = false;
     this._currentPage = 1; // Reset to first page when changing view mode
-    // Force refresh when changing view mode
     this.updateData();
-    this.updatePaginatedData();
   }
 
   closeViewMenu(): void {
