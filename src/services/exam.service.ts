@@ -24,6 +24,7 @@ export class ExamService {
       delay(300),
       map(() => {
         let filtered = this.exams;
+        console.log('ExamService - Total exams before filtering:', this.exams.length);
         
         if (criteria.query) {
           const query = criteria.query.toLowerCase();
@@ -50,9 +51,14 @@ export class ExamService {
           }
         }
         
+        console.log('ExamService - Filtered exams:', filtered.length);
+        console.log('ExamService - Page:', criteria.page, 'PageSize:', criteria.pageSize);
+        
         const startIndex = (criteria.page - 1) * criteria.pageSize;
         const endIndex = startIndex + criteria.pageSize;
         const paginatedData = filtered.slice(startIndex, endIndex);
+        
+        console.log('ExamService - Paginated data:', paginatedData.length, 'StartIndex:', startIndex, 'EndIndex:', endIndex);
         
         return {
           data: paginatedData,

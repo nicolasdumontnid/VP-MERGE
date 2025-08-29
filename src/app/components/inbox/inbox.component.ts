@@ -90,11 +90,13 @@ export class InboxComponent implements OnInit {
       pageSize: itemsPerPage
     }).subscribe({
       next: (result: SearchResult<Exam>) => {
+        console.log('Loaded exams:', result.data.length, 'Total:', result.total);
         this.exams = result.data.map(exam => this.enhanceExam(exam));
         this.totalPages = result.totalPages;
         this.totalItems = result.total;
         this.currentPage = result.page;
         this.itemsPerPage = itemsPerPage;
+        console.log('Enhanced exams:', this.exams.length);
       }
     });
   }
