@@ -57,7 +57,7 @@
 
   <!-- Examen View - Card View (Default) -->
   <div class="exam-list card-view" *ngIf="displayMode === 'card' && viewMode === 'exam' && paginatedExams.length > 0">
-    <div class="exam-card" [class]="getBorderClass()" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of paginatedExams">
+    <div class="exam-card" [class]="getBorderClass()" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of paginatedExams" (click)="onOpenExam(exam)">
       <!-- Exam Header -->
       <div class="exam-header">
         <div class="exam-basic-info">
@@ -139,7 +139,7 @@
       </div>
 
       <!-- Action Buttons -->
-      <div class="action-buttons">
+      <div class="action-buttons" (click)="$event.stopPropagation()">
         <button [class]="getActionButtonClass()" (click)="onAddLabel(exam)" title="Add label">
           <i class="fas fa-tag"></i>
         </button>
@@ -161,7 +161,7 @@
       </div>
 
       <!-- Image Display Toggle -->
-      <div class="image-toggle">
+      <div class="image-toggle" (click)="$event.stopPropagation()">
         <label class="toggle-switch">
           <input type="checkbox" [(ngModel)]="exam.showImagesInline">
           <span class="slider" [class]="'slider-' + pageType"></span>
@@ -207,7 +207,7 @@
 
       <!-- Exams List for this Patient -->
       <div class="patient-exams" [class.collapsed]="!patientGroup.isExpanded">
-        <div class="exam-row-patient" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of patientGroup.exams">
+        <div class="exam-row-patient" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of patientGroup.exams" (click)="onOpenExam(exam)">
           <div class="exam-info-patient">
             <div class="exam-details-patient">
               <div class="exam-title-patient">{{exam.title}}</div>
@@ -261,7 +261,7 @@
   </div>
   <!-- Examen View - Row View -->
   <div class="exam-list row-view" *ngIf="displayMode === 'row' && viewMode === 'exam' && paginatedExams.length > 0">
-    <div class="exam-row" [class]="getBorderClass()" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of paginatedExams">
+    <div class="exam-row" [class]="getBorderClass()" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of paginatedExams" (click)="onOpenExam(exam)">
       <!-- Row Header -->
       <div class="row-header">
         <div class="exam-info-row">
@@ -317,7 +317,7 @@
       </div>
       
       <!-- Row Actions -->
-      <div class="row-actions">
+      <div class="row-actions" (click)="$event.stopPropagation()">
         <button [class]="getActionButtonClass()" (click)="onAddLabel(exam)" title="Add label">
           <i class="fas fa-tag"></i>
         </button>
@@ -384,7 +384,7 @@
             <span class="urgent-badge" *ngIf="exam.isUrgent">URGENT</span>
           </td>
           <td class="actions-cell">
-            <div class="table-actions">
+            <div class="table-actions" (click)="$event.stopPropagation()">
               <button [class]="getActionButtonClass(true)" title="Open exam">
                 <i class="fas fa-external-link-alt"></i>
               </button>

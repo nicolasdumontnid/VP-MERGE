@@ -1,0 +1,77 @@
+<div class="viewer-container">
+  <div class="viewer-header">
+    <div class="viewer-info">
+      <h3>
+        <i class="fas fa-eye"></i>
+        Visualiseur
+      </h3>
+      <span class="element-counter" *ngIf="exam">
+        {{currentElementIndex + 1}} / {{totalElements}}
+      </span>
+    </div>
+    
+    <div class="viewer-controls">
+      <button class="control-btn" (click)="zoomOut()" [disabled]="zoomLevel <= 25" title="Zoom arrière">
+        <i class="fas fa-search-minus"></i>
+      </button>
+      <span class="zoom-level">{{zoomLevel}}%</span>
+      <button class="control-btn" (click)="zoomIn()" [disabled]="zoomLevel >= 300" title="Zoom avant">
+        <i class="fas fa-search-plus"></i>
+      </button>
+      <button class="control-btn" (click)="resetZoom()" title="Réinitialiser le zoom">
+        <i class="fas fa-expand-arrows-alt"></i>
+      </button>
+      <button class="control-btn" (click)="toggleFullscreen()" title="Plein écran">
+        <i class="fas fa-expand"></i>
+      </button>
+    </div>
+  </div>
+  
+  <div class="viewer-content">
+    <!-- Main Image Display -->
+    <div class="main-viewer">
+      <div class="image-container" *ngIf="currentElement">
+        <img 
+          [src]="currentElement.thumbnail" 
+          [alt]="currentElement.name"
+          [style.transform]="'scale(' + (zoomLevel / 100) + ')'"
+          class="main-image">
+        <div class="play-overlay" *ngIf="currentElement.type === 'video'">
+          <i class="fas fa-play"></i>
+        </div>
+      </div>
+      <div class="no-image" *ngIf="!currentElement">
+        <i class="fas fa-image"></i>
+        <p>Aucune image sélectionnée</p>
+      </div>
+    </div>
+    
+    <!-- Navigation Controls -->
+    <div class="navigation-controls" *ngIf="exam && totalElements > 1">
+      <button class="nav-btn" (click)="previousElement()" [disabled]="currentElementIndex === 0" title="Image précédente">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <span class="nav-info">{{currentElementIndex + 1}} / {{totalElements}}</span>
+      <button class="nav-btn" (click)="nextElement()" [disabled]="currentElementIndex === totalElements - 1" title="Image suivante">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Thumbnail Strip -->
+  <div class="thumbnail-strip" *ngIf="exam">
+    <div class="thumbnail-container">
+      <div 
+        class="thumbnail-item" 
+        *ngFor="let element of exam.elements; let i = index"
+        [class.active]="i === currentElementIndex"
+        (click)="selectElement(i)">
+        <img [src]="element.thumbnail" [alt]="element.name">
+        <div class="play-overlay-small" *ngIf="element.type === 'video'">
+          <i class="fas fa-play"></i>
+        </div>
+        <span class="element-type">{{element.type}}</span>
+      </div>
+    </div>
+  </div>
+</div>

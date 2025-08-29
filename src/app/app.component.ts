@@ -3,11 +3,13 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { WorkingExamComponent } from './components/working-exam/working-exam.component';
+import { DetailedExam } from '../models/detailed-exam.interface';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule, FormsModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule, FormsModule, WorkingExamComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -332,6 +334,11 @@ export class AppComponent {
   filteredConversations = [...this.conversations];
   isConversationMenuOpen = false;
   
+  // Working exam state
+  isWorkingExam = false;
+  workingExamBreadcrumb = '';
+  currentWorkingExam: DetailedExam | null = null;
+
 
   toggleManagementDropdown(): void {
     this.isManagementDropdownOpen = !this.isManagementDropdownOpen;
@@ -523,5 +530,18 @@ export class AppComponent {
   
   constructor(private router: Router) {
     this.sortConversations();
+  }
+
+  openWorkingExam(exam: any): void {
+    this.isWorkingExam = true;
+    this.currentWorkingExam = exam;
+    this.workingExamBreadcrumb = `${exam.patientName} / ${exam.reference}`;
+    this.closeDropdowns();
+  }
+
+  closeWorkingExam(): void {
+    this.isWorkingExam = false;
+    this.currentWorkingExam = null;
+    this.workingExamBreadcrumb = '';
   }
 }

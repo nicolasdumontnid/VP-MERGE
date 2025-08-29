@@ -1,0 +1,194 @@
+.patient-history-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #2a2a2a;
+}
+
+.panel-header {
+  padding: 16px;
+  border-bottom: 1px solid #404040;
+  background-color: #374151;
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-header i {
+  color: #6b7280;
+}
+
+.panel-content {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.patient-info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.patient-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: #374151;
+  border-radius: 8px;
+}
+
+.patient-avatar {
+  width: 48px;
+  height: 48px;
+  background-color: #6b7280;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #252525;
+}
+
+.patient-details h4 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+}
+
+.patient-details p {
+  margin: 0;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.current-exam-info {
+  background-color: #374151;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.current-exam-info h5 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.exam-detail {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.exam-detail .label {
+  color: #9ca3af;
+}
+
+.exam-detail .value {
+  color: white;
+  font-weight: 500;
+}
+
+.previous-exams-section h5 {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.exam-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-exam-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background-color: #374151;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.history-exam-item:hover {
+  background-color: #4b5563;
+}
+
+.exam-date {
+  font-size: 12px;
+  color: #9ca3af;
+  min-width: 80px;
+  font-weight: 500;
+}
+
+.exam-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.exam-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+}
+
+.exam-ref {
+  font-size: 12px;
+  font-family: monospace;
+  color: #9ca3af;
+}
+
+.exam-diagnosis {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 12px;
+  align-self: flex-start;
+}
+
+.diagnosis-normal {
+  background-color: #10b981;
+  color: white;
+}
+
+.diagnosis-pneumonia {
+  background-color: #ef4444;
+  color: white;
+}
+
+/* Scrollbar styling */
+.panel-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.panel-content::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+.panel-content::-webkit-scrollbar-thumb {
+  background: #6b7280;
+  border-radius: 3px;
+}
+
+.panel-content::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}

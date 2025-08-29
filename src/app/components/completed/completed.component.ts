@@ -209,4 +209,15 @@ export class CompletedComponent implements OnInit {
   pauseExam(exam: DetailedExam): void {
     console.log('Pause exam:', exam.id);
   }
+
+  openExam(exam: DetailedExam): void {
+    // Get reference to AppComponent through parent
+    const appComponent = document.querySelector('app-root') as any;
+    if (appComponent && appComponent.__ngContext__) {
+      const component = appComponent.__ngContext__[8]; // Angular context
+      if (component && component.openWorkingExam) {
+        component.openWorkingExam(exam);
+      }
+    }
+  }
 }

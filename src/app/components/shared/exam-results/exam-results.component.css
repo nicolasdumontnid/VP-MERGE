@@ -206,6 +206,7 @@
   border-radius: 8px;
   padding: 20px;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .border-inbox {
@@ -504,6 +505,7 @@
   border-radius: 8px;
   padding: 16px;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .exam-row:hover {
@@ -1091,6 +1093,7 @@
   margin-bottom: 12px;
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .exam-row-patient:hover {

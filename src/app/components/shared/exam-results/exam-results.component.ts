@@ -36,6 +36,7 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   @Output() shareExam = new EventEmitter<DetailedExam>();
   @Output() moveToWorklist = new EventEmitter<DetailedExam>();
   @Output() pauseExam = new EventEmitter<DetailedExam>();
+  @Output() openExam = new EventEmitter<DetailedExam>();
 
   displayMode: DisplayMode = 'card';
   viewMode: ViewMode = 'exam';
@@ -250,6 +251,10 @@ export class ExamResultsComponent implements OnInit, OnChanges {
 
   onPauseExam(exam: DetailedExam): void {
     this.pauseExam.emit(exam);
+  }
+
+  onOpenExam(exam: DetailedExam): void {
+    this.openExam.emit(exam);
   }
 
   getPageTypeClass(): string {

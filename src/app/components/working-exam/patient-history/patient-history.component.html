@@ -1,0 +1,63 @@
+<div class="patient-history-container">
+  <div class="panel-header">
+    <h3>
+      <i class="fas fa-user"></i>
+      Historique Patient
+    </h3>
+  </div>
+  
+  <div class="panel-content">
+    <!-- Patient Info -->
+    <div class="patient-info-section" *ngIf="exam">
+      <div class="patient-card">
+        <div class="patient-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="patient-details">
+          <h4>{{exam.patientName}}</h4>
+          <p>{{exam.patientAge}} ans • {{exam.patientWeight}} kg</p>
+          <p>ID: {{exam.patientId}}</p>
+        </div>
+      </div>
+      
+      <div class="current-exam-info">
+        <h5>Examen actuel</h5>
+        <div class="exam-detail">
+          <span class="label">Date:</span>
+          <span class="value">{{exam.examDate | date:'dd/MM/yyyy'}}</span>
+        </div>
+        <div class="exam-detail">
+          <span class="label">Région:</span>
+          <span class="value">{{exam.anatomicalRegion}}</span>
+        </div>
+        <div class="exam-detail">
+          <span class="label">Site:</span>
+          <span class="value">{{exam.siteName}}</span>
+        </div>
+        <div class="exam-detail">
+          <span class="label">Secteur:</span>
+          <span class="value">{{exam.sectorName}}</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Previous Exams -->
+    <div class="previous-exams-section">
+      <h5>Examens précédents</h5>
+      <div class="exam-history-list">
+        <div class="history-exam-item" *ngFor="let prevExam of previousExams">
+          <div class="exam-date">
+            {{prevExam.date | date:'dd/MM/yyyy'}}
+          </div>
+          <div class="exam-info">
+            <div class="exam-title">{{prevExam.title}}</div>
+            <div class="exam-ref">{{prevExam.reference}}</div>
+            <div class="exam-diagnosis" [ngClass]="'diagnosis-' + prevExam.diagnosis.toLowerCase()">
+              {{prevExam.diagnosis}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
