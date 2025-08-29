@@ -45,6 +45,9 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   isViewMenuOpen = false;
   expandedPatients = new Set<string>();
   
+  // Request all data for patient view
+  @Output() requestAllData = new EventEmitter<void>();
+  
 
   // Internal pagination state
   _currentItemsPerPage = 10;
@@ -341,11 +344,8 @@ export class ExamResultsComponent implements OnInit, OnChanges {
     this._currentPage = 1; // Reset to first page when changing view mode
     
     if (mode === 'patient') {
-      // For patient view, we need ALL exams to group properly
-      // But we only have the current page of exams
-      // We need to request all exams from the parent
-      this.updateData();
-      this.cdr.detectChanges();
+      // Request all data from parent component
+      this.requestAllData.emit();
     } else {
       this.updateData();
     }
