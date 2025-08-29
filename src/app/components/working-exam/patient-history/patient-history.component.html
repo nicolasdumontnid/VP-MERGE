@@ -3,11 +3,109 @@
     <button class="close-btn" (click)="onClose()" title="Close exam">
       <i class="fas fa-times"></i>
     </button>
-    <h3>Patient History</h3>
+    <div class="header-content">
+      <h3>Patient History</h3>
+      <p class="subtitle">A comprehensive overview for radiologists.</p>
+    </div>
   </div>
   
   <div class="panel-content">
-    <div class="patient-info" *ngIf="exam">
+    <!-- Burger Menu -->
+    <div class="menu-section">
+      <div class="dropdown" [class.open]="isMenuOpen">
+        <button class="burger-menu-btn" (click)="toggleMenu()" title="Add content block">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="dropdown-menu">
+          <button 
+            class="dropdown-item" 
+            *ngFor="let option of menuOptions"
+            (click)="selectMenuOption(option)">
+            <i [class]="option.icon"></i>
+            <span>{{option.label}}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Blocks -->
+    <div class="blocks-container">
+      <div class="content-block" *ngFor="let block of activeBlocks">
+        <!-- Block Header -->
+        <div class="block-header">
+          <div class="block-title-section">
+            <h4>{{block.title}}</h4>
+            <div class="badges" *ngIf="block.badges">
+              <span class="badge" *ngFor="let badge of block.badges">{{badge}}</span>
+            </div>
+          </div>
+          <button class="remove-block-btn" (click)="removeBlock(block.id)" title="Remove block">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <!-- Block Content -->
+        <div class="block-content">
+          <!-- IA Summary -->
+          <div *ngIf="block.content.type === 'summary'" class="summary-content">
+            <p>{{block.content.text}}</p>
+          </div>
+
+          <!-- Last Report Conclusion -->
+          <div *ngIf="block.content.type === 'conclusion'" class="conclusion-content">
+            <p>{{block.content.text}}</p>
+          </div>
+
+          <!-- Patient Records -->
+          <div *ngIf="block.content.type === 'records'" class="records-content">
+            <div class="record-item" *ngFor="let record of block.content.records">
+              <div class="record-header">
+                <span class="record-date">{{record.date}}</span>
+                <span class="record-name">{{record.name}}</span>
+              </div>
+              <p class="record-description">{{record.description}}</p>
+            </div>
+            <div class="block-footer">
+              <button class="see-all-btn">see all →</button>
+            </div>
+          </div>
+
+          <!-- Visual Patient Map -->
+          <div *ngIf="block.content.type === 'anatomical'" class="anatomical-content">
+            <div class="anatomical-view">
+              <div class="body-outline">
+                <div class="organ liver" title="Liver"></div>
+                <div class="organ heart" title="Heart"></div>
+                <div class="organ lungs-left" title="Left Lung"></div>
+                <div class="organ lungs-right" title="Right Lung"></div>
+                <div class="organ kidneys-left" title="Left Kidney"></div>
+                <div class="organ kidneys-right" title="Right Kidney"></div>
+                <div class="organ brain" title="Brain"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- All Images -->
+          <div *ngIf="block.content.type === 'images'" class="images-content">
+            <div class="date-group" *ngFor="let date of getImageDates()">
+              <h5 class="date-header">{{formatDate(date)}}</h5>
+              <div class="images-row">
+                <div class="image-thumbnail" *ngFor="let image of block.content.imagesByDate[date]">
+                  <img [src]="image" [alt]="'Medical image from ' + date" 
+                       onerror="this.src='https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=120&h=120&fit=crop&auto=format&sat=-100'">
+                </div>
+              </div>
+            </div>
+            <div class="block-footer">
+              <button class="see-all-btn">see all →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Default Patient Info (always visible) -->
+    <div class="patient-info" *ngIf="exam && activeBlocks.length === 0">
       <div class="info-section">
         <h4>Patient Information</h4>
         <div class="info-item">
@@ -41,24 +139,6 @@
         <div class="info-item">
           <label>Description:</label>
           <span>{{exam.description}}</span>
-        </div>
-      </div>
-      
-      <div class="info-section">
-        <h4>Previous Exams</h4>
-        <div class="previous-exams">
-          <div class="exam-item">
-            <div class="exam-date">12/01/2025</div>
-            <div class="exam-type">CT Scan - Chest</div>
-          </div>
-          <div class="exam-item">
-            <div class="exam-date">05/01/2025</div>
-            <div class="exam-type">X-Ray - Thorax</div>
-          </div>
-          <div class="exam-item">
-            <div class="exam-date">28/12/2024</div>
-            <div class="exam-type">Blood Test</div>
-          </div>
         </div>
       </div>
     </div>
