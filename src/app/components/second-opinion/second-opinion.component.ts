@@ -211,13 +211,9 @@ export class SecondOpinionComponent implements OnInit {
   }
 
   openExam(exam: DetailedExam): void {
-    // Get reference to AppComponent through parent
-    const appComponent = document.querySelector('app-root') as any;
-    if (appComponent && appComponent.__ngContext__) {
-      const component = appComponent.__ngContext__[8]; // Angular context
-      if (component && component.openWorkingExam) {
-        component.openWorkingExam(exam);
-      }
+    // Use global function to open working exam
+    if ((window as any).openWorkingExam) {
+      (window as any).openWorkingExam(exam);
     }
   }
 }

@@ -339,6 +339,13 @@ export class AppComponent {
   workingExamBreadcrumb = '';
   currentWorkingExam: DetailedExam | null = null;
 
+  constructor(private router: Router) {
+    this.sortConversations();
+    
+    // Make openWorkingExam available globally
+    (window as any).openWorkingExam = this.openWorkingExam.bind(this);
+  }
+
 
   toggleManagementDropdown(): void {
     this.isManagementDropdownOpen = !this.isManagementDropdownOpen;
@@ -540,8 +547,4 @@ export class AppComponent {
   }
 
   closeWorkingExam(): void {
-    this.isWorkingExam = false;
-    this.currentWorkingExam = null;
-    this.workingExamBreadcrumb = '';
-  }
 }
