@@ -1,117 +1,49 @@
 <div class="report-container">
   <div class="panel-header">
-    <div class="header-info">
-      <h3>
-        <i class="fas fa-file-medical"></i>
-        Rapport
-      </h3>
-      <div class="report-status">
-        <span class="status-badge" [ngClass]="isDraft ? 'status-draft' : 'status-final'">
-          {{isDraft ? 'Brouillon' : 'Finalisé'}}
-        </span>
-        <span class="last-saved">
-          Dernière sauvegarde: {{lastSaved | date:'HH:mm'}}
-        </span>
-      </div>
-    </div>
-    
-    <div class="header-actions">
-      <button class="action-btn secondary" (click)="saveDraft()" title="Sauvegarder le brouillon">
-        <i class="fas fa-save"></i>
+    <h3>Report</h3>
+    <div class="report-actions">
+      <button class="action-btn secondary" (click)="generateReport()">
+        <i class="fas fa-magic"></i>
+        Generate
       </button>
-      <button class="action-btn primary" (click)="finalizeReport()" [disabled]="!isReportComplete()" title="Finaliser le rapport">
-        <i class="fas fa-check"></i>
+      <button class="action-btn primary" (click)="saveReport()">
+        <i class="fas fa-save"></i>
+        Save
       </button>
     </div>
   </div>
   
   <div class="panel-content">
-    <!-- Exam Summary -->
-    <div class="exam-summary" *ngIf="exam">
-      <h4>Informations de l'examen</h4>
-      <div class="summary-grid">
-        <div class="summary-item">
-          <span class="label">Patient:</span>
-          <span class="value">{{exam.patientName}}</span>
+    <div class="report-editor" *ngIf="exam">
+      <div class="exam-info">
+        <h4>{{exam.patientName}}</h4>
+        <p>{{exam.examType}} - {{exam.examDate | date:'dd/MM/yyyy'}}</p>
+        <p class="reference">Ref: {{exam.reference}}</p>
+      </div>
+      
+      <div class="editor-section">
+        <textarea 
+          [(ngModel)]="reportContent"
+          placeholder="Enter your medical report here..."
+          class="report-textarea">
+        </textarea>
+      </div>
+      
+      <div class="report-status">
+        <div class="status-item">
+          <i class="fas fa-clock"></i>
+          <span>Last saved: Never</span>
         </div>
-        <div class="summary-item">
-          <span class="label">Date:</span>
-          <span class="value">{{exam.examDate | date:'dd/MM/yyyy'}}</span>
-        </div>
-        <div class="summary-item">
-          <span class="label">Type:</span>
-          <span class="value">{{exam.title}}</span>
-        </div>
-        <div class="summary-item">
-          <span class="label">Région:</span>
-          <span class="value">{{exam.anatomicalRegion}}</span>
+        <div class="status-item">
+          <i class="fas fa-user"></i>
+          <span>Dr. Damien</span>
         </div>
       </div>
     </div>
     
-    <!-- Report Form -->
-    <div class="report-form">
-      <div class="form-section">
-        <label for="findings">Observations</label>
-        <textarea 
-          id="findings"
-          [(ngModel)]="reportData.findings"
-          placeholder="Décrivez les observations principales..."
-          rows="4">
-        </textarea>
-      </div>
-      
-      <div class="form-section">
-        <label for="impression">Impression diagnostique</label>
-        <textarea 
-          id="impression"
-          [(ngModel)]="reportData.impression"
-          placeholder="Votre impression diagnostique..."
-          rows="3">
-        </textarea>
-      </div>
-      
-      <div class="form-section">
-        <label for="recommendation">Recommandations</label>
-        <textarea 
-          id="recommendation"
-          [(ngModel)]="reportData.recommendation"
-          placeholder="Recommandations pour le suivi..."
-          rows="3">
-        </textarea>
-      </div>
-      
-      <div class="form-section">
-        <label for="conclusion">Conclusion</label>
-        <textarea 
-          id="conclusion"
-          [(ngModel)]="reportData.conclusion"
-          placeholder="Conclusion finale..."
-          rows="2">
-        </textarea>
-      </div>
-      
-      <div class="form-section">
-        <label for="notes">Notes additionnelles</label>
-        <textarea 
-          id="notes"
-          [(ngModel)]="reportData.additionalNotes"
-          placeholder="Notes supplémentaires..."
-          rows="2">
-        </textarea>
-      </div>
-    </div>
-    
-    <!-- Report Actions -->
-    <div class="report-actions">
-      <button class="btn-secondary" (click)="saveDraft()">
-        <i class="fas fa-save"></i>
-        Sauvegarder brouillon
-      </button>
-      <button class="btn-primary" (click)="finalizeReport()" [disabled]="!isReportComplete()">
-        <i class="fas fa-check-circle"></i>
-        Finaliser rapport
-      </button>
+    <div class="no-exam" *ngIf="!exam">
+      <i class="fas fa-file-medical"></i>
+      <p>No exam selected</p>
     </div>
   </div>
 </div>

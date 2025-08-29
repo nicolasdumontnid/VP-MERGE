@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WorkingExamComponent } from './components/working-exam/working-exam.component';
 import { DetailedExam } from '../models/detailed-exam.interface';
+import { WorkingExamComponent } from './components/working-exam/working-exam.component';
+import { DetailedExam } from '../models/detailed-exam.interface';
 
 @Component({
   selector: 'app-root',

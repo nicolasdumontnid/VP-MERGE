@@ -1,10 +1,7 @@
 <div class="working-exam-container">
   <div class="working-exam-header">
-    <div class="exam-info">
-      <h2>{{exam?.title}}</h2>
-      <span class="exam-reference">{{exam?.reference}}</span>
-    </div>
-    <button class="close-btn" (click)="onCloseExam()" title="Fermer l'examen">
+    <h2>{{exam?.patientName}} - {{exam?.reference}}</h2>
+    <button class="close-btn" (click)="onCloseExam()">
       <i class="fas fa-times"></i>
     </button>
   </div>

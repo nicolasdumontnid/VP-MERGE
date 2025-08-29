@@ -13,40 +13,28 @@ import { DetailedExam } from '../../../../models/detailed-exam.interface';
 })
 export class ReportComponent {
   @Input() exam: DetailedExam | null = null;
-
-  // Report form data
-  reportData = {
-    findings: '',
-    impression: '',
-    recommendation: '',
-    conclusion: '',
-    additionalNotes: ''
-  };
-
-  // Report status
-  isDraft = true;
-  lastSaved = new Date();
-
+  
+  reportContent = '';
+  
   saveReport(): void {
-    this.lastSaved = new Date();
-    this.isDraft = false;
-    console.log('Report saved:', this.reportData);
+    console.log('Saving report:', this.reportContent);
+    // Implement save logic here
   }
+  
+  generateReport(): void {
+    this.reportContent = `Medical Report for ${this.exam?.patientName}
 
-  saveDraft(): void {
-    this.lastSaved = new Date();
-    this.isDraft = true;
-    console.log('Draft saved:', this.reportData);
-  }
+Exam Date: ${this.exam?.examDate}
+Exam Type: ${this.exam?.examType}
+Reference: ${this.exam?.reference}
 
-  finalizeReport(): void {
-    if (this.isReportComplete()) {
-      this.isDraft = false;
-      console.log('Report finalized:', this.reportData);
-    }
-  }
+Findings:
+[Enter your findings here]
 
-  isReportComplete(): boolean {
-    return !!(this.reportData.findings && this.reportData.impression && this.reportData.conclusion);
+Conclusion:
+[Enter your conclusion here]
+
+Recommendations:
+[Enter your recommendations here]`;
   }
 }
