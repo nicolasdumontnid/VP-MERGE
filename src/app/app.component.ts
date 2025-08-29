@@ -346,7 +346,6 @@ export class AppComponent {
     (window as any).openWorkingExam = this.openWorkingExam.bind(this);
   }
 
-
   toggleManagementDropdown(): void {
     this.isManagementDropdownOpen = !this.isManagementDropdownOpen;
     this.isMenuDropdownOpen = false;
