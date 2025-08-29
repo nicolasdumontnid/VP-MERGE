@@ -25,7 +25,7 @@ export class ReportComponent {
     this.reportContent = `Medical Report for ${this.exam?.patientName}
 
 Exam Date: ${this.exam?.examDate}
-Exam Type: ${this.exam?.examType}
+Exam Type: ${this.exam?.title}
 Reference: ${this.exam?.reference}
 
 Findings:
