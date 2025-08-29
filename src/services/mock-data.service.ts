@@ -100,6 +100,8 @@ export class MockDataService {
           id: `E${String(patientIndex + 1).padStart(3, '0')}-${String(i + 1).padStart(2, '0')}`,
           patientId: patient.id,
           patientName: `${patient.firstName} ${patient.lastName}`,
+          patientBirthDate: patient.dateOfBirth,
+          patientGender: patient.gender,
           title: `${examTypes[Math.floor(Math.random() * examTypes.length)]} - ${anatomicalRegions[Math.floor(Math.random() * anatomicalRegions.length)]}`,
           anatomicalRegion: anatomicalRegions[Math.floor(Math.random() * anatomicalRegions.length)],
           examDate,

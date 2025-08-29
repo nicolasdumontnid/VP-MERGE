@@ -2,6 +2,8 @@ export interface Exam {
   id: string;
   patientId: string;
   patientName: string;
+  patientBirthDate: Date;
+  patientGender: 'M' | 'F';
   title: string;
   anatomicalRegion: string;
   examDate: Date;
