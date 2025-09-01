@@ -80,14 +80,37 @@
   border-bottom: 1px solid #4b5563;
   background-color: #374151;
   border-radius: 6px 6px 0 0;
-  gap: 16px;
+  gap: 0;
 }
 
-.input-group {
+.header-input-group {
+  flex: 1;
+  padding: 0 8px;
+}
+
+.header-input-group:first-child {
+  flex: 1.2;
+  padding-left: 0;
+}
+
+.header-input-group:nth-child(2) {
+  flex: 0.8;
+}
+
+.header-input-group:nth-child(3) {
+  flex: 0.8;
+}
+
+.header-input-group:nth-child(4) {
   flex: 1;
 }
 
-.filter-fieldset.collapsed .input-group {
+.header-input-group:last-child {
+  flex: 1.2;
+  padding-right: 8px;
+}
+
+.filter-fieldset.collapsed .header-input-group {
   margin-bottom: 8px;
 }
 

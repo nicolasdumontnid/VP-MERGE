@@ -17,19 +17,19 @@
   <div class="dashboard-filter-accordion">
     <fieldset class="filter-fieldset" [ngClass]="{'collapsed': !isExpanded}">
       <div class="accordion-header">
-        <div class="input-group">
+        <div class="header-input-group">
           <input type="text" placeholder="Filters" [(ngModel)]="filterText" (input)="onFilterChange()" class="filter-input">
         </div>
-        <div class="input-group">
+        <div class="header-input-group">
           <input type="text" placeholder="Site" [(ngModel)]="siteFilter" class="filter-input">
         </div>
-        <div class="input-group">
+        <div class="header-input-group">
           <input type="text" placeholder="Sectors" [(ngModel)]="sectorsFilter" class="filter-input">
         </div>
-        <div class="input-group">
+        <div class="header-input-group">
           <input type="text" placeholder="Assigned doctors" [(ngModel)]="assignedDoctorsFilter" class="filter-input">
         </div>
-        <div class="input-group">
+        <div class="header-input-group">
           <input type="date" [(ngModel)]="dateHeaderInput" (change)="onDateTextInput()" placeholder="Date" class="filter-input">
         </div>
         <button class="collapse-btn-positioned" (click)="toggleExpanded()">
