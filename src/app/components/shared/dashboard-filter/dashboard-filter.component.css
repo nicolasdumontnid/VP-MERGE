@@ -232,12 +232,15 @@
 .custom-radio {
   width: 16px;
   height: 16px;
-  border: 2px solid #6b7280;
+  border: 2px solid #92d5b4;
   border-radius: 50%;
   background-color: transparent;
   cursor: pointer;
   position: relative;
   margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .custom-radio:checked {
@@ -253,7 +256,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: white;
+  background-color: #1a1a1a;
   transform: translate(-50%, -50%);
 }
 
@@ -290,13 +293,16 @@
 .custom-checkbox {
   width: 16px;
   height: 16px;
-  border: 2px solid #6b7280;
+  border: 2px solid #92d5b4;
   border-radius: 3px;
   background-color: transparent;
   cursor: pointer;
   position: relative;
   margin: 0;
   margin-right: 8px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .custom-checkbox:checked {
@@ -309,7 +315,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  color: white;
+  color: #1a1a1a;
   font-size: 12px;
   font-weight: bold;
   transform: translate(-50%, -50%);
