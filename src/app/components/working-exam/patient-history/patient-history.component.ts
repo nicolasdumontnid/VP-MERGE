@@ -87,7 +87,7 @@ export class PatientHistoryComponent {
 
   ngOnInit() {
     // Initialize only specific blocks by default
-    const defaultBlocks = ['ia-summary', 'last-report', 'patient-records', 'visual-map', 'all-images'];
+    const defaultBlocks = ['ia-summary', 'current-exam', 'last-report', 'patient-records', 'visual-map', 'all-images'];
     this.menuOptions.forEach(option => {
       if (defaultBlocks.includes(option.id)) {
         this.selectMenuOption(option);
