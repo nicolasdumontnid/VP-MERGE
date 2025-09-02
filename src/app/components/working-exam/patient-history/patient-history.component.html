@@ -104,41 +104,44 @@
       </div>
     </div>
 
-    <!-- Default Patient Info (always visible) -->
-    <div class="patient-info" *ngIf="exam && activeBlocks.length === 0">
-      <div class="info-section">
-        <h4>Patient Information</h4>
-        <div class="info-item">
-          <label>Name:</label>
-          <span>{{exam.patientName}}</span>
-        </div>
-        <div class="info-item">
-          <label>Date of Birth:</label>
-          <span>{{exam.patientBirthDate | date:'dd/MM/yyyy'}}</span>
-        </div>
-        <div class="info-item">
-          <label>Gender:</label>
-          <span>{{exam.patientGender}}</span>
-        </div>
-      </div>
-      
-      <div class="info-section">
-        <h4>Current Exam</h4>
-        <div class="info-item">
-          <label>Reference:</label>
-          <span>{{exam.reference}}</span>
-        </div>
-        <div class="info-item">
-          <label>Date:</label>
-          <span>{{exam.examDate | date:'dd/MM/yyyy HH:mm'}}</span>
-        </div>
-        <div class="info-item">
-          <label>Type:</label>
-          <span>{{exam.title}}</span>
-        </div>
-        <div class="info-item">
-          <label>Description:</label>
-          <span>{{exam.description}}</span>
+          <!-- Patient Information -->
+          <div *ngIf="block.content.type === 'patient-info'" class="patient-info-content">
+            <div class="info-section" *ngIf="exam">
+              <h4>Patient Information</h4>
+              <div class="info-item">
+                <label>Name:</label>
+                <span>{{exam.patientName}}</span>
+              </div>
+              <div class="info-item">
+                <label>Date of Birth:</label>
+                <span>{{exam.patientBirthDate | date:'dd/MM/yyyy'}}</span>
+              </div>
+              <div class="info-item">
+                <label>Gender:</label>
+                <span>{{exam.patientGender}}</span>
+              </div>
+            </div>
+            
+            <div class="info-section" *ngIf="exam">
+              <h4>Current Exam</h4>
+              <div class="info-item">
+                <label>Reference:</label>
+                <span>{{exam.reference}}</span>
+              </div>
+              <div class="info-item">
+                <label>Date:</label>
+                <span>{{exam.examDate | date:'dd/MM/yyyy HH:mm'}}</span>
+              </div>
+              <div class="info-item">
+                <label>Type:</label>
+                <span>{{exam.title}}</span>
+              </div>
+              <div class="info-item">
+                <label>Description:</label>
+                <span>{{exam.description}}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

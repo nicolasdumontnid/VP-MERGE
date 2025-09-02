@@ -35,7 +35,8 @@ export class PatientHistoryComponent {
     { id: 'last-report', label: 'Last Radio Report Conclusion', icon: 'fas fa-file-medical' },
     { id: 'patient-records', label: 'Top 10 Patient Record Information', icon: 'fas fa-list' },
     { id: 'visual-map', label: 'Visual Patient Map', icon: 'fas fa-user-md' },
-    { id: 'all-images', label: 'All Images', icon: 'fas fa-images' }
+    { id: 'all-images', label: 'All Images', icon: 'fas fa-images' },
+    { id: 'patient-info', label: 'Patient Information', icon: 'fas fa-user' }
   ];
 
   // Sample medical images for different dates
@@ -78,6 +79,13 @@ export class PatientHistoryComponent {
     { date: '2024-12-20', name: 'CT Thorax', description: 'High-resolution CT of the chest for pulmonary evaluation' },
     { date: '2024-12-15', name: 'Bone Scan', description: 'Nuclear medicine bone scintigraphy for skeletal assessment' }
   ];
+
+  ngOnInit() {
+    // Initialize all blocks by default
+    this.menuOptions.forEach(option => {
+      this.selectMenuOption(option);
+    });
+  }
 
   onClose(): void {
     this.close.emit();
@@ -153,6 +161,16 @@ export class PatientHistoryComponent {
           content: {
             type: 'images',
             imagesByDate: this.medicalImages
+          }
+        };
+        break;
+
+      case 'patient-info':
+        newBlock = {
+          id: option.id,
+          title: 'Patient Information',
+          content: {
+            type: 'patient-info'
           }
         };
         break;
