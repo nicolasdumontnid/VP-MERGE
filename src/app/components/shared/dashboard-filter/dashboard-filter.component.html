@@ -76,11 +76,10 @@
 
               <div class="separator gray"></div>
 
-              <div class="checkbox-list horizontal">
-                <label class="checkbox-option" *ngFor="let option of startedCheckboxes">
-                  <input type="checkbox" class="custom-checkbox" [(ngModel)]="option.checked" (change)="onFilterChange()">
-                  <span class="checkbox-label">{{ option.label }}</span>
-                  <span class="option-count">{{ option.count }}</span>
+              <div class="radio-group horizontal">
+                <label class="radio-option" *ngFor="let option of startedTypeOptions">
+                  <input type="radio" name="startedType" [value]="option.value" [(ngModel)]="selectedStartedType" class="custom-radio">
+                  <span class="radio-label">{{ option.label }}</span>
                 </label>
               </div>
 
