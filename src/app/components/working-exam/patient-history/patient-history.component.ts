@@ -87,8 +87,8 @@ export class PatientHistoryComponent {
 
   ngOnInit() {
     // Initialize blocks in the correct order
-    const defaultBlocksInOrder = ['ia-summary', 'last-report', 'patient-records', 'visual-map', 'all-images'];
-    defaultBlocksInOrder.forEach(blockId => {
+    const defaultBlocksInOrder = ['all-images', 'visual-map', 'patient-records', 'last-report', 'ia-summary'];
+    defaultBlocksInOrder.reverse().forEach(blockId => {
       const option = this.menuOptions.find(opt => opt.id === blockId);
       if (option) {
         this.selectMenuOption(option);
