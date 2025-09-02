@@ -82,9 +82,12 @@ export class PatientHistoryComponent {
   ];
 
   ngOnInit() {
-    // Initialize all blocks by default
+    // Initialize only specific blocks by default
+    const defaultBlocks = ['ia-summary', 'last-report', 'patient-records', 'visual-map', 'all-images'];
     this.menuOptions.forEach(option => {
-      this.selectMenuOption(option);
+      if (defaultBlocks.includes(option.id)) {
+        this.selectMenuOption(option);
+      }
     });
   }
 
