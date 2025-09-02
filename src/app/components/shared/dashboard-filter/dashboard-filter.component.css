@@ -168,26 +168,8 @@
 .filter-column {
   display: flex;
   flex-direction: column;
+  height: 300px;
   overflow: hidden;
-}
-
-/* Scrollbar styling for filter columns */
-.filter-column::-webkit-scrollbar {
-  width: 6px;
-}
-
-.filter-column::-webkit-scrollbar-track {
-  background: #374151;
-  border-radius: 3px;
-}
-
-.filter-column::-webkit-scrollbar-thumb {
-  background: #6b7280;
-  border-radius: 3px;
-}
-
-.filter-column::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
 }
 
 .column-content {
@@ -197,7 +179,25 @@
   padding: 8px;
   overflow-y: auto;
   flex: 1;
-  max-height: 100%;
+}
+
+/* Scrollbar styling for column content */
+.column-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.column-content::-webkit-scrollbar-track {
+  background: #374151;
+  border-radius: 3px;
+}
+
+.column-content::-webkit-scrollbar-thumb {
+  background: #6b7280;
+  border-radius: 3px;
+}
+
+.column-content::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }
 
 /* Radio Groups */
@@ -268,15 +268,6 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  flex: 1;
-  overflow-y: auto;
-}
-
-.checkbox-list.scrollable {
-  /* Styles handled by parent .checkbox-list */
-}
-
-.checkbox-list {
   gap: 8px;
 }
 
