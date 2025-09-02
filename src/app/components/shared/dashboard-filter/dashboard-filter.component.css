@@ -274,6 +274,12 @@
   gap: 8px;
 }
 
+.checkbox-list.horizontal {
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 16px;
+}
+
 .checkbox-option {
   display: flex;
   align-items: center;

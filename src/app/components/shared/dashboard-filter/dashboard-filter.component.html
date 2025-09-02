@@ -76,7 +76,7 @@
 
               <div class="separator gray"></div>
 
-              <div class="checkbox-list">
+              <div class="checkbox-list horizontal">
                 <label class="checkbox-option" *ngFor="let option of startedCheckboxes">
                   <input type="checkbox" class="custom-checkbox" [(ngModel)]="option.checked" (change)="onFilterChange()">
                   <span class="checkbox-label">{{ option.label }}</span>
