@@ -162,7 +162,6 @@ export class PatientHistoryComponent {
         newBlock = {
           id: option.id,
           title: 'Visual Patient Map',
-          badges: ['Anterior', 'Posterior', 'Lateral', 'Cross-section'],
           content: {
             type: 'anatomical'
           }

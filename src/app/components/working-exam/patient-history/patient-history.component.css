@@ -198,6 +198,67 @@
 .badge:nth-child(3) { background: #3b82f6; }
 .badge:nth-child(4) { background: #f59e0b; }
 
+/* Radio Badges */
+.radio-badges {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.radio-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: #6b7280;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.radio-badge:hover {
+  background: #9ca3af;
+}
+
+.radio-badge input[type="radio"] {
+  width: 14px;
+  height: 14px;
+  border: 2px solid white;
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.radio-badge input[type="radio"]:checked {
+  background-color: white;
+}
+
+.radio-badge input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #6b7280;
+  transform: translate(-50%, -50%);
+}
+
+.radio-badge span {
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+}
+
 .remove-block-btn {
   background: none;
   border: none;

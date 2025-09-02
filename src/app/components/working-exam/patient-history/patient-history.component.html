@@ -35,7 +35,17 @@
         <div class="block-header">
           <div class="block-title-section">
             <h4>{{block.title}}</h4>
-            <div class="badges" *ngIf="block.badges">
+            <div class="radio-badges" *ngIf="block.id === 'visual-map'">
+              <label class="radio-badge">
+                <input type="radio" name="anatomical-view" value="bones" checked>
+                <span>bones</span>
+              </label>
+              <label class="radio-badge">
+                <input type="radio" name="anatomical-view" value="organs">
+                <span>organs</span>
+              </label>
+            </div>
+            <div class="badges" *ngIf="block.badges && block.id !== 'visual-map'">
               <span class="badge" *ngFor="let badge of block.badges">{{badge}}</span>
             </div>
           </div>
