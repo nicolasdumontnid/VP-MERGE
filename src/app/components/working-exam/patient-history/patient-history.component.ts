@@ -32,6 +32,7 @@ export class PatientHistoryComponent {
   activeBlocks: ActiveBlock[] = [];
   selectedAnatomicalView = 'bones'; // Default to bones view
   svgZoomLevel = 1; // Zoom level for SVG (1 = normal size, 10 = max zoom)
+  svgTransformOrigin = 'center center'; // Transform origin for zoom
 
   menuOptions: MenuOption[] = [
     { id: 'ia-summary', label: 'IA Summary', icon: 'fas fa-brain' },
@@ -234,6 +235,17 @@ export class PatientHistoryComponent {
 
   public onSvgWheel(event: WheelEvent): void {
     event.preventDefault(); // Prevent page scrolling
+    
+    // Get the bounding rectangle of the SVG element
+    const svgElement = event.target as HTMLElement;
+    const rect = svgElement.getBoundingClientRect();
+    
+    // Calculate mouse position relative to the SVG element (as percentages)
+    const mouseX = ((event.clientX - rect.left) / rect.width) * 100;
+    const mouseY = ((event.clientY - rect.top) / rect.height) * 100;
+    
+    // Update transform origin to mouse position
+    this.svgTransformOrigin = `${mouseX}% ${mouseY}%`;
     
     const zoomStep = 0.1;
     const minZoom = 1; // Minimum zoom (current size)

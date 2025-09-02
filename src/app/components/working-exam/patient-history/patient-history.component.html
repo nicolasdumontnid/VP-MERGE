@@ -111,7 +111,8 @@
                    class="human-body-svg"
                    (click)="onBodyClick($event)"
                    (wheel)="onSvgWheel($event)"
-                   [style.transform]="'scale(' + svgZoomLevel + ')'">
+                   [style.transform]="'scale(' + svgZoomLevel + ')'"
+                   [style.transformOrigin]="svgTransformOrigin">
             </div>
           </div>
 

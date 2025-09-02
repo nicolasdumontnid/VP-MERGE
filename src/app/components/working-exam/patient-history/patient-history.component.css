@@ -426,7 +426,6 @@
   cursor: pointer;
   transition: transform 0.1s ease;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-  transform-origin: center center;
 }
 
 .human-body-svg:hover {
