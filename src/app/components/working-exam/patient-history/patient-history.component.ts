@@ -224,7 +224,7 @@ export class PatientHistoryComponent {
     // Add logic here to display information about the selected organ
   }
 
-  onBodyClick(event: MouseEvent): void {
+  public onBodyClick(event: MouseEvent): void {
     // Handle clicks on the body SVG
     console.log('Body clicked at:', event.offsetX, event.offsetY);
     // You can add logic here to detect which body part was clicked based on coordinates
