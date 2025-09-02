@@ -221,6 +221,6 @@ export class PatientHistoryComponent {
 
   selectOrgan(organName: string): void {
     console.log('Selected organ:', organName);
-    // Ici vous pouvez ajouter la logique pour afficher des informations sur l'organe sélectionné
+    // Add logic here to display information about the selected organ
   }
 }
