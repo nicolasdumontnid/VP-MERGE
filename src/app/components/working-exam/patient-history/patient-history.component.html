@@ -19,7 +19,7 @@
         <div class="dropdown-menu">
           <button 
             class="dropdown-item" 
-            *ngFor="let option of menuOptions"
+            *ngFor="let option of getAvailableMenuOptions()"
             (click)="selectMenuOption(option)">
             <i [class]="option.icon"></i>
             <span>{{option.label}}</span>

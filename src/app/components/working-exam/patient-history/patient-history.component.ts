@@ -106,6 +106,11 @@ export class PatientHistoryComponent {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
+  getAvailableMenuOptions(): MenuOption[] {
+    const activeBlockIds = this.activeBlocks.map(block => block.id);
+    return this.menuOptions.filter(option => !activeBlockIds.includes(option.id));
+  }
+
   selectMenuOption(option: MenuOption): void {
     this.isMenuOpen = false;
     
