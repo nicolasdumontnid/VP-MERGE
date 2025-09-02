@@ -32,6 +32,7 @@ export class PatientHistoryComponent {
 
   menuOptions: MenuOption[] = [
     { id: 'ia-summary', label: 'IA Summary', icon: 'fas fa-brain' },
+    { id: 'current-exam', label: 'Current Exam', icon: 'fas fa-file-medical-alt' },
     { id: 'last-report', label: 'Last Radio Report Conclusion', icon: 'fas fa-file-medical' },
     { id: 'patient-records', label: 'Top 10 Patient Record Information', icon: 'fas fa-list' },
     { id: 'visual-map', label: 'Visual Patient Map', icon: 'fas fa-user-md' },
@@ -115,6 +116,17 @@ export class PatientHistoryComponent {
           content: {
             type: 'summary',
             text: 'Based on the comprehensive analysis of medical records, the patient shows stable vital signs with no immediate concerns. Recent imaging studies indicate normal anatomical structures with minor age-related changes. Blood work reveals values within normal ranges. Continued monitoring recommended for optimal health maintenance.'
+          }
+        };
+        break;
+
+      case 'current-exam':
+        newBlock = {
+          id: option.id,
+          title: 'Current Exam',
+          badges: ['Reference', 'Date', 'Type', 'Description', 'Details'],
+          content: {
+            type: 'current-exam'
           }
         };
         break;

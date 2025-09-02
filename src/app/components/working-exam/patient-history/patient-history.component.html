@@ -51,6 +51,29 @@
             <p>{{block.content.text}}</p>
           </div>
 
+          <!-- Current Exam -->
+          <div *ngIf="block.content.type === 'current-exam'" class="current-exam-content">
+            <h4 class="current-exam-title">CURRENT EXAM</h4>
+            <div class="exam-details-list">
+              <div class="exam-detail-item" *ngIf="exam">
+                <span class="detail-key">Reference</span>
+                <span class="detail-value">{{exam.reference}}</span>
+              </div>
+              <div class="exam-detail-item" *ngIf="exam">
+                <span class="detail-key">Date</span>
+                <span class="detail-value">{{exam.examDate | date:'dd/MM/yyyy HH:mm'}}</span>
+              </div>
+              <div class="exam-detail-item" *ngIf="exam">
+                <span class="detail-key">Type</span>
+                <span class="detail-value">{{exam.title}}</span>
+              </div>
+              <div class="exam-detail-item" *ngIf="exam">
+                <span class="detail-key">Description</span>
+                <span class="detail-value">{{exam.description}}</span>
+              </div>
+            </div>
+          </div>
+
           <!-- Last Report Conclusion -->
           <div *ngIf="block.content.type === 'conclusion'" class="conclusion-content">
             <p>{{block.content.text}}</p>

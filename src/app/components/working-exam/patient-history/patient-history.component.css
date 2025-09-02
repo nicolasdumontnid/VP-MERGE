@@ -225,6 +225,62 @@
   margin: 0;
 }
 
+/* Current Exam Content */
+.current-exam-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.current-exam-title {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.exam-details-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.exam-detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #4b5563;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.exam-detail-item:hover {
+  background-color: #4b5563;
+  margin: 0 -16px;
+  padding: 12px 16px;
+  border-radius: 4px;
+}
+
+.exam-detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-key {
+  font-weight: 500;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.detail-value {
+  color: white;
+  font-size: 14px;
+  text-align: right;
+  max-width: 60%;
+  word-wrap: break-word;
+}
+
 /* Records Content */
 .records-content {
   display: flex;
