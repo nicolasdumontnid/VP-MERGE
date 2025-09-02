@@ -14,6 +14,7 @@
   justify-content: space-between;
   align-items: center;
   height: 60px;
+  flex-shrink: 0;
 }
 
 .panel-header h3 {
@@ -82,6 +83,7 @@
   background: #374151;
   border-radius: 6px;
   border-left: 3px solid #6b7280;
+  flex-shrink: 0;
 }
 
 .exam-info h4 {
@@ -106,6 +108,8 @@
 .editor-section {
   flex: 1;
   margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
 }
 
 .report-textarea {
@@ -123,6 +127,7 @@
   transition: border-color 0.2s ease;
   background: #374151;
   color: white;
+  flex: 1;
 }
 
 .report-textarea:focus {
@@ -139,6 +144,7 @@
   justify-content: space-between;
   padding: 8px 0;
   border-top: 1px solid #4b5563;
+  flex-shrink: 0;
 }
 
 .status-item {

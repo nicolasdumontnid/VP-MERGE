@@ -14,6 +14,7 @@
   justify-content: space-between;
   align-items: center;
   height: 60px;
+  flex-shrink: 0;
 }
 
 .panel-header h3 {
@@ -103,6 +104,7 @@
   padding: 12px;
   background: rgba(0, 0, 0, 0.8);
   color: white;
+  flex-shrink: 0;
 }
 
 .nav-btn {
