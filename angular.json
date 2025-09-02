@@ -36,7 +36,9 @@
             "polyfills": ["zone.js"],
             "scripts": [],
             "styles": ["src/global_styles.css"],
-            "tsConfig": "tsconfig.app.json"
+            "tsConfig": "tsconfig.app.json",
+            "deployUrl": "/",
+            "baseHref": "/"
           }
         },
         "serve": {
@@ -49,7 +51,10 @@
               "buildTarget": "demo:build:production"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "historyApiFallback": true
+          }
         }
       },
       "prefix": "app",
