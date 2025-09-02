@@ -180,18 +180,26 @@ export class DashboardFilterComponent implements OnInit {
   }
 
   updateFilteredLists(): void {
-    const selectedAssignedDoctors = this.assignedDoctors.filter(doc => doc.checked);
     const selectedSites = this.sites.filter(site => site.checked);
+    const selectedSectors = this.sectors.filter(sector => sector.checked);
+    const selectedAssignedDoctors = this.assignedDoctors.filter(doc => doc.checked);
 
-    // Filter sites based on selected assigned doctors
+    // Filter sites based on selected sectors first, then assigned doctors
+    let sitesToShow = [...this.sites];
+    
+    if (selectedSectors.length > 0) {
+      const sectorSites = selectedSectors.flatMap(sector => sector.sites);
+      sitesToShow = sitesToShow.filter(site => sectorSites.includes(site.id));
+    }
+    
     if (selectedAssignedDoctors.length > 0) {
       const doctorSites = selectedAssignedDoctors.map(doc => doc.site);
-      this.filteredSites = this.sites.filter(site => doctorSites.includes(site.id));
-    } else {
-      this.filteredSites = [...this.sites];
+      sitesToShow = sitesToShow.filter(site => doctorSites.includes(site.id));
     }
+    
+    this.filteredSites = sitesToShow;
 
-    // Filter sectors based on selected sites OR selected assigned doctors
+    // Filter sectors based on selected sites and assigned doctors
     let sectorsToShow = [...this.sectors];
     
     if (selectedSites.length > 0) {
@@ -207,14 +215,25 @@ export class DashboardFilterComponent implements OnInit {
     
     this.filteredSectors = sectorsToShow;
 
-    // Filter assigned doctors based on selected sites only (NOT by other assigned doctors)
+    // Filter assigned doctors based on selected sites and sectors
+    let doctorsToShow = [...this.assignedDoctors];
+    
     if (selectedSites.length > 0) {
-      this.filteredAssignedDoctors = this.assignedDoctors.filter(doctor => 
+      doctorsToShow = doctorsToShow.filter(doctor => 
         selectedSites.some(site => site.id === doctor.site)
       );
-    } else {
-      this.filteredAssignedDoctors = [...this.assignedDoctors];
     }
+    
+    if (selectedSectors.length > 0) {
+      const sectorIds = selectedSectors.map(sector => sector.id);
+      doctorsToShow = doctorsToShow.filter(doctor => 
+        sectorIds.includes(doctor.sector)
+      );
+    } else {
+      this.filteredAssignedDoctors = doctorsToShow;
+    }
+
+    this.filteredAssignedDoctors = doctorsToShow;
   }
 
   onFilterChange(): void {
