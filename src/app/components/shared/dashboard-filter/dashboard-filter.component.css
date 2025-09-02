@@ -126,7 +126,7 @@
 
 .filter-input:focus {
   outline: none;
-  border-color: #6b7280;
+  border-color: #92d5b4;
 }
 
 .filter-input::placeholder {
@@ -241,8 +241,8 @@
 }
 
 .custom-radio:checked {
-  border-color: #6b7280;
-  background-color: #6b7280;
+  border-color: #92d5b4;
+  background-color: #92d5b4;
 }
 
 .custom-radio:checked::after {
@@ -300,8 +300,8 @@
 }
 
 .custom-checkbox:checked {
-  border-color: #6b7280;
-  background-color: #6b7280;
+  border-color: #92d5b4;
+  background-color: #92d5b4;
 }
 
 .custom-checkbox:checked::after {
@@ -387,7 +387,7 @@
 
 .date-input:focus {
   outline: none;
-  border-color: #6b7280;
+  border-color: #92d5b4;
 }
 
 .date-icon {
