@@ -33,6 +33,7 @@ export class PatientHistoryComponent {
   selectedAnatomicalView = 'bones'; // Default to bones view
   svgZoomLevel = 1; // Zoom level for SVG (1 = normal size, 10 = max zoom)
   svgTransformOrigin = 'center center'; // Transform origin for zoom
+  private isInitializing = true;
 
   menuOptions: MenuOption[] = [
     { id: 'ia-summary', label: 'IA Summary', icon: 'fas fa-brain' },
@@ -86,14 +87,15 @@ export class PatientHistoryComponent {
   ];
 
   ngOnInit() {
-    // Initialize blocks in the correct order
-    const defaultBlocksInOrder = ['all-images', 'visual-map', 'patient-records', 'last-report', 'ia-summary'];
-    defaultBlocksInOrder.reverse().forEach(blockId => {
+    // Initialize blocks in the correct order (top to bottom)
+    const defaultBlocksInOrder = ['ia-summary', 'last-report', 'patient-records', 'visual-map', 'all-images'];
+    defaultBlocksInOrder.forEach(blockId => {
       const option = this.menuOptions.find(opt => opt.id === blockId);
       if (option) {
         this.selectMenuOption(option);
       }
     });
+    this.isInitializing = false;
   }
 
   onClose(): void {
@@ -198,7 +200,13 @@ export class PatientHistoryComponent {
         return;
     }
 
-    this.activeBlocks.unshift(newBlock);
+    // For initialization, add to the end to maintain order
+    // For user-added blocks, add to the beginning
+    if (this.activeBlocks.length === 0 || this.isInitializing) {
+      this.activeBlocks.push(newBlock);
+    } else {
+      this.activeBlocks.unshift(newBlock);
+    }
   }
 
   removeBlock(blockId: string): void {
