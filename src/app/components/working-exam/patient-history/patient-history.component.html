@@ -37,11 +37,11 @@
             <h4>{{block.title}}</h4>
             <div class="radio-badges" *ngIf="block.id === 'visual-map'">
               <label class="radio-badge">
-                <input type="radio" name="anatomical-view" value="bones" checked>
+                <input type="radio" name="anatomical-view" value="bones" [(ngModel)]="selectedAnatomicalView">
                 <span>bones</span>
               </label>
-              <label class="radio-badge">
-                <input type="radio" name="anatomical-view" value="organs">
+              <label class="radio-badge organs-badge">
+                <input type="radio" name="anatomical-view" value="organs" [(ngModel)]="selectedAnatomicalView">
                 <span>organs</span>
               </label>
             </div>
@@ -106,8 +106,8 @@
           <!-- Visual Patient Map -->
           <div *ngIf="block.content.type === 'anatomical'" class="anatomical-content">
             <div class="anatomical-view">
-              <img src="assets/skeleton+skin.svg" 
-                   alt="Human Body Anatomy" 
+              <img [src]="selectedAnatomicalView === 'bones' ? 'assets/skeleton+skin.svg' : 'assets/skeleton_and_organs.svg'" 
+                   [alt]="selectedAnatomicalView === 'bones' ? 'Human Skeleton' : 'Human Organs'" 
                    class="human-body-svg"
                    (click)="onBodyClick($event)">
             </div>

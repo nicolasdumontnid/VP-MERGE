@@ -259,6 +259,23 @@
   cursor: pointer;
 }
 
+/* Specific colors for anatomical view badges */
+.bones-badge {
+  background: #f97316 !important; /* Orange */
+}
+
+.bones-badge:hover {
+  background: #ea580c !important; /* Darker orange on hover */
+}
+
+.organs-badge {
+  background: #16a34a !important; /* Green */
+}
+
+.organs-badge:hover {
+  background: #15803d !important; /* Darker green on hover */
+}
+
 .remove-block-btn {
   background: none;
   border: none;

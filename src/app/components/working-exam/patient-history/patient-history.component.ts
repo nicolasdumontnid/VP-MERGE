@@ -29,6 +29,7 @@ export class PatientHistoryComponent {
 
   isMenuOpen = false;
   activeBlocks: ActiveBlock[] = [];
+  selectedAnatomicalView = 'bones'; // Default to bones view
 
   menuOptions: MenuOption[] = [
     { id: 'ia-summary', label: 'IA Summary', icon: 'fas fa-brain' },
