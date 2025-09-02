@@ -55,7 +55,7 @@ export class DashboardFilterComponent implements OnInit {
   // Radio button selections
   selectedCaseType = 'all';
   selectedScanType = 'all';
-  selectedStartedType = '';
+  selectedStartedType = 'all';
   selectedDateRange = 'all';
   
   // Date inputs
@@ -77,6 +77,7 @@ export class DashboardFilterComponent implements OnInit {
   ];
   
   startedTypeOptions: RadioOption[] = [
+    { id: 'all', label: 'All', value: 'all' },
     { id: 'not-started', label: 'Not Started', value: 'not-started' },
     { id: 'started-colleague', label: 'Started by a colleague', value: 'started-colleague' }
   ];
