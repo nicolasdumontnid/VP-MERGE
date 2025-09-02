@@ -408,7 +408,5 @@
   <div class="no-results" *ngIf="exams.length === 0 || (viewMode === 'exam' && paginatedExams.length === 0) || (viewMode === 'patient' && paginatedGroupedPatients.length === 0)">
     <i [class]="noResultsIcon + ' no-results-icon-' + pageType"></i>
     <h3>{{noResultsTitle}}</h3>
-    (openExam)="openExam($event)"
-    (requestAllData)="loadAllDataForPatientView()">
   </div>
 </div>
