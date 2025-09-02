@@ -197,7 +197,7 @@ export class PatientHistoryComponent {
         return;
     }
 
-    this.activeBlocks.push(newBlock);
+    this.activeBlocks.unshift(newBlock);
   }
 
   removeBlock(blockId: string): void {
