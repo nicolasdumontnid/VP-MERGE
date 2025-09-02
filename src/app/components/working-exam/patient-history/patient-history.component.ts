@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { DetailedExam } from '../../../../models/detailed-exam.interface';
 
 interface MenuOption {
@@ -18,7 +19,7 @@ interface ActiveBlock {
 @Component({
   selector: 'app-patient-history',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './patient-history.component.html',
   styleUrls: ['./patient-history.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
