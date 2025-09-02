@@ -1,10 +1,11 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WorkingExamComponent } from './components/working-exam/working-exam.component';
 import { DetailedExam } from '../models/detailed-exam.interface';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -344,6 +345,16 @@ export class AppComponent {
     
     // Make openWorkingExam available globally
     (window as any).openWorkingExam = this.openWorkingExam.bind(this);
+    
+    // Subscribe to router events to close working exam on navigation
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      // Close working exam when navigating to any route
+      if (this.isWorkingExam) {
+        this.closeWorkingExam();
+      }
+    });
   }
 
   toggleManagementDropdown(): void {
