@@ -96,15 +96,49 @@
           <!-- Visual Patient Map -->
           <div *ngIf="block.content.type === 'anatomical'" class="anatomical-content">
             <div class="anatomical-view">
-              <div class="body-outline">
-                <div class="organ liver" title="Liver"></div>
-                <div class="organ heart" title="Heart"></div>
-                <div class="organ lungs-left" title="Left Lung"></div>
-                <div class="organ lungs-right" title="Right Lung"></div>
-                <div class="organ kidneys-left" title="Left Kidney"></div>
-                <div class="organ kidneys-right" title="Right Kidney"></div>
-                <div class="organ brain" title="Brain"></div>
-              </div>
+              <svg viewBox="0 0 200 400" class="human-body-svg">
+                <!-- Body outline -->
+                <path d="M100 20 C85 20 75 30 75 45 L75 60 C70 65 65 70 65 80 L65 120 C60 125 55 130 55 140 L55 200 C55 210 60 220 65 225 L65 280 C65 290 70 300 75 305 L75 350 C75 360 80 370 85 375 L85 390 C85 395 90 400 95 400 L105 400 C110 400 115 395 115 390 L115 375 C120 370 125 360 125 350 L125 305 C130 300 135 290 135 280 L135 225 C140 220 145 210 145 200 L145 140 C145 130 140 125 135 120 L135 80 C135 70 130 65 125 60 L125 45 C125 30 115 20 100 20 Z" 
+                      fill="#4b5563" 
+                      stroke="#6b7280" 
+                      stroke-width="2"/>
+                
+                <!-- Head -->
+                <circle cx="100" cy="35" r="15" fill="#5b6572" stroke="#6b7280" stroke-width="1"/>
+                
+                <!-- Brain (clickable) -->
+                <circle cx="100" cy="32" r="8" fill="#ef4444" class="organ-svg" title="Brain" (click)="selectOrgan('brain')"/>
+                
+                <!-- Heart (clickable) -->
+                <path d="M95 85 C95 80 90 75 85 75 C80 75 75 80 75 85 C75 80 70 75 65 75 C60 75 55 80 55 85 C55 95 75 110 85 120 C95 110 115 95 115 85 C115 80 110 75 105 75 C100 75 95 80 95 85 Z" 
+                      fill="#dc2626" 
+                      class="organ-svg" 
+                      title="Heart" 
+                      (click)="selectOrgan('heart')"
+                      transform="translate(15, -10) scale(0.8)"/>
+                
+                <!-- Lungs (clickable) -->
+                <ellipse cx="80" cy="95" rx="12" ry="20" fill="#3b82f6" class="organ-svg" title="Left Lung" (click)="selectOrgan('left-lung')"/>
+                <ellipse cx="120" cy="95" rx="12" ry="20" fill="#3b82f6" class="organ-svg" title="Right Lung" (click)="selectOrgan('right-lung')"/>
+                
+                <!-- Liver (clickable) -->
+                <ellipse cx="105" cy="130" rx="25" ry="15" fill="#f59e0b" class="organ-svg" title="Liver" (click)="selectOrgan('liver')"/>
+                
+                <!-- Kidneys (clickable) -->
+                <ellipse cx="85" cy="150" rx="8" ry="12" fill="#10b981" class="organ-svg" title="Left Kidney" (click)="selectOrgan('left-kidney')"/>
+                <ellipse cx="115" cy="150" rx="8" ry="12" fill="#10b981" class="organ-svg" title="Right Kidney" (click)="selectOrgan('right-kidney')"/>
+                
+                <!-- Stomach (clickable) -->
+                <ellipse cx="90" cy="120" rx="10" ry="8" fill="#8b5cf6" class="organ-svg" title="Stomach" (click)="selectOrgan('stomach')"/>
+                
+                <!-- Arms -->
+                <ellipse cx="45" cy="100" rx="8" ry="30" fill="#5b6572" stroke="#6b7280" stroke-width="1"/>
+                <ellipse cx="155" cy="100" rx="8" ry="30" fill="#5b6572" stroke="#6b7280" stroke-width="1"/>
+                
+                <!-- Legs -->
+                <ellipse cx="85" cy="320" rx="12" ry="60" fill="#5b6572" stroke="#6b7280" stroke-width="1"/>
+                <ellipse cx="115" cy="320" rx="12" ry="60" fill="#5b6572" stroke="#6b7280" stroke-width="1"/>
+              </svg>
             </div>
           </div>
 

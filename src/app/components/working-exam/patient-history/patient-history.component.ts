@@ -218,4 +218,9 @@ export class PatientHistoryComponent {
       day: 'numeric' 
     });
   }
+
+  selectOrgan(organName: string): void {
+    console.log('Selected organ:', organName);
+    // Ici vous pouvez ajouter la logique pour afficher des informations sur l'organe sélectionné
+  }
 }
