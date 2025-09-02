@@ -76,22 +76,11 @@
 
               <div class="separator gray"></div>
 
-              <div class="radio-group horizontal">
-                <label class="radio-option">
-                  <input type="radio" name="startedType" value="all" [(ngModel)]="selectedStartedType" class="custom-radio">
-                  <span class="radio-label">All</span>
-                </label>
-                <label class="radio-option">
-                  <input type="radio" name="startedType" value="started" [(ngModel)]="selectedStartedType" class="custom-radio">
-                  <span class="radio-label">Started</span>
-                </label>
-                <label class="radio-option">
-                  <input type="radio" name="startedType" value="not-started" [(ngModel)]="selectedStartedType" class="custom-radio">
-                  <span class="radio-label">Not Started</span>
-                </label>
-                <label class="radio-option">
-                  <input type="radio" name="startedType" value="started-colleague" [(ngModel)]="selectedStartedType" class="custom-radio">
-                  <span class="radio-label">Started by a colleague</span>
+              <div class="checkbox-list">
+                <label class="checkbox-option" *ngFor="let option of startedCheckboxes">
+                  <input type="checkbox" class="custom-checkbox" [(ngModel)]="option.checked" (change)="onFilterChange()">
+                  <span class="checkbox-label">{{ option.label }}</span>
+                  <span class="option-count">{{ option.count }}</span>
                 </label>
               </div>
 

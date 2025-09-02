@@ -76,11 +76,9 @@ export class DashboardFilterComponent implements OnInit {
     { id: 'pending', label: 'Pending', value: 'pending' }
   ];
   
-  startedTypeOptions: RadioOption[] = [
-    { id: 'all', label: 'All', value: 'all' },
-    { id: 'started', label: 'Started', value: 'started' },
-    { id: 'not-started', label: 'Not Started', value: 'not-started' },
-    { id: 'started-colleague', label: 'Started by a colleague', value: 'started-colleague' }
+  startedCheckboxes: FilterOption[] = [
+    { id: 'not-started', label: 'Not Started', count: Math.floor(Math.random() * 16), checked: false },
+    { id: 'started-colleague', label: 'Started by a colleague', count: Math.floor(Math.random() * 16), checked: false }
   ];
   
   filterCheckboxes: FilterOption[] = [
