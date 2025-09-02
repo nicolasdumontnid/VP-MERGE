@@ -24,6 +24,24 @@
   color: white;
 }
 
+.header-content {
+  flex: 1;
+}
+
+.header-content h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #9ca3af;
+  font-style: italic;
+}
+
 .viewer-controls {
   display: flex;
   align-items: center;

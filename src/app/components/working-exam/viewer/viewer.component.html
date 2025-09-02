@@ -1,6 +1,9 @@
 <div class="viewer-container">
   <div class="panel-header">
-    <h3>Image Viewer</h3>
+    <div class="header-content">
+      <h3>Image Viewer</h3>
+      <p class="subtitle" *ngIf="exam">{{exam.patientName}} / {{exam.reference}}</p>
+    </div>
     <div class="viewer-controls">
       <button class="control-btn" (click)="zoomOut()" [disabled]="zoomLevel <= 25">
         <i class="fas fa-search-minus"></i>
