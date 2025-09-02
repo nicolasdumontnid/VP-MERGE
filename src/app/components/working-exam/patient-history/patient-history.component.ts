@@ -33,7 +33,7 @@ export class PatientHistoryComponent {
   selectedAnatomicalView = 'bones'; // Default to bones view
   svgZoomLevel = 1; // Zoom level for SVG (1 = normal size, 10 = max zoom)
   svgTransformOrigin = 'center center'; // Transform origin for zoom
-  private isInitializing = true;
+  private isInitializing: boolean = true;
 
   menuOptions: MenuOption[] = [
     { id: 'ia-summary', label: 'IA Summary', icon: 'fas fa-brain' },
