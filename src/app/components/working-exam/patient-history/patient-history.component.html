@@ -109,7 +109,9 @@
               <img [src]="selectedAnatomicalView === 'bones' ? 'assets/skeleton+skin.svg' : 'assets/skeleton_and_organs.svg'" 
                    [alt]="selectedAnatomicalView === 'bones' ? 'Human Skeleton' : 'Human Organs'" 
                    class="human-body-svg"
-                   (click)="onBodyClick($event)">
+                   (click)="onBodyClick($event)"
+                   (wheel)="onSvgWheel($event)"
+                   [style.transform]="'scale(' + svgZoomLevel + ')'">
             </div>
           </div>
 

@@ -31,6 +31,7 @@ export class PatientHistoryComponent {
   isMenuOpen = false;
   activeBlocks: ActiveBlock[] = [];
   selectedAnatomicalView = 'bones'; // Default to bones view
+  svgZoomLevel = 1; // Zoom level for SVG (1 = normal size, 10 = max zoom)
 
   menuOptions: MenuOption[] = [
     { id: 'ia-summary', label: 'IA Summary', icon: 'fas fa-brain' },
@@ -229,5 +230,21 @@ export class PatientHistoryComponent {
     // Handle clicks on the body SVG
     console.log('Body clicked at:', event.offsetX, event.offsetY);
     // You can add logic here to detect which body part was clicked based on coordinates
+  }
+
+  public onSvgWheel(event: WheelEvent): void {
+    event.preventDefault(); // Prevent page scrolling
+    
+    const zoomStep = 0.1;
+    const minZoom = 1; // Minimum zoom (current size)
+    const maxZoom = 10; // Maximum zoom (x10)
+    
+    if (event.deltaY < 0) {
+      // Scroll up - zoom in
+      this.svgZoomLevel = Math.min(this.svgZoomLevel + zoomStep, maxZoom);
+    } else {
+      // Scroll down - zoom out
+      this.svgZoomLevel = Math.max(this.svgZoomLevel - zoomStep, minZoom);
+    }
   }
 }
