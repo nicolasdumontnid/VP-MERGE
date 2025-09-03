@@ -404,11 +404,7 @@ export class PatientHistoryComponent {
   }
 
   showTooltip(event: MouseEvent, exam: any) {
-    // Clear any existing timeout
-    if (this.tooltipTimeout) {
-      clearTimeout(this.tooltipTimeout);
-      this.tooltipTimeout = null;
-    }
+    this.clearTooltipTimeout();
     
     console.log('showTooltip called for exam:', exam.title);
     this.hoveredExam = exam;
@@ -432,26 +428,33 @@ export class PatientHistoryComponent {
 
   hideTooltip() {
     console.log('hideTooltip called');
-    // Clear any existing timeout first
-    if (this.tooltipTimeout) {
-      clearTimeout(this.tooltipTimeout);
-    }
+    this.clearTooltipTimeout();
     
-    // Add a small delay to allow mouse to move to tooltip
+    // Add delay to allow mouse to move to tooltip
     this.tooltipTimeout = setTimeout(() => {
       console.log('Hiding tooltip after timeout');
       this.hoveredExam = null;
-      this.cdr.detectChanges(); // Force change detection
+      this.cdr.detectChanges();
     }, 150);
   }
 
   keepTooltipVisible() {
     console.log('keepTooltipVisible called');
-    // Cancel the hide timeout when mouse enters tooltip
+    this.clearTooltipTimeout();
+  }
+
+  private clearTooltipTimeout() {
     if (this.tooltipTimeout) {
       clearTimeout(this.tooltipTimeout);
       this.tooltipTimeout = null;
     }
+  }
+
+  hideTooltipImmediately() {
+    console.log('hideTooltipImmediately called');
+    this.clearTooltipTimeout();
+    this.hoveredExam = null;
+    this.cdr.detectChanges();
   }
 
 }

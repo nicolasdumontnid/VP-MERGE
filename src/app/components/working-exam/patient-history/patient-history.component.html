@@ -198,7 +198,7 @@
                        [style.left.px]="tooltipPosition.x"
                        [style.top.px]="tooltipPosition.y"
                        (mouseenter)="keepTooltipVisible()"
-                       (mouseleave)="hideTooltip()">
+                       (mouseleave)="hideTooltipImmediately()">
                     <div class="tooltip-header">
                       <strong>{{hoveredExam.title}}</strong>
                     </div>
