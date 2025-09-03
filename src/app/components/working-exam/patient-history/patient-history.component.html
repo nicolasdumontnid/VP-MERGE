@@ -176,7 +176,7 @@
                   <div class="x-axis">
                     <div class="x-axis-label" 
                          *ngFor="let month of getTimelineMonths()"
-                         [style.left.%]="((month.getTime() - getTimelineMonths()[0].getTime()) / (getTimelineMonths()[getTimelineMonths().length-1].getTime() - getTimelineMonths()[0].getTime())) * 100">
+                         [style.left.%]="getMonthPosition(month)">
                       {{month.toLocaleDateString('fr-FR', {month: 'short', year: '2-digit'})}}
                     </div>
                   </div>
@@ -189,24 +189,25 @@
                          [style.top.%]="getExamPosition(exam).y"
                          (mouseenter)="showTooltip($event, exam)"
                          (mouseleave)="hideTooltip()">
-                      <!-- Tooltip -->
-                      <div class="exam-tooltip" 
-                           *ngIf="hoveredExam === exam"
-                           [style.left.px]="tooltipPosition.x"
-                           [style.top.px]="tooltipPosition.y">
-                        <div class="tooltip-header">
-                          <strong>{{exam.title}}</strong>
-                        </div>
-                        <div class="tooltip-content">
-                          <div class="tooltip-row">
-                            <span class="tooltip-label">Date:</span>
-                            <span class="tooltip-value">{{exam.date.toLocaleDateString('fr-FR')}}</span>
-                          </div>
-                          <div class="tooltip-row">
-                            <span class="tooltip-label">Région:</span>
-                            <span class="tooltip-value">{{exam.region}}</span>
-                          </div>
-                        </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Tooltip -->
+                  <div class="exam-tooltip" 
+                       *ngIf="hoveredExam"
+                       [style.left.px]="tooltipPosition.x"
+                       [style.top.px]="tooltipPosition.y">
+                    <div class="tooltip-header">
+                      <strong>{{hoveredExam.title}}</strong>
+                    </div>
+                    <div class="tooltip-content">
+                      <div class="tooltip-row">
+                        <span class="tooltip-label">Date:</span>
+                        <span class="tooltip-value">{{hoveredExam.date.toLocaleDateString('fr-FR')}}</span>
+                      </div>
+                      <div class="tooltip-row">
+                        <span class="tooltip-label">Région:</span>
+                        <span class="tooltip-value">{{hoveredExam.region}}</span>
                       </div>
                     </div>
                   </div>

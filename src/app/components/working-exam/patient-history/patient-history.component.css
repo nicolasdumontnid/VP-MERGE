@@ -682,7 +682,7 @@
   content: '';
   position: absolute;
   left: 0;
-  width: calc(100% + 20px);
+  right: -20px;
   height: 1px;
   background-color: #4b5563;
   opacity: 0.3;
@@ -714,11 +714,7 @@
 .chart-area {
   flex: 1;
   position: relative;
-  position: absolute;
-  top: 0;
-  left: 120px;
-  right: 0;
-  bottom: 0;
+  height: 100%;
 }
 
 .x-axis {

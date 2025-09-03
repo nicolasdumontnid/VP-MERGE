@@ -355,26 +355,39 @@ export class PatientHistoryComponent {
     
     // X position (time)
     const examTime = exam.date.getTime() - firstDate.getTime();
-    const xPercent = totalTime > 0 ? (examTime / totalTime) * 90 + 5 : 5; // 5% de marge à gauche, 90% d'espace utilisable
+    const xPercent = totalTime > 0 ? (examTime / totalTime) * 95 + 2.5 : 2.5; // 2.5% de marge à gauche, 95% d'espace utilisable
     
-    // Y position (anatomical region) - Pied en bas (y=0), Tête en haut (y=100)
+    // Y position (anatomical region) - Points entre les lignes
     const regionMap: { [key: string]: number } = {
-      'Pied': 0,           // En bas du graphique
-      'Membres': 1,        // Membre inférieur
-      'Bassin': 2,
-      'Colonne vertébrale': 2.5,
-      'Abdomen': 3,
-      'Thorax': 4,
-      'Crâne': 5           // En haut du graphique
+      'Pied': 0.5,         // Entre pied et membres
+      'Membres': 1.5,      // Entre membres et bassin
+      'Bassin': 2.5,       // Entre bassin et abdomen
+      'Colonne vertébrale': 2.5, // Même que bassin
+      'Abdomen': 3.5,      // Entre abdomen et thorax
+      'Thorax': 4.5,       // Entre thorax et crâne
+      'Crâne': 5.5         // Au-dessus de la ligne crâne
     };
     
-    const yIndex = regionMap[exam.region] || 2;
-    // Inverser l'axe Y : pied en bas (90%), tête en haut (10%)
-    const yPercent = 90 - (yIndex / 5) * 80; // 80% de l'espace utilisable, 10% de marge en haut et en bas
+    const yIndex = regionMap[exam.region] || 2.5;
+    // Inverser l'axe Y : pied en bas (85%), tête en haut (15%)
+    const yPercent = 85 - (yIndex / 6) * 70; // 70% de l'espace utilisable, 15% de marge en haut et en bas
     
     return { x: xPercent, y: yPercent };
   }
 
+  getMonthPosition(month: Date): number {
+    const months = this.getTimelineMonths();
+    if (months.length <= 1) return 0;
+    
+    const firstMonth = months[0];
+    const lastMonth = months[months.length - 1];
+    const totalTime = lastMonth.getTime() - firstMonth.getTime();
+    
+    if (totalTime === 0) return 0;
+    
+    const monthTime = month.getTime() - firstMonth.getTime();
+    return (monthTime / totalTime) * 95 + 2.5; // 2.5% de marge à gauche, 95% d'espace utilisable
+  }
   onRegionHover(event: MouseEvent, region: string) {
     const target = event.target as HTMLElement;
     target.style.backgroundColor = 'rgba(107, 114, 128, 0.3)';
@@ -388,28 +401,30 @@ export class PatientHistoryComponent {
   showTooltip(event: MouseEvent, exam: any) {
     this.hoveredExam = exam;
     
-    // Calculate tooltip position relative to the chart area
-    const rect = (event.target as HTMLElement).getBoundingClientRect();
-    const chartArea = (event.target as HTMLElement).closest('.chart-area');
-    const chartRect = chartArea?.getBoundingClientRect();
+    // Position tooltip relative to the mouse position
+    const target = event.target as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const chartArea = target.closest('.chart-area') as HTMLElement;
     
-    if (chartRect) {
-      // Position tooltip to the right and above the point
+    if (chartArea) {
+      const chartRect = chartArea.getBoundingClientRect();
+      
+      // Position relative to chart area
       this.tooltipPosition = {
-        x: rect.left - chartRect.left + 15, // 15px to the right of the point
-        y: rect.top - chartRect.top - 80   // 80px above the point
+        x: rect.left - chartRect.left + 15,
+        y: rect.top - chartRect.top - 80
       };
       
-      // Adjust if tooltip would go outside the chart area
-      const tooltipWidth = 200; // Estimated tooltip width
-      const tooltipHeight = 80; // Estimated tooltip height
+      // Ajustements pour éviter que le tooltip sorte de la zone
+      const tooltipWidth = 200;
+      const tooltipHeight = 80;
       
       if (this.tooltipPosition.x + tooltipWidth > chartRect.width) {
-        this.tooltipPosition.x = rect.left - chartRect.left - tooltipWidth - 5; // Show to the left
+        this.tooltipPosition.x = rect.left - chartRect.left - tooltipWidth - 5;
       }
       
       if (this.tooltipPosition.y < 0) {
-        this.tooltipPosition.y = rect.top - chartRect.top + 15; // Show below
+        this.tooltipPosition.y = rect.top - chartRect.top + 15;
       }
     }
   }
