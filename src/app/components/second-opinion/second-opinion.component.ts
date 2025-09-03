@@ -35,35 +35,39 @@ export class SecondOpinionComponent implements OnInit {
 
   // Sample thumbnails for different types
   private radioThumbnails = [
-    'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=100&h=100&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=100&h=100&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=100&h=100&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=100&h=100&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=100&h=100&fit=crop&auto=format',
-    'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop&auto=format&sat=-100',
-    'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=100&h=100&fit=crop&auto=format&sat=-100'
+    'assets/images/radio/0-thumbnail.jpeg',
+    'assets/images/radio/1-thumbnail.jpeg',
+    'assets/images/radio/2-thumbnail.jpeg',
+    'assets/images/radio/3-thumbnail.jpeg',
+    'assets/images/radio/4-thumbnail.jpeg',
+    'assets/images/radio/5thumbnail.jpeg',
+    'assets/images/radio/7-thumbnail.jpeg',
+    'assets/images/radio/8-thumbnail.jpeg',
+    'assets/images/radio/9-thumbnail.jpeg',
+    'assets/images/radio/11thumbnail.jpeg'
   ];
 
   private slideThumbnails = [
-    'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=100&h=100&fit=crop&auto=format&sat=-100',
-    'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=100&h=100&fit=crop&auto=format&sat=-100',
-    'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop&auto=format&sat=-100',
-    'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=100&h=100&fit=crop&auto=format&sat=-100',
-    'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=100&h=100&fit=crop&auto=format&sat=-100',
-    'https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=100&h=100&fit=crop&auto=format&sat=-100'
+    'assets/images/micro/micro-0-thumbnail.jpeg',
+    'assets/images/micro/micro-1-thumbnail.jpeg',
+    'assets/images/micro/thumbnail.jpeg',
+    'assets/images/micro/thumbnail (1).jpeg',
+    'assets/images/micro/thumbnail (2).jpeg',
+    'assets/images/micro/thumbnail (3).jpeg',
+    'assets/images/micro/thumbnail (4).jpeg',
+    'assets/images/micro/thumbnail (5).jpeg'
   ];
 
   private videoThumbnails = [
-    'https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=100&h=100&fit=crop&auto=format&sat=-100',
-    'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop&auto=format&sat=-100',
-    'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=100&h=100&fit=crop&auto=format&sat=-100'
+    'assets/images/radio/0-thumbnail.jpeg',
+    'assets/images/radio/1-thumbnail.jpeg',
+    'assets/images/radio/2-thumbnail.jpeg'
   ];
 
   private macroThumbnails = [
-    'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=100&h=100&fit=crop&auto=format&sat=-100',
-    'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=100&h=100&fit=crop&auto=format&sat=-100',
-    'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=100&h=100&fit=crop&auto=format&sat=-100'
+    'assets/images/micro/thumbnail (6).jpeg',
+    'assets/images/micro/thumbnail (7).jpeg',
+    'assets/images/micro/thumbnail (8).jpeg'
   ];
 
   constructor(
