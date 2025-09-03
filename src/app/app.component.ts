@@ -4,13 +4,14 @@ import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WorkingExamComponent } from './components/working-exam/working-exam.component';
+import { SearchBoxComponent } from './components/shared/search-box/search-box.component';
 import { DetailedExam } from '../models/detailed-exam.interface';
 import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule, FormsModule, WorkingExamComponent],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule, FormsModule, WorkingExamComponent, SearchBoxComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush

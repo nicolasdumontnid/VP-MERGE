@@ -1,0 +1,41 @@
+<div class="search-box-container" [class.expanded]="isExpanded">
+  <div class="search-box" [class.focused]="isFocused">
+    <!-- Search Icon -->
+    <div class="search-icon">
+      <i class="fas fa-search"></i>
+    </div>
+    
+    <!-- Input Field -->
+    <input 
+      type="text" 
+      class="search-input"
+      placeholder="Search..."
+      [(ngModel)]="searchValue"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      (input)="onInput()"
+      (keyup.enter)="onSearch()">
+    
+    <!-- Clear Button (only when there's text) -->
+    <button 
+      *ngIf="searchValue.trim()" 
+      class="clear-btn"
+      (click)="clearSearch()"
+      type="button">
+      <i class="fas fa-times"></i>
+    </button>
+    
+    <!-- Separator (only when there's text) -->
+    <div *ngIf="searchValue.trim()" class="separator"></div>
+    
+    <!-- Action Icons -->
+    <div class="action-icons">
+      <button class="action-btn" (click)="onMicrophone()" type="button" title="Voice search">
+        <i class="fas fa-microphone"></i>
+      </button>
+      <button class="action-btn" (click)="onCamera()" type="button" title="Image search">
+        <i class="fas fa-camera"></i>
+      </button>
+    </div>
+  </div>
+</div>

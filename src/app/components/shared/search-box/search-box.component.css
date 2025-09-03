@@ -1,0 +1,153 @@
+.search-box-container {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  width: 200px;
+  transition: width 0.3s ease;
+}
+
+.search-box-container.expanded {
+  width: 400px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #374151;
+  border: 1px solid #4b5563;
+  border-radius: 24px;
+  padding: 8px 12px;
+  width: 100%;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.search-box.focused {
+  border-color: #6b7280;
+  box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.2);
+}
+
+.search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.search-icon i {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.search-input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 14px;
+  outline: none;
+  padding: 0;
+  min-width: 0;
+}
+
+.search-input::placeholder {
+  color: #6b7280;
+}
+
+.clear-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #1f2937;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  margin-left: 8px;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+}
+
+.clear-btn:hover {
+  background-color: rgba(31, 41, 55, 0.1);
+}
+
+.clear-btn i {
+  font-size: 12px;
+}
+
+.separator {
+  width: 1px;
+  height: 20px;
+  background-color: #6b7280;
+  margin: 0 8px;
+  flex-shrink: 0;
+}
+
+.action-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  width: 32px;
+  height: 32px;
+}
+
+.action-btn:hover {
+  background-color: rgba(156, 163, 175, 0.1);
+  color: #d1d5db;
+}
+
+.action-btn i {
+  font-size: 14px;
+}
+
+/* Animation pour l'expansion */
+@media (prefers-reduced-motion: no-preference) {
+  .search-box-container {
+    transform-origin: right center;
+  }
+  
+  .search-box-container.expanded {
+    animation: expandLeft 0.3s ease-out;
+  }
+}
+
+@keyframes expandLeft {
+  from {
+    width: 200px;
+  }
+  to {
+    width: 400px;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .search-box-container {
+    width: 150px;
+  }
+  
+  .search-box-container.expanded {
+    width: 280px;
+  }
+  
+  .search-input {
+    font-size: 13px;
+  }
+}
