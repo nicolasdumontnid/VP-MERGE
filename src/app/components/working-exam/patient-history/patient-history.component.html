@@ -196,7 +196,7 @@
                   <div class="exam-tooltip" 
                        *ngIf="hoveredExam"
                        [style.left.px]="tooltipPosition.x"
-                       [style.top.px]="tooltipPosition.y">
+                       [style.top.px]="tooltipPosition.y"
                        (mouseenter)="keepTooltipVisible()"
                        (mouseleave)="hideTooltip()">
                     <div class="tooltip-header">
