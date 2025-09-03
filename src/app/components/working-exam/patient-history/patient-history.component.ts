@@ -62,13 +62,13 @@ export class PatientHistoryComponent {
     ],
     '2025-01-13': [
       'assets/images/radio/11thumbnail.jpeg',
-      'assets/images/micro/micro-0-thumbnail.jpeg',
-      'assets/images/micro/micro-1-thumbnail.jpeg',
-      'assets/images/micro/thumbnail.jpeg'
+      'assets/images/radio/1thumbnail.jpeg',
+      'assets/images/radio/0thumbnail.jpeg',
+      'assets/images/radio/2thumbnail.jpeg'
     ],
     '2025-01-10': [
-      'assets/images/micro/thumbnail (1).jpeg',
-      'assets/images/micro/thumbnail (2).jpeg'
+      'assets/images/radio/3thumbnail.jpeg',
+      'assets/images/radio/4thumbnail.jpeg'
     ]
   };
 
