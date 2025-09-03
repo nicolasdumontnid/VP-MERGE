@@ -286,7 +286,7 @@ export class PatientHistoryComponent {
     }
   }
 
-  private getAnatomicalRegionBadges(): string[] {
+  public getAnatomicalRegionBadges(): string[] {
     // Get unique anatomical regions from current exam and related patient exams
     const regions = new Set<string>();
     
