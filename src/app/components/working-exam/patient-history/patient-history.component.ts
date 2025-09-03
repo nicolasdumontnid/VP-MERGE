@@ -355,24 +355,23 @@ export class PatientHistoryComponent {
     
     // X position (time)
     const examTime = exam.date.getTime() - firstDate.getTime();
-    const xPercent = totalTime > 0 ? (examTime / totalTime) * 100 : 0; // 0% à 100% sans marge
+    const xPercent = totalTime > 0 ? (examTime / totalTime) * 100 : 0;
     
-    // Y position (anatomical region) - Points ENTRE les lignes
+    // Y position (anatomical region) - Points SUR les lignes
     const regionMap: { [key: string]: number } = {
       'Pied': 0,           // Sur la ligne pied (en bas)
-      'Membres': 1,        // Entre pied et membres
-      'Bassin': 2,         // Entre membres et bassin
+      'Membres': 1,        // Sur la ligne membres
+      'Bassin': 2,         // Sur la ligne bassin
       'Colonne vertébrale': 2, // Même que bassin
-      'Abdomen': 3,        // Entre bassin et abdomen
-      'Thorax': 4,         // Entre abdomen et thorax
-      'Crâne': 5           // Entre thorax et crâne
+      'Abdomen': 3,        // Sur la ligne abdomen
+      'Thorax': 4,         // Sur la ligne thorax
+      'Crâne': 5           // Sur la ligne crâne
     };
     
     const yIndex = regionMap[exam.region] || 2.5;
     // Inverser l'axe Y : pied en bas (90%), tête en haut (10%)
-    // Points ENTRE les lignes : ajouter 0.5 pour centrer entre les lignes
-    const adjustedYIndex = yIndex + 0.5;
-    const yPercent = 90 - (adjustedYIndex / 6) * 80; // 80% de l'espace utilisable, 10% de marge en haut et en bas
+    // Points SUR les lignes : pas d'ajustement
+    const yPercent = 90 - (yIndex / 5) * 80; // 80% de l'espace utilisable, 10% de marge en haut et en bas
     
     return { x: xPercent, y: yPercent };
   }
