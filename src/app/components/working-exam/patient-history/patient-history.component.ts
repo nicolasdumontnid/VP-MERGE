@@ -386,7 +386,7 @@ export class PatientHistoryComponent {
     if (totalTime === 0) return 0;
     
     const monthTime = month.getTime() - firstMonth.getTime();
-    return (monthTime / totalTime) * 95 + 2.5; // 2.5% de marge à gauche, 95% d'espace utilisable
+    return (monthTime / totalTime) * 100; // Utilise tout l'espace disponible depuis l'origine
   }
   onRegionHover(event: MouseEvent, region: string) {
     const target = event.target as HTMLElement;
