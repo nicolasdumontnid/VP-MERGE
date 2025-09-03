@@ -720,8 +720,8 @@
 .x-axis {
   position: absolute;
   bottom: -30px;
-  left: 0;
-  right: 0;
+  left: 120px;
+  right: 20px;
   height: 20px;
 }
 
