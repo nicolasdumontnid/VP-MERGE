@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DetailedExam } from '../../../../models/detailed-exam.interface';
@@ -40,7 +41,7 @@ export class PatientHistoryComponent {
   tooltipPosition = { x: 0, y: 0 };
   private tooltipTimeout: any = null;
 
-  menuOptions: MenuOption[] = [
+  constructor(private cdr: ChangeDetectorRef) {}
     { id: 'ia-summary', label: 'IA Summary', icon: 'fas fa-brain' },
     { id: 'calendar-map', label: 'Calendar Map', icon: 'fas fa-calendar-alt' },
     { id: 'current-exam', label: 'Current Exam', icon: 'fas fa-file-medical-alt' },
@@ -438,6 +439,7 @@ export class PatientHistoryComponent {
     this.tooltipTimeout = setTimeout(() => {
       console.log('Hiding tooltip after timeout');
       this.hoveredExam = null;
+      this.cdr.detectChanges(); // Force change detection
     }, 150);
   }
 
