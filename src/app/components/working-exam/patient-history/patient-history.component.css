@@ -777,3 +777,47 @@
   border-color: #3b82f6;
   box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
 }
+
+/* Tooltip Styles */
+.exam-tooltip {
+  position: absolute;
+  background-color: #1f2937;
+  border: 1px solid #4b5563;
+  border-radius: 8px;
+  padding: 12px;
+  min-width: 180px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  pointer-events: none;
+  font-size: 13px;
+}
+
+.tooltip-header {
+  color: white;
+  font-weight: 600;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #4b5563;
+}
+
+.tooltip-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tooltip-label {
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.tooltip-value {
+  color: white;
+  text-align: right;
+}

@@ -187,7 +187,27 @@
                          *ngFor="let exam of getPatientExams()"
                          [style.left.%]="getExamPosition(exam).x"
                          [style.top.%]="getExamPosition(exam).y"
-                         [title]="exam.title + ' - ' + exam.date.toLocaleDateString('fr-FR')">
+                         (mouseenter)="showTooltip($event, exam)"
+                         (mouseleave)="hideTooltip()">
+                      <!-- Tooltip -->
+                      <div class="exam-tooltip" 
+                           *ngIf="hoveredExam === exam"
+                           [style.left.px]="tooltipPosition.x"
+                           [style.top.px]="tooltipPosition.y">
+                        <div class="tooltip-header">
+                          <strong>{{exam.title}}</strong>
+                        </div>
+                        <div class="tooltip-content">
+                          <div class="tooltip-row">
+                            <span class="tooltip-label">Date:</span>
+                            <span class="tooltip-value">{{exam.date.toLocaleDateString('fr-FR')}}</span>
+                          </div>
+                          <div class="tooltip-row">
+                            <span class="tooltip-label">Région:</span>
+                            <span class="tooltip-value">{{exam.region}}</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
