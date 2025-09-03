@@ -696,6 +696,7 @@
   color: #d1d5db;
   white-space: nowrap;
   border-radius: 3px;
+  display: none;
 }
 
 .region-space {
