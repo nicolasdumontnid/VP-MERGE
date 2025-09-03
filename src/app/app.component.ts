@@ -550,11 +550,19 @@ export class AppComponent {
     this.currentWorkingExam = exam;
     this.workingExamBreadcrumb = `${exam.patientName} / ${exam.reference}`;
     this.closeDropdowns();
+    
+    // Scroll to top when opening working exam
+    window.scrollTo(0, 0);
+    // Prevent body scroll when working exam is open
+    document.body.style.overflow = 'hidden';
   }
 
   closeWorkingExam(): void {
     this.isWorkingExam = false;
     this.currentWorkingExam = null;
     this.workingExamBreadcrumb = '';
+    
+    // Restore body scroll when closing working exam
+    document.body.style.overflow = 'auto';
   }
 }
