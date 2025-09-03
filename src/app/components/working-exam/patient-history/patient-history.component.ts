@@ -38,6 +38,7 @@ export class PatientHistoryComponent {
   // Tooltip properties
   hoveredExam: any = null;
   tooltipPosition = { x: 0, y: 0 };
+  private tooltipTimeout: any = null;
 
   menuOptions: MenuOption[] = [
     { id: 'ia-summary', label: 'IA Summary', icon: 'fas fa-brain' },
@@ -400,6 +401,12 @@ export class PatientHistoryComponent {
   }
 
   showTooltip(event: MouseEvent, exam: any) {
+    // Clear any existing timeout
+    if (this.tooltipTimeout) {
+      clearTimeout(this.tooltipTimeout);
+      this.tooltipTimeout = null;
+    }
+    
     this.hoveredExam = exam;
     
     // Position tooltip relative to the mouse position
@@ -431,7 +438,18 @@ export class PatientHistoryComponent {
   }
 
   hideTooltip() {
-    this.hoveredExam = null;
+    // Add a small delay to allow mouse to move to tooltip
+    this.tooltipTimeout = setTimeout(() => {
+      this.hoveredExam = null;
+    }, 100);
+  }
+
+  keepTooltipVisible() {
+    // Cancel the hide timeout when mouse enters tooltip
+    if (this.tooltipTimeout) {
+      clearTimeout(this.tooltipTimeout);
+      this.tooltipTimeout = null;
+    }
   }
 
 }
