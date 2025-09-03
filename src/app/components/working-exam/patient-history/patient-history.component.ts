@@ -42,6 +42,8 @@ export class PatientHistoryComponent {
   private tooltipTimeout: any = null;
 
   constructor(private cdr: ChangeDetectorRef) {}
+
+  menuOptions: MenuOption[] = [
     { id: 'ia-summary', label: 'IA Summary', icon: 'fas fa-brain' },
     { id: 'calendar-map', label: 'Calendar Map', icon: 'fas fa-calendar-alt' },
     { id: 'current-exam', label: 'Current Exam', icon: 'fas fa-file-medical-alt' },
