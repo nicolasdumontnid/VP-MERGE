@@ -45,30 +45,15 @@ export class InboxComponent implements OnInit {
     'assets/images/radio/7-thumbnail.jpeg',
     'assets/images/radio/8-thumbnail.jpeg',
     'assets/images/radio/9-thumbnail.jpeg',
-    'assets/images/radio/11thumbnail.jpeg'
-  ];
-
-  private slideThumbnails = [
-    'assets/images/micro/micro-0-thumbnail.jpeg',
-    'assets/images/micro/micro-1-thumbnail.jpeg',
-    'assets/images/micro/thumbnail.jpeg',
-    'assets/images/micro/thumbnail (1).jpeg',
-    'assets/images/micro/thumbnail (2).jpeg',
-    'assets/images/micro/thumbnail (3).jpeg',
-    'assets/images/micro/thumbnail (4).jpeg',
-    'assets/images/micro/thumbnail (5).jpeg'
-  ];
-
-  private videoThumbnails = [
-    'assets/images/radio/0-thumbnail.jpeg',
-    'assets/images/radio/1-thumbnail.jpeg',
-    'assets/images/radio/2-thumbnail.jpeg'
-  ];
-
-  private macroThumbnails = [
-    'assets/images/micro/thumbnail (6).jpeg',
-    'assets/images/micro/thumbnail (7).jpeg',
-    'assets/images/micro/thumbnail (8).jpeg'
+    'assets/images/radio/11thumbnail.jpeg',
+    'assets/images/radio/1thumbnail.jpeg',
+    'assets/images/radio/0thumbnail.jpeg',
+    'assets/images/radio/2thumbnail.jpeg',
+    'assets/images/radio/3thumbnail.jpeg',
+    'assets/images/radio/4thumbnail.jpeg',
+    'assets/images/radio/8thumbnail.jpeg',
+    'assets/images/radio/9thumbnail.jpeg',
+    'assets/images/radio/99thumbnail.jpeg'
   ];
 
   constructor(
@@ -141,25 +126,13 @@ export class InboxComponent implements OnInit {
       switch (type) {
         case 'radio':
         case 'mri':
-          thumbnail = this.radioThumbnails[Math.floor(Math.random() * this.radioThumbnails.length)];
-          break;
         case 'slide':
-          thumbnail = this.slideThumbnails[Math.floor(Math.random() * this.slideThumbnails.length)];
-          break;
         case 'video':
-          thumbnail = this.videoThumbnails[Math.floor(Math.random() * this.videoThumbnails.length)];
-          break;
         case 'macro':
-          thumbnail = this.macroThumbnails[Math.floor(Math.random() * this.macroThumbnails.length)];
-          break;
         case 'pdf':
-          thumbnail = 'https://cdn-icons-png.flaticon.com/512/337/337946.png';
-          break;
         case 'excel':
-          thumbnail = 'https://cdn-icons-png.flaticon.com/512/732/732220.png';
-          break;
         case 'text':
-          thumbnail = 'https://cdn-icons-png.flaticon.com/512/337/337932.png';
+          thumbnail = this.macroThumbnails[Math.floor(Math.random() * this.macroThumbnails.length)];
           break;
       }
       
