@@ -351,7 +351,7 @@ export class PatientHistoryComponent {
     
     // X position (time)
     const examTime = exam.date.getTime() - firstDate.getTime();
-    const xPercent = totalTime > 0 ? (examTime / totalTime) * 100 : 0;
+    const xPercent = totalTime > 0 ? (examTime / totalTime) * 95 : 0; // 95% pour laisser de l'espace
     
     // Y position (anatomical region)
     const regionMap: { [key: string]: number } = {
@@ -364,7 +364,7 @@ export class PatientHistoryComponent {
     };
     
     const yIndex = regionMap[exam.region] || 2;
-    const yPercent = (yIndex / 4) * 100; // 4 main regions
+    const yPercent = (yIndex / 4) * 80 + 10; // 80% de l'espace avec 10% de marge
     
     return { x: xPercent, y: yPercent };
   }

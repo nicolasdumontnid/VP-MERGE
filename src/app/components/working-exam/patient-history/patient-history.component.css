@@ -675,13 +675,14 @@
   background-color: #6b7280;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .y-axis-line::after {
   content: '';
   position: absolute;
-  right: 0;
-  width: calc(100vw - 120px);
+  left: 0;
+  width: calc(100% + 20px);
   height: 1px;
   background-color: #4b5563;
   opacity: 0.3;
@@ -713,7 +714,11 @@
 .chart-area {
   flex: 1;
   position: relative;
-  margin-left: 20px;
+  position: absolute;
+  top: 0;
+  left: 120px;
+  right: 0;
+  bottom: 0;
 }
 
 .x-axis {
