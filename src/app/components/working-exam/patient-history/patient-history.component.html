@@ -197,8 +197,8 @@
                        *ngIf="hoveredExam"
                        [style.left.px]="tooltipPosition.x"
                        [style.top.px]="tooltipPosition.y">
-                      (mouseenter)="keepTooltipVisible()"
-                      (mouseleave)="hideTooltip()">
+                       (mouseenter)="keepTooltipVisible()"
+                       (mouseleave)="hideTooltip()">
                     <div class="tooltip-header">
                       <strong>{{hoveredExam.title}}</strong>
                     </div>
