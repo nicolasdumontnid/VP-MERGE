@@ -132,7 +132,7 @@ export class InboxComponent implements OnInit {
         case 'pdf':
         case 'excel':
         case 'text':
-          thumbnail = this.macroThumbnails[Math.floor(Math.random() * this.macroThumbnails.length)];
+          thumbnail = this.radioThumbnails[Math.floor(Math.random() * this.radioThumbnails.length)];
           break;
       }
       
