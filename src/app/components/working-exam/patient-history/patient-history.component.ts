@@ -416,36 +416,4 @@ export class PatientHistoryComponent {
     this.hoveredExam = null;
   }
 
-  showTooltip(event: MouseEvent, exam: any) {
-    this.hoveredExam = exam;
-    
-    // Calculate tooltip position relative to the chart area
-    const rect = (event.target as HTMLElement).getBoundingClientRect();
-    const chartArea = (event.target as HTMLElement).closest('.chart-area');
-    const chartRect = chartArea?.getBoundingClientRect();
-    
-    if (chartRect) {
-      // Position tooltip to the right and above the point
-      this.tooltipPosition = {
-        x: rect.left - chartRect.left + 15, // 15px to the right of the point
-        y: rect.top - chartRect.top - 80   // 80px above the point
-      };
-      
-      // Adjust if tooltip would go outside the chart area
-      const tooltipWidth = 200; // Estimated tooltip width
-      const tooltipHeight = 80; // Estimated tooltip height
-      
-      if (this.tooltipPosition.x + tooltipWidth > chartRect.width) {
-        this.tooltipPosition.x = rect.left - chartRect.left - tooltipWidth - 5; // Show to the left
-      }
-      
-      if (this.tooltipPosition.y < 0) {
-        this.tooltipPosition.y = rect.top - chartRect.top + 15; // Show below
-      }
-    }
-  }
-
-  hideTooltip() {
-    this.hoveredExam = null;
-  }
 }
