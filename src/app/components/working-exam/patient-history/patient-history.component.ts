@@ -433,18 +433,4 @@ export class PatientHistoryComponent {
     this.hoveredExam = null;
   }
 
-  public getMonthPosition(month: Date): number {
-    const months = this.getTimelineMonths();
-    if (months.length <= 1) return 2.5;
-    
-    const firstMonth = months[0];
-    const lastMonth = months[months.length - 1];
-    const totalTime = lastMonth.getTime() - firstMonth.getTime();
-    
-    if (totalTime === 0) return 2.5;
-    
-    const monthTime = month.getTime() - firstMonth.getTime();
-    return (monthTime / totalTime) * 95 + 2.5; // 2.5% de marge à gauche, 95% d'espace utilisable
-  }
-
 }
