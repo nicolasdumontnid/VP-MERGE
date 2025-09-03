@@ -407,44 +407,42 @@ export class PatientHistoryComponent {
       this.tooltipTimeout = null;
     }
     
+    console.log('showTooltip called for exam:', exam.title);
     this.hoveredExam = exam;
     
-    // Position tooltip relative to the mouse position
+    // Position tooltip to touch the point
     const target = event.target as HTMLElement;
-    const rect = target.getBoundingClientRect();
     const chartArea = target.closest('.chart-area') as HTMLElement;
     
     if (chartArea) {
+      // Get the point's position within the chart area
+      const pointRect = target.getBoundingClientRect();
       const chartRect = chartArea.getBoundingClientRect();
       
-      // Position relative to chart area
+      // Position tooltip to touch the top of the point
       this.tooltipPosition = {
-        x: rect.left - chartRect.left + 15,
-        y: rect.top - chartRect.top - 80
+        x: pointRect.left - chartRect.left + (pointRect.width / 2),
+        y: pointRect.top - chartRect.top
       };
-      
-      // Ajustements pour éviter que le tooltip sorte de la zone
-      const tooltipWidth = 200;
-      const tooltipHeight = 80;
-      
-      if (this.tooltipPosition.x + tooltipWidth > chartRect.width) {
-        this.tooltipPosition.x = rect.left - chartRect.left - tooltipWidth - 5;
-      }
-      
-      if (this.tooltipPosition.y < 0) {
-        this.tooltipPosition.y = rect.top - chartRect.top + 15;
-      }
     }
   }
 
   hideTooltip() {
+    console.log('hideTooltip called');
+    // Clear any existing timeout first
+    if (this.tooltipTimeout) {
+      clearTimeout(this.tooltipTimeout);
+    }
+    
     // Add a small delay to allow mouse to move to tooltip
     this.tooltipTimeout = setTimeout(() => {
+      console.log('Hiding tooltip after timeout');
       this.hoveredExam = null;
-    }, 100);
+    }, 150);
   }
 
   keepTooltipVisible() {
+    console.log('keepTooltipVisible called');
     // Cancel the hide timeout when mouse enters tooltip
     if (this.tooltipTimeout) {
       clearTimeout(this.tooltipTimeout);

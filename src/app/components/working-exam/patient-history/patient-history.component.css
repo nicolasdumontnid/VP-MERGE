@@ -796,6 +796,8 @@
   z-index: 1000;
   pointer-events: none;
   font-size: 13px;
+  transform: translate(-50%, -100%);
+  margin-top: -10px;
 }
 
 .tooltip-header {
