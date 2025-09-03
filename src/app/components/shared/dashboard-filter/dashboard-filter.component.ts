@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SearchBoxComponent } from '../search-box/search-box.component';
 
 interface FilterOption {
   id: string;
@@ -34,7 +35,7 @@ interface DateOption {
 @Component({
   selector: 'app-dashboard-filter',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SearchBoxComponent],
   templateUrl: './dashboard-filter.component.html',
   styleUrls: ['./dashboard-filter.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
