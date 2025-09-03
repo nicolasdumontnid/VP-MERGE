@@ -355,22 +355,24 @@ export class PatientHistoryComponent {
     
     // X position (time)
     const examTime = exam.date.getTime() - firstDate.getTime();
-    const xPercent = totalTime > 0 ? (examTime / totalTime) * 95 + 2.5 : 2.5; // 2.5% de marge à gauche, 95% d'espace utilisable
+    const xPercent = totalTime > 0 ? (examTime / totalTime) * 100 : 0; // 0% à 100% sans marge
     
-    // Y position (anatomical region) - Points entre les lignes
+    // Y position (anatomical region) - Points ENTRE les lignes
     const regionMap: { [key: string]: number } = {
-      'Pied': 0.5,         // Entre pied et membres
-      'Membres': 1.5,      // Entre membres et bassin
-      'Bassin': 2.5,       // Entre bassin et abdomen
-      'Colonne vertébrale': 2.5, // Même que bassin
-      'Abdomen': 3.5,      // Entre abdomen et thorax
-      'Thorax': 4.5,       // Entre thorax et crâne
-      'Crâne': 5.5         // Au-dessus de la ligne crâne
+      'Pied': 0,           // Sur la ligne pied (en bas)
+      'Membres': 1,        // Entre pied et membres
+      'Bassin': 2,         // Entre membres et bassin
+      'Colonne vertébrale': 2, // Même que bassin
+      'Abdomen': 3,        // Entre bassin et abdomen
+      'Thorax': 4,         // Entre abdomen et thorax
+      'Crâne': 5           // Entre thorax et crâne
     };
     
     const yIndex = regionMap[exam.region] || 2.5;
-    // Inverser l'axe Y : pied en bas (85%), tête en haut (15%)
-    const yPercent = 85 - (yIndex / 6) * 70; // 70% de l'espace utilisable, 15% de marge en haut et en bas
+    // Inverser l'axe Y : pied en bas (90%), tête en haut (10%)
+    // Points ENTRE les lignes : ajouter 0.5 pour centrer entre les lignes
+    const adjustedYIndex = yIndex + 0.5;
+    const yPercent = 90 - (adjustedYIndex / 6) * 80; // 80% de l'espace utilisable, 10% de marge en haut et en bas
     
     return { x: xPercent, y: yPercent };
   }
@@ -386,7 +388,7 @@ export class PatientHistoryComponent {
     if (totalTime === 0) return 0;
     
     const monthTime = month.getTime() - firstMonth.getTime();
-    return (monthTime / totalTime) * 100; // Utilise tout l'espace disponible depuis l'origine
+    return (monthTime / totalTime) * 100; // 0% à 100% depuis l'origine
   }
   onRegionHover(event: MouseEvent, region: string) {
     const target = event.target as HTMLElement;
