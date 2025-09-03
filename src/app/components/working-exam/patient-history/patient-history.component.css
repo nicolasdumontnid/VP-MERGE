@@ -160,20 +160,20 @@
 }
 
 .block-header {
+  position: relative;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   padding: 16px;
+  padding-right: 40px;
   background: #4b5563;
   border-bottom: 1px solid #6b7280;
 }
 
 .block-title-section {
+  flex: 1;
   display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 0 1 auto;
-  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .block-title-section h4 {
@@ -182,17 +182,17 @@
   font-weight: 600;
   color: white;
   margin-bottom: 0;
-  flex-shrink: 0;
 }
 
 .badges {
+  position: absolute;
+  top: 16px;
+  right: 40px;
   display: flex;
   gap: 4px;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-wrap: wrap-reverse;
   justify-content: flex-end;
-  flex: 0 0 auto;
-  margin-left: 12px;
+  max-width: calc(100% - 200px);
 }
 
 .badge {
@@ -218,10 +218,14 @@
 
 /* Radio Badges */
 .radio-badges {
+  position: absolute;
+  top: 16px;
+  right: 40px;
   display: flex;
   gap: 8px;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-wrap: wrap-reverse;
+  justify-content: flex-end;
+  max-width: calc(100% - 200px);
 }
 
 .radio-badge {
@@ -304,9 +308,14 @@
   border-radius: 4px;
   transition: all 0.2s ease;
   position: absolute;
-  top: 4px;
-  right: 4px;
-  z-index: 20;
+  top: 8px;
+  right: 8px;
+  z-index: 30;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .remove-block-btn:hover {
