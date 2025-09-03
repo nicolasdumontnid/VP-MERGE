@@ -1,11 +1,11 @@
 .working-exam-container {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 70px;
+  left: 60px;
   right: 0;
   bottom: 0;
-  width: 100vw;
-  height: 100vh;
+  width: calc(100vw - 60px);
+  height: calc(100vh - 70px);
   display: flex;
   flex-direction: column;
   background: #1a1a1a;
