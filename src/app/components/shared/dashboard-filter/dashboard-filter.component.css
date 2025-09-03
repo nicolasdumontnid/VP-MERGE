@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 
 .header-left {
@@ -37,7 +37,7 @@
 .header-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 2em;
 }
 
 .header-right i {
@@ -52,7 +52,8 @@
 
 /* Dashboard Filter Accordion */
 .dashboard-filter-accordion {
-  margin-bottom: 24px;
+  margin-top: 16px;
+  margin-bottom: 32px;
   position: relative;
 }
 
