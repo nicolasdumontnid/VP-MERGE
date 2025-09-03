@@ -187,8 +187,8 @@
                          *ngFor="let exam of getPatientExams()"
                          [style.left.%]="getExamPosition(exam).x"
                          [style.top.%]="getExamPosition(exam).y"
-                         (mouseenter)="showTooltip($event, exam)"
-                         (mouseleave)="hideTooltip()">
+                         (mouseenter)="onExamPointEnter($event, exam)"
+                         (mouseleave)="onExamPointLeave()">
                     </div>
                   </div>
                   
@@ -197,8 +197,8 @@
                        *ngIf="hoveredExam"
                        [style.left.px]="tooltipPosition.x"
                        [style.top.px]="tooltipPosition.y"
-                       (mouseenter)="keepTooltipVisible()"
-                       (mouseleave)="hideTooltipImmediately()">
+                       (mouseenter)="onTooltipEnter()"
+                       (mouseleave)="onTooltipLeave()">
                     <div class="tooltip-header">
                       <strong>{{hoveredExam.title}}</strong>
                     </div>

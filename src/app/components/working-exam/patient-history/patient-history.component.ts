@@ -39,7 +39,7 @@ export class PatientHistoryComponent {
   // Tooltip properties
   hoveredExam: any = null;
   tooltipPosition = { x: 0, y: 0 };
-  private tooltipTimeout: any = null;
+  private hideTimeout: any = null;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -393,6 +393,7 @@ export class PatientHistoryComponent {
     const monthTime = month.getTime() - firstMonth.getTime();
     return (monthTime / totalTime) * 100; // 0% à 100% depuis l'origine
   }
+
   onRegionHover(event: MouseEvent, region: string) {
     const target = event.target as HTMLElement;
     target.style.backgroundColor = 'rgba(107, 114, 128, 0.3)';
@@ -403,32 +404,62 @@ export class PatientHistoryComponent {
     target.style.backgroundColor = 'transparent';
   }
 
-  showTooltip(event: MouseEvent, exam: any) {
-    this.clearTooltipTimeout();
-    
-    console.log('showTooltip called for exam:', exam.title);
+  onExamPointEnter(event: MouseEvent, exam: any) {
+    console.log('onExamPointEnter called for exam:', exam.title);
+    this.clearHideTimeout();
     this.hoveredExam = exam;
     
-    // Position tooltip to touch the point
     const target = event.target as HTMLElement;
     const chartArea = target.closest('.chart-area') as HTMLElement;
     
     if (chartArea) {
-      // Get the point's position within the chart area
       const pointRect = target.getBoundingClientRect();
       const chartRect = chartArea.getBoundingClientRect();
       
-      // Position tooltip to touch the top of the point
       this.tooltipPosition = {
         x: pointRect.left - chartRect.left + (pointRect.width / 2),
         y: pointRect.top - chartRect.top
       };
     }
+    
+    this.cdr.detectChanges();
   }
 
-  hideTooltip() {
-    console.log('hideTooltip called');
-    this.clearTooltipTimeout();
+  onExamPointLeave() {
+    console.log('onExamPointLeave called');
+    this.scheduleHide();
+  }
+
+  onTooltipEnter() {
+    console.log('onTooltipEnter called');
+    this.clearHideTimeout();
+  }
+
+  onTooltipLeave() {
+    console.log('onTooltipLeave called');
+    this.scheduleHide();
+  }
+
+  private scheduleHide() {
+    this.clearHideTimeout();
+    this.hideTimeout = setTimeout(() => {
+      console.log('Hiding tooltip after timeout');
+      this.hoveredExam = null;
+      this.cdr.detectChanges();
+    }, 100);
+  }
+
+  private clearHideTimeout() {
+    if (this.hideTimeout) {
+      clearTimeout(this.hideTimeout);
+      this.hideTimeout = null;
+    }
+  }
+
+  ngOnDestroy() {
+    this.clearHideTimeout();
+  }
+}
     
     // Add delay to allow mouse to move to tooltip
     this.tooltipTimeout = setTimeout(() => {
