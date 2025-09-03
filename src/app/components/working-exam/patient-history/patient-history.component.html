@@ -131,24 +131,24 @@
                 <!-- Y-axis labels and lines -->
                 <div class="y-axis">
                   <div class="y-axis-line" data-region="head">
-                    <span class="y-label">Tête</span>
+                    <span class="y-label">Crâne</span>
                   </div>
                   <div class="region-space" 
                        (mouseenter)="onRegionHover($event, 'head-shoulder')"
                        (mouseleave)="onRegionLeave($event)">
                   </div>
-                  <div class="y-axis-line" data-region="shoulder">
-                    <span class="y-label">Épaule</span>
+                  <div class="y-axis-line" data-region="thorax">
+                    <span class="y-label">Thorax</span>
                   </div>
                   <div class="region-space"
-                       (mouseenter)="onRegionHover($event, 'shoulder-arm')"
+                       (mouseenter)="onRegionHover($event, 'thorax-abdomen')"
                        (mouseleave)="onRegionLeave($event)">
                   </div>
-                  <div class="y-axis-line" data-region="arm">
-                    <span class="y-label">Membre supérieur</span>
+                  <div class="y-axis-line" data-region="abdomen">
+                    <span class="y-label">Abdomen</span>
                   </div>
                   <div class="region-space"
-                       (mouseenter)="onRegionHover($event, 'arm-pelvis')"
+                       (mouseenter)="onRegionHover($event, 'abdomen-pelvis')"
                        (mouseleave)="onRegionLeave($event)">
                   </div>
                   <div class="y-axis-line" data-region="pelvis">
@@ -158,8 +158,8 @@
                        (mouseenter)="onRegionHover($event, 'pelvis-leg')"
                        (mouseleave)="onRegionLeave($event)">
                   </div>
-                  <div class="y-axis-line" data-region="leg">
-                    <span class="y-label">Membre inférieur</span>
+                  <div class="y-axis-line" data-region="membres">
+                    <span class="y-label">Membres</span>
                   </div>
                   <div class="region-space"
                        (mouseenter)="onRegionHover($event, 'leg-foot')"

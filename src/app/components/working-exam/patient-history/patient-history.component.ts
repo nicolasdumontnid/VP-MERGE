@@ -310,18 +310,18 @@ export class PatientHistoryComponent {
     if (!this.exam) return [];
     
     return [
-      { date: new Date('2024-01-15'), region: 'Thorax', title: 'CT Scan - Chest' },
-      { date: new Date('2024-02-20'), region: 'Abdomen', title: 'MRI - Abdominal' },
-      { date: new Date('2024-03-10'), region: 'Crâne', title: 'CT Scan - Head' },
-      { date: new Date('2024-04-05'), region: 'Bassin', title: 'X-Ray - Pelvis' },
-      { date: new Date('2024-05-12'), region: 'Membres', title: 'MRI - Knee' },
+      { date: new Date('2024-01-15'), region: 'Pied', title: 'X-Ray - Foot' },
+      { date: new Date('2024-02-20'), region: 'Membres', title: 'MRI - Knee' },
+      { date: new Date('2024-03-10'), region: 'Bassin', title: 'X-Ray - Pelvis' },
+      { date: new Date('2024-04-05'), region: 'Colonne vertébrale', title: 'MRI - Spine' },
+      { date: new Date('2024-05-12'), region: 'Abdomen', title: 'MRI - Abdominal' },
       { date: new Date('2024-06-18'), region: 'Thorax', title: 'X-Ray - Chest' },
-      { date: new Date('2024-07-22'), region: 'Colonne vertébrale', title: 'MRI - Spine' },
+      { date: new Date('2024-07-22'), region: 'Crâne', title: 'CT Scan - Head' },
       { date: new Date('2024-08-30'), region: 'Abdomen', title: 'Ultrasound' },
-      { date: new Date('2024-09-15'), region: 'Crâne', title: 'MRI - Brain' },
+      { date: new Date('2024-09-15'), region: 'Thorax', title: 'CT Scan - Lungs' },
       { date: new Date('2024-10-08'), region: 'Membres', title: 'X-Ray - Wrist' },
       { date: new Date('2024-11-12'), region: 'Bassin', title: 'CT Scan - Hip' },
-      { date: new Date('2024-12-20'), region: 'Thorax', title: 'CT Scan - Lungs' },
+      { date: new Date('2024-12-20'), region: 'Crâne', title: 'MRI - Brain' },
       { date: new Date('2025-01-15'), region: this.exam.anatomicalRegion, title: this.exam.title }
     ];
   }
@@ -355,20 +355,22 @@ export class PatientHistoryComponent {
     
     // X position (time)
     const examTime = exam.date.getTime() - firstDate.getTime();
-    const xPercent = totalTime > 0 ? (examTime / totalTime) * 95 : 0; // 95% pour laisser de l'espace
+    const xPercent = totalTime > 0 ? (examTime / totalTime) * 90 + 5 : 5; // 5% de marge à gauche, 90% d'espace utilisable
     
-    // Y position (anatomical region)
+    // Y position (anatomical region) - Pied en bas (y=0), Tête en haut (y=100)
     const regionMap: { [key: string]: number } = {
-      'Crâne': 0,
-      'Thorax': 1,
-      'Abdomen': 2,
-      'Bassin': 3,
-      'Membres': 4,
-      'Colonne vertébrale': 2.5 // Between abdomen and pelvis
+      'Pied': 0,           // En bas du graphique
+      'Membres': 1,        // Membre inférieur
+      'Bassin': 2,
+      'Colonne vertébrale': 2.5,
+      'Abdomen': 3,
+      'Thorax': 4,
+      'Crâne': 5           // En haut du graphique
     };
     
     const yIndex = regionMap[exam.region] || 2;
-    const yPercent = (yIndex / 4) * 80 + 10; // 80% de l'espace avec 10% de marge
+    // Inverser l'axe Y : pied en bas (90%), tête en haut (10%)
+    const yPercent = 90 - (yIndex / 5) * 80; // 80% de l'espace utilisable, 10% de marge en haut et en bas
     
     return { x: xPercent, y: yPercent };
   }
