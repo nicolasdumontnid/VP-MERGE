@@ -116,6 +116,85 @@
             </div>
           </div>
 
+          <!-- Calendar Map -->
+          <div *ngIf="block.content.type === 'calendar-map'" class="calendar-map-content">
+            <div class="calendar-map-layout">
+              <!-- Left side: Human body SVG -->
+              <div class="body-reference">
+                <img src="assets/skeleton+skin.svg" 
+                     alt="Human Skeleton Reference" 
+                     class="reference-svg">
+              </div>
+              
+              <!-- Right side: Timeline chart -->
+              <div class="timeline-chart">
+                <!-- Y-axis labels and lines -->
+                <div class="y-axis">
+                  <div class="y-axis-line" data-region="head">
+                    <span class="y-label">Tête</span>
+                  </div>
+                  <div class="region-space" 
+                       (mouseenter)="onRegionHover($event, 'head-shoulder')"
+                       (mouseleave)="onRegionLeave($event)">
+                  </div>
+                  <div class="y-axis-line" data-region="shoulder">
+                    <span class="y-label">Épaule</span>
+                  </div>
+                  <div class="region-space"
+                       (mouseenter)="onRegionHover($event, 'shoulder-arm')"
+                       (mouseleave)="onRegionLeave($event)">
+                  </div>
+                  <div class="y-axis-line" data-region="arm">
+                    <span class="y-label">Membre supérieur</span>
+                  </div>
+                  <div class="region-space"
+                       (mouseenter)="onRegionHover($event, 'arm-pelvis')"
+                       (mouseleave)="onRegionLeave($event)">
+                  </div>
+                  <div class="y-axis-line" data-region="pelvis">
+                    <span class="y-label">Bassin</span>
+                  </div>
+                  <div class="region-space"
+                       (mouseenter)="onRegionHover($event, 'pelvis-leg')"
+                       (mouseleave)="onRegionLeave($event)">
+                  </div>
+                  <div class="y-axis-line" data-region="leg">
+                    <span class="y-label">Membre inférieur</span>
+                  </div>
+                  <div class="region-space"
+                       (mouseenter)="onRegionHover($event, 'leg-foot')"
+                       (mouseleave)="onRegionLeave($event)">
+                  </div>
+                  <div class="y-axis-line" data-region="foot">
+                    <span class="y-label">Pied</span>
+                  </div>
+                </div>
+                
+                <!-- Chart area with exam points -->
+                <div class="chart-area">
+                  <!-- X-axis (time) -->
+                  <div class="x-axis">
+                    <div class="x-axis-label" 
+                         *ngFor="let month of getTimelineMonths()"
+                         [style.left.%]="((month.getTime() - getTimelineMonths()[0].getTime()) / (getTimelineMonths()[getTimelineMonths().length-1].getTime() - getTimelineMonths()[0].getTime())) * 100">
+                      {{month.toLocaleDateString('fr-FR', {month: 'short', year: '2-digit'})}}
+                    </div>
+                  </div>
+                  
+                  <!-- Exam points -->
+                  <div class="exam-points">
+                    <div class="exam-point" 
+                         *ngFor="let exam of getPatientExams()"
+                         [style.left.%]="getExamPosition(exam).x"
+                         [style.top.%]="getExamPosition(exam).y"
+                         [title]="exam.title + ' - ' + exam.date.toLocaleDateString('fr-FR')">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- All Images -->
           <div *ngIf="block.content.type === 'images'" class="images-content">
             <div class="date-group" *ngFor="let date of getImageDates()">

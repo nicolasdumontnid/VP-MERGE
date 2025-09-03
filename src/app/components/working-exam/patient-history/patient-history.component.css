@@ -626,3 +626,148 @@
 .panel-content::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
+/* Calendar Map Content */
+.calendar-map-content {
+  padding: 16px;
+}
+
+.calendar-map-layout {
+  display: flex;
+  gap: 20px;
+  height: 400px;
+}
+
+.body-reference {
+  flex: 0 0 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reference-svg {
+  width: 100px;
+  height: 300px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  opacity: 0.7;
+}
+
+.timeline-chart {
+  flex: 1;
+  display: flex;
+  position: relative;
+  border-left: 2px solid #6b7280;
+  border-bottom: 2px solid #6b7280;
+}
+
+.y-axis {
+  flex: 0 0 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 0;
+  position: relative;
+}
+
+.y-axis-line {
+  position: relative;
+  height: 2px;
+  background-color: #6b7280;
+  display: flex;
+  align-items: center;
+}
+
+.y-axis-line::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: calc(100vw - 120px);
+  height: 1px;
+  background-color: #4b5563;
+  opacity: 0.3;
+}
+
+.y-label {
+  position: absolute;
+  right: 8px;
+  background: #2a2a2a;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #d1d5db;
+  white-space: nowrap;
+  border-radius: 3px;
+}
+
+.region-space {
+  flex: 1;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-height: 30px;
+}
+
+.region-space:hover {
+  background-color: rgba(107, 114, 128, 0.2);
+}
+
+.chart-area {
+  flex: 1;
+  position: relative;
+  margin-left: 20px;
+}
+
+.x-axis {
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  right: 0;
+  height: 20px;
+}
+
+.x-axis-label {
+  position: absolute;
+  bottom: 0;
+  font-size: 10px;
+  color: #9ca3af;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.x-axis-label::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 1px;
+  height: 10px;
+  background-color: #6b7280;
+  transform: translateX(-50%);
+}
+
+.exam-points {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.exam-point {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #3b82f6;
+  border: 2px solid #1e40af;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.exam-point:hover {
+  width: 12px;
+  height: 12px;
+  background-color: #60a5fa;
+  border-color: #3b82f6;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}

@@ -37,6 +37,7 @@ export class PatientHistoryComponent {
 
   menuOptions: MenuOption[] = [
     { id: 'ia-summary', label: 'IA Summary', icon: 'fas fa-brain' },
+    { id: 'calendar-map', label: 'Calendar Map', icon: 'fas fa-calendar-alt' },
     { id: 'current-exam', label: 'Current Exam', icon: 'fas fa-file-medical-alt' },
     { id: 'last-report', label: 'Last Radio Report Conclusion', icon: 'fas fa-file-medical' },
     { id: 'patient-records', label: 'Top 10 Patient Record Information', icon: 'fas fa-list' },
@@ -88,7 +89,7 @@ export class PatientHistoryComponent {
 
   ngOnInit() {
     // Initialize blocks in the correct order (top to bottom)
-    const defaultBlocksInOrder = ['ia-summary', 'last-report', 'patient-records', 'visual-map', 'all-images'];
+    const defaultBlocksInOrder = ['calendar-map', 'ia-summary', 'last-report', 'patient-records', 'visual-map', 'all-images'];
     defaultBlocksInOrder.forEach(blockId => {
       const option = this.menuOptions.find(opt => opt.id === blockId);
       if (option) {
@@ -123,6 +124,17 @@ export class PatientHistoryComponent {
     let newBlock: ActiveBlock;
 
     switch (option.id) {
+      case 'calendar-map':
+        newBlock = {
+          id: option.id,
+          title: 'Calendar Map',
+          badges: this.getAnatomicalRegionBadges(),
+          content: {
+            type: 'calendar-map'
+          }
+        };
+        break;
+
       case 'ia-summary':
         newBlock = {
           id: option.id,
@@ -272,5 +284,98 @@ export class PatientHistoryComponent {
       // Scroll down - zoom out
       this.svgZoomLevel = Math.max(this.svgZoomLevel - zoomStep, minZoom);
     }
+  }
+
+  private getAnatomicalRegionBadges(): string[] {
+    // Get unique anatomical regions from current exam and related patient exams
+    const regions = new Set<string>();
+    
+    if (this.exam) {
+      regions.add(this.exam.anatomicalRegion);
+      
+      // Add some sample regions for demonstration
+      const sampleRegions = ['Thorax', 'Abdomen', 'Crâne', 'Bassin', 'Colonne vertébrale', 'Membres'];
+      sampleRegions.forEach(region => regions.add(region));
+    }
+    
+    return Array.from(regions);
+  }
+
+  getPatientExams() {
+    // Mock data for patient exams - in real app, this would come from a service
+    if (!this.exam) return [];
+    
+    return [
+      { date: new Date('2024-01-15'), region: 'Thorax', title: 'CT Scan - Chest' },
+      { date: new Date('2024-02-20'), region: 'Abdomen', title: 'MRI - Abdominal' },
+      { date: new Date('2024-03-10'), region: 'Crâne', title: 'CT Scan - Head' },
+      { date: new Date('2024-04-05'), region: 'Bassin', title: 'X-Ray - Pelvis' },
+      { date: new Date('2024-05-12'), region: 'Membres', title: 'MRI - Knee' },
+      { date: new Date('2024-06-18'), region: 'Thorax', title: 'X-Ray - Chest' },
+      { date: new Date('2024-07-22'), region: 'Colonne vertébrale', title: 'MRI - Spine' },
+      { date: new Date('2024-08-30'), region: 'Abdomen', title: 'Ultrasound' },
+      { date: new Date('2024-09-15'), region: 'Crâne', title: 'MRI - Brain' },
+      { date: new Date('2024-10-08'), region: 'Membres', title: 'X-Ray - Wrist' },
+      { date: new Date('2024-11-12'), region: 'Bassin', title: 'CT Scan - Hip' },
+      { date: new Date('2024-12-20'), region: 'Thorax', title: 'CT Scan - Lungs' },
+      { date: new Date('2025-01-15'), region: this.exam.anatomicalRegion, title: this.exam.title }
+    ];
+  }
+
+  getTimelineMonths() {
+    const exams = this.getPatientExams();
+    if (exams.length === 0) return [];
+    
+    const dates = exams.map(exam => exam.date).sort((a, b) => a.getTime() - b.getTime());
+    const firstDate = dates[0];
+    const lastDate = dates[dates.length - 1];
+    
+    const months = [];
+    const current = new Date(firstDate.getFullYear(), firstDate.getMonth(), 1);
+    const end = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
+    
+    while (current <= end) {
+      months.push(new Date(current));
+      current.setMonth(current.getMonth() + 1);
+    }
+    
+    return months;
+  }
+
+  getExamPosition(exam: any) {
+    const exams = this.getPatientExams();
+    const dates = exams.map(e => e.date).sort((a, b) => a.getTime() - b.getTime());
+    const firstDate = dates[0];
+    const lastDate = dates[dates.length - 1];
+    const totalTime = lastDate.getTime() - firstDate.getTime();
+    
+    // X position (time)
+    const examTime = exam.date.getTime() - firstDate.getTime();
+    const xPercent = totalTime > 0 ? (examTime / totalTime) * 100 : 0;
+    
+    // Y position (anatomical region)
+    const regionMap: { [key: string]: number } = {
+      'Crâne': 0,
+      'Thorax': 1,
+      'Abdomen': 2,
+      'Bassin': 3,
+      'Membres': 4,
+      'Colonne vertébrale': 2.5 // Between abdomen and pelvis
+    };
+    
+    const yIndex = regionMap[exam.region] || 2;
+    const yPercent = (yIndex / 4) * 100; // 4 main regions
+    
+    return { x: xPercent, y: yPercent };
+  }
+
+  onRegionHover(event: MouseEvent, region: string) {
+    const target = event.target as HTMLElement;
+    target.style.backgroundColor = 'rgba(107, 114, 128, 0.3)';
+  }
+
+  onRegionLeave(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    target.style.backgroundColor = 'transparent';
   }
 }
