@@ -1,10 +1,16 @@
 .working-exam-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
   height: 100vh;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: #1a1a1a;
   overflow: hidden;
+  z-index: 1000;
 }
 
 .working-exam-header {
