@@ -460,32 +460,3 @@ export class PatientHistoryComponent {
     this.clearHideTimeout();
   }
 }
-    
-    // Add delay to allow mouse to move to tooltip
-    this.tooltipTimeout = setTimeout(() => {
-      console.log('Hiding tooltip after timeout');
-      this.hoveredExam = null;
-      this.cdr.detectChanges();
-    }, 150);
-  }
-
-  keepTooltipVisible() {
-    console.log('keepTooltipVisible called');
-    this.clearTooltipTimeout();
-  }
-
-  private clearTooltipTimeout() {
-    if (this.tooltipTimeout) {
-      clearTimeout(this.tooltipTimeout);
-      this.tooltipTimeout = null;
-    }
-  }
-
-  hideTooltipImmediately() {
-    console.log('hideTooltipImmediately called');
-    this.clearTooltipTimeout();
-    this.hoveredExam = null;
-    this.cdr.detectChanges();
-  }
-
-}
