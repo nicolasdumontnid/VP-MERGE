@@ -588,8 +588,26 @@ export class PatientHistoryComponent {
   }
   
   onContextMenuHide(): void {
-                          </div>
-                        </div>
+    console.log('Hide exam:', this.contextMenuExam?.title);
+    this.closeContextMenu();
+  }
+
+  getAvailableDepartments(): string[] {
+    return this.sectors.map(s => s.name);
+  }
+
+  getAvailableAnatomicalRegions(): string[] {
+    return ['Tête', 'Cou', 'Épaule', 'Thorax', 'Membres supérieurs', 'Dos', 'Bassin', 'Membres inférieurs', 'Pied'];
+  }
+
+  changeDepartment(dept: string): void {
+    console.log('Change department to:', dept);
+    this.closeContextMenu();
+  }
+
+  changeAnatomy(region: string): void {
+    console.log('Change anatomy to:', region);
+    this.closeContextMenu();
   }
 
   getTimelineMonths() {
