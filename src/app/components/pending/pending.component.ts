@@ -201,4 +201,11 @@ export class PendingComponent implements OnInit {
       (window as any).openWorkingExam(exam);
     }
   }
+
+  openPatientView(exam: DetailedExam): void {
+    // Use global function to open patient view
+    if ((window as any).openPatientView) {
+      (window as any).openPatientView(exam);
+    }
+  }
 }

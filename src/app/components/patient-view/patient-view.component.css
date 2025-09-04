@@ -1,0 +1,29 @@
+.patient-view-container {
+  position: fixed;
+  top: 70px;
+  left: 60px;
+  right: 0;
+  bottom: 0;
+  width: calc(100vw - 60px);
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+  background: #1a1a1a;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.patient-view-content {
+  flex: 1;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .patient-view-container {
+    left: 0;
+    width: 100vw;
+  }
+}

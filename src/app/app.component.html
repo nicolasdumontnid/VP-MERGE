@@ -23,7 +23,7 @@
     
     <div class="header-center">
       <div class="breadcrumb">
-        <span>{{isWorkingExam ? workingExamBreadcrumb : currentBreadcrumb}}</span>
+        <span>{{isWorkingExam ? workingExamBreadcrumb : (isPatientView ? patientViewBreadcrumb : currentBreadcrumb)}}</span>
       </div>
     </div>
     
@@ -87,7 +87,7 @@
   </header>
   
   <div class="app-body">
-    <aside class="left-sidebar" [class.collapsed]="isWorkingExam">
+    <aside class="left-sidebar" [class.collapsed]="isWorkingExam || isPatientView">
       <!-- Dashboard -->
       <div class="menu-item" routerLink="/dashboard" routerLinkActive="active" (click)="setBreadcrumb('Dashboard'); closeWorkingExam()" style="justify-content: flex-start;">
         <i class="fas fa-chart-bar"></i>
@@ -187,11 +187,16 @@
     
     <main class="main-content">
       <app-working-exam 
-        *ngIf="isWorkingExam" 
+        *ngIf="isWorkingExam && !isPatientView" 
         [exam]="currentWorkingExam"
         (closeExam)="closeWorkingExam()">
       </app-working-exam>
-      <router-outlet *ngIf="!isWorkingExam"></router-outlet>
+      <app-patient-view
+        *ngIf="isPatientView"
+        [exam]="currentPatientViewExam"
+        (closePatientView)="closePatientView()">
+      </app-patient-view>
+      <router-outlet *ngIf="!isWorkingExam && !isPatientView"></router-outlet>
     </main>
   </div>
   

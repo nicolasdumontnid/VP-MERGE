@@ -205,6 +205,13 @@ export class InboxComponent implements OnInit {
     }
   }
 
+  openPatientView(exam: DetailedExam): void {
+    // Use global function to open patient view
+    if ((window as any).openPatientView) {
+      (window as any).openPatientView(exam);
+    }
+  }
+
   loadAllDataForPatientView(): void {
     console.log('Loading all data for patient view...');
     this.examService.search({

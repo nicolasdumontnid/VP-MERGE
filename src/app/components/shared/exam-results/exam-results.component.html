@@ -143,6 +143,9 @@
         <button [class]="getActionButtonClass()" (click)="onAddLabel(exam)" title="Add label">
           <i class="fas fa-tag"></i>
         </button>
+        <button [class]="getActionButtonClass()" (click)="onPatientView(exam)" title="Patient View">
+          <i class="fas fa-search"></i>
+        </button>
         <button [class]="getActionButtonClass(true)" (click)="onAssignUser(exam)" title="Assign user">
           <i class="fas fa-user"></i>
         </button>
@@ -229,6 +232,9 @@
                   <span class="completion-percentage" *ngIf="!showUnassignedBadge()">100%</span>
                   <i class="fas fa-check" style="color: #10b981" *ngIf="!showUnassignedBadge()"></i>
                 </div>
+                <button [class]="getActionButtonClass()" (click)="onPatientView(exam)" title="Patient View">
+                  <i class="fas fa-search"></i>
+                </button>
                 
                 <div class="shared-users-patient" *ngIf="exam.sharedUsers.length > 0">
                   <div class="shared-user-patient" *ngFor="let user of exam.sharedUsers">
@@ -322,6 +328,9 @@
         <button [class]="getActionButtonClass()" (click)="onAddLabel(exam)" title="Add label">
           <i class="fas fa-tag"></i>
         </button>
+        <button [class]="getActionButtonClass()" (click)="onPatientView(exam)" title="Patient View">
+          <i class="fas fa-search"></i>
+        </button>
         <button [class]="getActionButtonClass(true)" (click)="onAssignUser(exam)" title="Assign user">
           <i class="fas fa-user"></i>
         </button>
@@ -388,6 +397,9 @@
             <div class="table-actions" (click)="$event.stopPropagation()">
               <button [class]="getActionButtonClass(true)" title="Open exam">
                 <i class="fas fa-external-link-alt"></i>
+              </button>
+              <button [class]="getActionButtonClass()" (click)="onPatientView(exam)" title="Patient View">
+                <i class="fas fa-search"></i>
               </button>
               <button [class]="getActionButtonClass()" (click)="onAddLabel(exam)" title="Add label">
                 <i class="fas fa-tag"></i>

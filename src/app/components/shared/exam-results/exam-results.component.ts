@@ -38,6 +38,7 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   @Output() moveToWorklist = new EventEmitter<DetailedExam>();
   @Output() pauseExam = new EventEmitter<DetailedExam>();
   @Output() openExam = new EventEmitter<DetailedExam>();
+  @Output() patientView = new EventEmitter<DetailedExam>();
 
   displayMode: DisplayMode = 'card';
   viewMode: ViewMode = 'exam';
@@ -277,6 +278,10 @@ export class ExamResultsComponent implements OnInit, OnChanges {
 
   onOpenExam(exam: DetailedExam): void {
     this.openExam.emit(exam);
+  }
+
+  onPatientView(exam: DetailedExam): void {
+    this.patientView.emit(exam);
   }
 
   getPageTypeClass(): string {
