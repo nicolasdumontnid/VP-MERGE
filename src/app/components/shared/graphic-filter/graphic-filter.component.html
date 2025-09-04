@@ -1,0 +1,80 @@
+<div class="graphic-filter-container">
+  <!-- View Line -->
+  <div class="filter-line">
+    <span class="filter-label">View</span>
+    <div class="filter-buttons">
+      <button 
+        class="filter-btn"
+        [class.active]="isDepartmentViewActive"
+        (click)="onViewModeChange('department')">
+        By Department
+      </button>
+      <button 
+        class="filter-btn"
+        [class.active]="isAnatomyViewActive"
+        (click)="onViewModeChange('anatomy')">
+        By Anatomy
+      </button>
+    </div>
+  </div>
+
+  <!-- Départements Line -->
+  <div class="filter-line" *ngIf="isDepartmentViewActive">
+    <span class="filter-label">Départements</span>
+    <div class="filter-buttons">
+      <button 
+        class="filter-btn"
+        [class.active]="selectedDepartment === 'ALL'"
+        (click)="onDepartmentChange('ALL')">
+        ALL
+      </button>
+      <button 
+        class="filter-btn"
+        [class.active]="selectedDepartment === sector.name"
+        (click)="onDepartmentChange(sector.name)"
+        *ngFor="let sector of sectors">
+        {{sector.name}}
+      </button>
+    </div>
+  </div>
+
+  <!-- Anatomy Line -->
+  <div class="filter-line" *ngIf="isAnatomyViewActive">
+    <span class="filter-label">Anatomy</span>
+    <div class="filter-buttons">
+      <button 
+        class="filter-btn"
+        [class.active]="selectedAnatomy === 'ALL'"
+        (click)="onAnatomyChange('ALL')">
+        ALL
+      </button>
+      <button 
+        class="filter-btn"
+        [class.active]="selectedAnatomy === region"
+        (click)="onAnatomyChange(region)"
+        *ngFor="let region of anatomicalRegions">
+        {{region}}
+      </button>
+      <button 
+        class="filter-btn"
+        [class.active]="selectedAnatomy === 'Others'"
+        (click)="onAnatomyChange('Others')">
+        Others
+      </button>
+    </div>
+  </div>
+
+  <!-- Timeline Line -->
+  <div class="filter-line">
+    <span class="filter-label">Timeline</span>
+    <div class="filter-buttons">
+      <button 
+        class="filter-btn"
+        [class.active]="selectedTimeline === option.id"
+        (click)="onTimelineChange(option.id)"
+        *ngFor="let option of timelineOptions">
+        {{option.label}}
+      </button>
+    </div>
+  </div>
+</div>
