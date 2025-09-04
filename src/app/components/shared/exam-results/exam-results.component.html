@@ -232,7 +232,7 @@
                   <span class="completion-percentage" *ngIf="!showUnassignedBadge()">100%</span>
                   <i class="fas fa-check" style="color: #10b981" *ngIf="!showUnassignedBadge()"></i>
                 </div>
-                <button [class]="getActionButtonClass()" (click)="onPatientView(exam)" title="Patient View">
+                <button [class]="getActionButtonClass()" (click)="onPatientView(exam); $event.stopPropagation()" title="Patient View">
                   <i class="fas fa-search"></i>
                 </button>
                 
