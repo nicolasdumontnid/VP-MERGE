@@ -408,6 +408,9 @@ export class PatientHistoryComponent {
     console.log('onExamPointEnter called for exam:', exam.title);
     this.clearTooltipTimeout();
     
+    const target = event.target as HTMLElement;
+    const chartArea = target.closest('.chart-area') as HTMLElement;
+    
     if (chartArea) {
       const pointRect = target.getBoundingClientRect();
       const chartRect = chartArea.getBoundingClientRect();
@@ -418,6 +421,7 @@ export class PatientHistoryComponent {
       };
     }
     
+    this.hoveredExam = exam;
     this.cdr.detectChanges();
   }
 
