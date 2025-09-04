@@ -432,7 +432,7 @@ export class PatientHistoryComponent {
       console.log('Hiding tooltip after point leave timeout');
       this.hoveredExam = null;
       this.cdr.detectChanges();
-    }, 200);
+    }, 300); // Délai plus long pour permettre de passer au tooltip
   }
 
   onTooltipEnter() {
@@ -444,9 +444,16 @@ export class PatientHistoryComponent {
     console.log('onTooltipLeave called');
     // Hide immediately when leaving tooltip
     console.log('Hiding tooltip immediately on tooltip leave');
+    // Masquer immédiatement sans délai
     this.clearTooltipTimeout();
+    console.log('Hiding tooltip immediately on tooltip leave');
     this.hoveredExam = null;
     this.cdr.detectChanges();
+  }
+
+  // Nouvelle méthode pour tester si les événements se déclenchent
+  onTooltipMouseMove() {
+    console.log('Mouse moving over tooltip');
   }
 
   private clearTooltipTimeout() {

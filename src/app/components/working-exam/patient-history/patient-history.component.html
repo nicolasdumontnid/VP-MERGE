@@ -198,7 +198,8 @@
                        [style.left.px]="tooltipPosition.x"
                        [style.top.px]="tooltipPosition.y"
                        (mouseenter)="onTooltipEnter()"
-                       (mouseleave)="onTooltipLeave()">
+                       (mouseleave)="onTooltipLeave()"
+                       (mousemove)="onTooltipMouseMove()">
                     <div class="tooltip-header">
                       <strong>{{hoveredExam.title}}</strong>
                     </div>
