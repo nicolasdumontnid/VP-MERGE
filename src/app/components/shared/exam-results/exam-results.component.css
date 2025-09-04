@@ -733,6 +733,12 @@
   font-size: 14px;
 }
 
+.bottom-pagination {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #404040;
+}
+
 .assigned-cell {
   color: #d1d5db;
   font-size: 14px;

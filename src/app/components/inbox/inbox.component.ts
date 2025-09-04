@@ -226,8 +226,7 @@ export class InboxComponent implements OnInit {
     }).subscribe({
       next: (result: SearchResult<Exam>) => {
         console.log('Loaded ALL exams for patient view:', result.data.length);
-        this.allExams = result.data.map(exam => this.enhanceExam(exam));
-        this.exams = this.allExams; // Use all exams for patient view
+        this.exams = result.data.map(exam => this.enhanceExam(exam));
         this.cdr.detectChanges();
       }
     });
