@@ -3,6 +3,8 @@ import { ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DetailedExam } from '../../../../models/detailed-exam.interface';
+import { GraphicFilterComponent, GraphicFilterState } from '../../shared/graphic-filter/graphic-filter.component';
+import { Sector } from '../../../../models/sector.interface';
 
 interface MenuOption {
   id: string;
@@ -21,7 +23,7 @@ interface ActiveBlock {
 @Component({
   selector: 'app-patient-history',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, GraphicFilterComponent],
   templateUrl: './patient-history.component.html',
   styleUrls: ['./patient-history.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -61,6 +63,29 @@ export class PatientHistoryComponent {
   // External sources state
   selectedExternalSource = 'SEGUR';
   showExternalContent = true;
+  
+  // Graphic filter state
+  graphicFilterState: GraphicFilterState = {
+    viewMode: 'department',
+    selectedDepartment: 'ALL',
+    selectedAnatomy: 'ALL',
+    selectedTimeline: 'ALL'
+  };
+  
+  // Mock sectors for the filter
+  sectors: Sector[] = [
+    { id: 'SEC001', name: 'Colon', siteId: 'S001', siteName: 'CHU-Angers', description: 'Colorectal surgery', isActive: true },
+    { id: 'SEC002', name: 'Cytology', siteId: 'S001', siteName: 'CHU-Angers', description: 'Cell analysis', isActive: true },
+    { id: 'SEC003', name: 'Fluorescence', siteId: 'S001', siteName: 'CHU-Angers', description: 'Fluorescence imaging', isActive: true },
+    { id: 'SEC004', name: 'Lungs', siteId: 'S003', siteName: 'CHU-Brest', description: 'Pulmonary medicine', isActive: true },
+    { id: 'SEC005', name: 'Chest', siteId: 'S003', siteName: 'CHU-Brest', description: 'Thoracic medicine', isActive: true },
+    { id: 'SEC006', name: 'Breast', siteId: 'S003', siteName: 'CHU-Brest', description: 'Breast screening', isActive: true },
+    { id: 'SEC007', name: 'Histology', siteId: 'S003', siteName: 'CHU-Brest', description: 'Tissue analysis', isActive: true },
+    { id: 'SEC008', name: 'Throat', siteId: 'S002', siteName: 'CHU-Caen', description: 'ENT specialty', isActive: true },
+    { id: 'SEC009', name: 'Oncology', siteId: 'S002', siteName: 'CHU-Caen', description: 'Cancer treatment', isActive: true },
+    { id: 'SEC010', name: 'General', siteId: 'S002', siteName: 'CHU-Caen', description: 'General medicine', isActive: true }
+  ];
+  
   constructor(private cdr: ChangeDetectorRef) {}
 
   menuOptions: MenuOption[] = [
@@ -363,18 +388,18 @@ export class PatientHistoryComponent {
     if (!this.exam) return [];
     
     return [
-      { date: new Date('2024-01-15'), region: 'Pied', title: 'X-Ray - Foot' },
-      { date: new Date('2024-02-20'), region: 'Membres', title: 'MRI - Knee' },
-      { date: new Date('2024-03-10'), region: 'Bassin', title: 'X-Ray - Pelvis' },
-      { date: new Date('2024-04-05'), region: 'Colonne vertébrale', title: 'MRI - Spine' },
-      { date: new Date('2024-05-12'), region: 'Abdomen', title: 'MRI - Abdominal' },
-      { date: new Date('2024-06-18'), region: 'Thorax', title: 'X-Ray - Chest' },
-      { date: new Date('2024-07-22'), region: 'Crâne', title: 'CT Scan - Head' },
-      { date: new Date('2024-08-30'), region: 'Abdomen', title: 'Ultrasound' },
-      { date: new Date('2024-09-15'), region: 'Thorax', title: 'CT Scan - Lungs' },
-      { date: new Date('2024-10-08'), region: 'Membres', title: 'X-Ray - Wrist' },
-      { date: new Date('2024-11-12'), region: 'Bassin', title: 'CT Scan - Hip' },
-      { date: new Date('2024-12-20'), region: 'Crâne', title: 'MRI - Brain' },
+      { date: new Date('2024-01-15'), region: 'Pied', title: 'X-Ray - Foot', sector: 'Orthopedic' },
+      { date: new Date('2024-02-20'), region: 'Membres inférieurs', title: 'MRI - Knee', sector: 'Orthopedic' },
+      { date: new Date('2024-03-10'), region: 'Bassin', title: 'X-Ray - Pelvis', sector: 'Radiology' },
+      { date: new Date('2024-04-05'), region: 'Dos', title: 'MRI - Spine', sector: 'Neurology' },
+      { date: new Date('2024-05-12'), region: 'Thorax', title: 'MRI - Chest', sector: 'Cardiology' },
+      { date: new Date('2024-06-18'), region: 'Thorax', title: 'X-Ray - Chest', sector: 'Pulmonology' },
+      { date: new Date('2024-07-22'), region: 'Tête', title: 'CT Scan - Head', sector: 'Neurology' },
+      { date: new Date('2024-08-30'), region: 'Thorax', title: 'Ultrasound', sector: 'Cardiology' },
+      { date: new Date('2024-09-15'), region: 'Thorax', title: 'CT Scan - Lungs', sector: 'Pulmonology' },
+      { date: new Date('2024-10-08'), region: 'Membres supérieurs', title: 'X-Ray - Wrist', sector: 'Orthopedic' },
+      { date: new Date('2024-11-12'), region: 'Bassin', title: 'CT Scan - Hip', sector: 'Orthopedic' },
+      { date: new Date('2024-12-20'), region: 'Tête', title: 'MRI - Brain', sector: 'Neurology' },
       { date: new Date('2025-01-15'), region: this.exam.anatomicalRegion, title: this.exam.title }
     ];
   }
