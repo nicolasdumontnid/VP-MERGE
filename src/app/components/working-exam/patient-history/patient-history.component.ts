@@ -429,9 +429,32 @@ export class PatientHistoryComponent {
       const pointRect = target.getBoundingClientRect();
       const chartRect = chartArea.getBoundingClientRect();
       
+      // Position initiale du tooltip
+      let tooltipX = pointRect.left - chartRect.left + (pointRect.width / 2);
+      let tooltipY = pointRect.top - chartRect.top;
+      
+      // Dimensions approximatives du tooltip
+      const tooltipWidth = 180;
+      const tooltipHeight = 80;
+      
+      // Ajuster la position X pour éviter le débordement
+      if (tooltipX + tooltipWidth / 2 > chartRect.width) {
+        // Trop près du bord droit - décaler vers la gauche
+        tooltipX = chartRect.width - tooltipWidth / 2 - 10;
+      } else if (tooltipX - tooltipWidth / 2 < 0) {
+        // Trop près du bord gauche - décaler vers la droite
+        tooltipX = tooltipWidth / 2 + 10;
+      }
+      
+      // Ajuster la position Y pour éviter le débordement
+      if (tooltipY - tooltipHeight - 10 < 0) {
+        // Pas assez d'espace en haut - afficher en dessous du point
+        tooltipY = tooltipY + 20;
+      }
+      
       this.tooltipPosition = {
-        x: pointRect.left - chartRect.left + (pointRect.width / 2),
-        y: pointRect.top - chartRect.top
+        x: tooltipX,
+        y: tooltipY
       };
     }
     

@@ -803,6 +803,7 @@
   border-radius: 8px;
   padding: 12px;
   min-width: 180px;
+  max-width: 180px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   z-index: 1000;
   pointer-events: auto;
@@ -810,6 +811,8 @@
   transform: translate(-50%, -100%);
   margin-top: -10px;
   transition: opacity 0.2s ease;
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
 .exam-tooltip[hidden] {
@@ -821,12 +824,21 @@
   opacity: 1;
 }
 
+/* Tooltip positionné en dessous du point */
+.exam-tooltip.below {
+  transform: translate(-50%, 0%);
+  margin-top: 10px;
+}
+
 .tooltip-header {
   color: white;
   font-weight: 600;
   margin-bottom: 8px;
   padding-bottom: 6px;
   border-bottom: 1px solid #4b5563;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tooltip-content {
