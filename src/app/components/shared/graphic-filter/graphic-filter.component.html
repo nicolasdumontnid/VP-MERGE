@@ -31,6 +31,7 @@
       <button 
         class="filter-btn"
         [class.active]="selectedDepartment === sector.name"
+        [style]="getSectorButtonStyle(sector.name)"
         (click)="onDepartmentChange(sector.name)"
         *ngFor="let sector of sectors">
         {{sector.name}}
@@ -51,6 +52,7 @@
       <button 
         class="filter-btn"
         [class.active]="selectedAnatomy === region"
+        [style]="getAnatomyButtonStyle(region)"
         (click)="onAnatomyChange(region)"
         *ngFor="let region of anatomicalRegions">
         {{region}}

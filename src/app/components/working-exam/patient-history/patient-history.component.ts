@@ -388,19 +388,24 @@ export class PatientHistoryComponent {
     if (!this.exam) return [];
     
     return [
-      { date: new Date('2024-01-15'), region: 'Pied', title: 'X-Ray - Foot', sector: 'Orthopedic' },
-      { date: new Date('2024-02-20'), region: 'Membres inférieurs', title: 'MRI - Knee', sector: 'Orthopedic' },
-      { date: new Date('2024-03-10'), region: 'Bassin', title: 'X-Ray - Pelvis', sector: 'Radiology' },
-      { date: new Date('2024-04-05'), region: 'Dos', title: 'MRI - Spine', sector: 'Neurology' },
-      { date: new Date('2024-05-12'), region: 'Thorax', title: 'MRI - Chest', sector: 'Cardiology' },
-      { date: new Date('2024-06-18'), region: 'Thorax', title: 'X-Ray - Chest', sector: 'Pulmonology' },
-      { date: new Date('2024-07-22'), region: 'Tête', title: 'CT Scan - Head', sector: 'Neurology' },
-      { date: new Date('2024-08-30'), region: 'Thorax', title: 'Ultrasound', sector: 'Cardiology' },
-      { date: new Date('2024-09-15'), region: 'Thorax', title: 'CT Scan - Lungs', sector: 'Pulmonology' },
-      { date: new Date('2024-10-08'), region: 'Membres supérieurs', title: 'X-Ray - Wrist', sector: 'Orthopedic' },
-      { date: new Date('2024-11-12'), region: 'Bassin', title: 'CT Scan - Hip', sector: 'Orthopedic' },
-      { date: new Date('2024-12-20'), region: 'Tête', title: 'MRI - Brain', sector: 'Neurology' },
-      { date: new Date('2025-01-15'), region: this.exam.anatomicalRegion, title: this.exam.title }
+      { date: new Date('2024-01-15'), region: 'Pied', title: 'X-Ray - Foot', sector: 'General' },
+      { date: new Date('2024-02-20'), region: 'Membres inférieurs', title: 'MRI - Knee', sector: 'General' },
+      { date: new Date('2024-03-10'), region: 'Bassin', title: 'X-Ray - Pelvis', sector: 'General' },
+      { date: new Date('2024-04-05'), region: 'Dos', title: 'MRI - Spine', sector: 'General' },
+      { date: new Date('2024-05-12'), region: 'Thorax', title: 'MRI - Chest', sector: 'Chest' },
+      { date: new Date('2024-06-18'), region: 'Thorax', title: 'X-Ray - Chest', sector: 'Lungs' },
+      { date: new Date('2024-07-22'), region: 'Tête', title: 'CT Scan - Head', sector: 'General' },
+      { date: new Date('2024-08-30'), region: 'Thorax', title: 'Ultrasound', sector: 'Chest' },
+      { date: new Date('2024-09-15'), region: 'Thorax', title: 'CT Scan - Lungs', sector: 'Lungs' },
+      { date: new Date('2024-10-08'), region: 'Membres supérieurs', title: 'X-Ray - Wrist', sector: 'General' },
+      { date: new Date('2024-11-12'), region: 'Bassin', title: 'CT Scan - Hip', sector: 'General' },
+      { date: new Date('2024-12-20'), region: 'Tête', title: 'MRI - Brain', sector: 'General' },
+      { date: new Date('2024-03-25'), region: 'Thorax', title: 'Cytology - Lung Biopsy', sector: 'Cytology' },
+      { date: new Date('2024-05-18'), region: 'Thorax', title: 'Cytology - Pleural Fluid', sector: 'Cytology' },
+      { date: new Date('2024-07-10'), region: 'Tête', title: 'Cytology - Thyroid FNA', sector: 'Cytology' },
+      { date: new Date('2024-09-05'), region: 'Thorax', title: 'Cytology - Bronchial Wash', sector: 'Cytology' },
+      { date: new Date('2024-11-20'), region: 'Bassin', title: 'Cytology - Cervical Smear', sector: 'Cytology' },
+      { date: new Date('2025-01-15'), region: this.exam.anatomicalRegion, title: this.exam.title, sector: this.exam.sectorName }
     ];
   }
 
@@ -590,16 +595,30 @@ export class PatientHistoryComponent {
   }
   
   getPointColor(exam: any): string {
-    return this.regionColors[exam.region] || '#6b7280';
+    if (this.graphicFilterState.viewMode === 'department') {
+      // Color by department/sector
+      const sectorColors: { [key: string]: string } = {
+        'Colon': '#ef4444',           // Red
+        'Cytology': '#f97316',        // Orange
+        'Fluorescence': '#eab308',    // Yellow
+        'Lungs': '#22c55e',           // Green
+        'Chest': '#06b6d4',           // Cyan
+        'Breast': '#3b82f6',          // Blue
+        'Histology': '#8b5cf6',       // Purple
+        'Throat': '#ec4899',          // Pink
+        'Oncology': '#f59e0b',        // Amber
+        'General': '#6b7280'          // Gray
+      };
+      return sectorColors[exam.sector] || '#6b7280';
+    } else {
+      // Color by anatomical region
+      return this.regionColors[exam.region] || '#6b7280';
+    }
   }
   
   getPointBorderColor(exam: any): string {
-    if (this.selectedRegions.has(exam.region)) {
-      // Darker border when region is selected
-      const baseColor = this.regionColors[exam.region] || '#6b7280';
-      return this.darkenColor(baseColor);
-    }
-    return this.regionColors[exam.region] || '#6b7280';
+    const baseColor = this.getPointColor(exam);
+    return this.darkenColor(baseColor);
   }
   
   isRegionSelected(region: string): boolean {
