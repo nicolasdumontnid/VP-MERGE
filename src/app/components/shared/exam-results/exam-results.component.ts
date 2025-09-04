@@ -129,18 +129,8 @@ export class ExamResultsComponent implements OnInit, OnChanges {
     this.cdr.detectChanges();
   }
 
-  togglePatientCard(patientName: string): void {
-    if (this.expandedPatients.has(patientName)) {
-      this.expandedPatients.delete(patientName);
-    } else {
-      this.expandedPatients.add(patientName);
-    }
-    // Update the expanded state in the grouped patients
-    this._allGroupedPatients.forEach(patient => {
-      if (patient.patientName === patientName) {
-        patient.isExpanded = this.expandedPatients.has(patientName);
-      }
-    });
+    // Request all data from parent component
+    this.requestAllData.emit();
     this.cdr.detectChanges();
   }
 
