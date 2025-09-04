@@ -197,6 +197,9 @@
           <h3 class="patient-name" title="Patient name">
             <i class="fas fa-user"></i>
             {{patientGroup.patientName}}
+            <button [class]="getActionButtonClass()" (click)="onPatientView(patientGroup.patientInfo); $event.stopPropagation()" title="Patient History" style="margin-left: 16px; padding: 8px 12px; font-size: 14px;">
+              <i class="fas fa-search"></i>
+            </button>
           </h3>
           <div class="patient-meta">
             <span class="patient-age" title="Patient age">{{patientGroup.patientInfo.patientAge}} years</span>
