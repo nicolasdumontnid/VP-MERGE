@@ -55,6 +55,27 @@ export class SecondOpinionComponent implements OnInit {
     'assets/images/radio/99thumbnail.jpeg'
   ];
 
+  private microThumbnails = [
+    'assets/images/micro/0-thumbnail.jpeg',
+    'assets/images/micro/1-thumbnail.jpeg',
+    'assets/images/micro/2-thumbnail.jpeg',
+    'assets/images/micro/3-thumbnail.jpeg',
+    'assets/images/micro/4-thumbnail.jpeg',
+    'assets/images/micro/5-thumbnail.jpeg',
+    'assets/images/micro/6-thumbnail.jpeg',
+    'assets/images/micro/7-thumbnail.jpeg',
+    'assets/images/micro/8-thumbnail.jpeg',
+    'assets/images/micro/9-thumbnail.jpeg',
+    'assets/images/micro/10-thumbnail.jpeg',
+    'assets/images/micro/11-thumbnail.jpeg',
+    'assets/images/micro/12-thumbnail.jpeg',
+    'assets/images/micro/13-thumbnail.jpeg',
+    'assets/images/micro/14-thumbnail.jpeg',
+    'assets/images/micro/15-thumbnail.jpeg',
+    'assets/images/micro/16-thumbnail.jpeg',
+    'assets/images/micro/17-thumbnail.jpeg'
+  ];
+
   constructor(
     private examService: ExamService,
     private cdr: ChangeDetectorRef
