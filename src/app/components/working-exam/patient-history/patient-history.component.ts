@@ -430,14 +430,14 @@ export class PatientHistoryComponent {
   }
 
   // New chart methods
-  getVisibleSectors(): string[] {
+  public getVisibleSectors(): string[] {
     if (this.graphicFilterState.selectedDepartment !== 'ALL') {
       return [this.graphicFilterState.selectedDepartment];
     }
     return this.sectors.map(s => s.name);
   }
   
-  getVisibleAnatomicalRegions(): string[] {
+  public getVisibleAnatomicalRegions(): string[] {
     if (this.graphicFilterState.selectedAnatomy !== 'ALL') {
       return [this.graphicFilterState.selectedAnatomy];
     }
