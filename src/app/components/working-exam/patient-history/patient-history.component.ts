@@ -163,7 +163,7 @@ export class PatientHistoryComponent {
         newBlock = {
           id: option.id,
           title: 'IA Summary',
-          isCollapsed: false,
+          isCollapsed: true,
           badges: ['General', 'Critical'],
           content: {
             type: 'summary',
@@ -176,7 +176,7 @@ export class PatientHistoryComponent {
         newBlock = {
           id: option.id,
           title: 'Current Exam',
-          isCollapsed: false,
+          isCollapsed: true,
           badges: ['Reference', 'Date', 'Type', 'Description', 'Details'],
           content: {
             type: 'current-exam'
@@ -201,7 +201,7 @@ export class PatientHistoryComponent {
         newBlock = {
           id: option.id,
           title: 'Top 10 Patient Record Information',
-          isCollapsed: false,
+          isCollapsed: true,
           badges: ['Recent', 'Critical', 'Lab', 'Imaging'],
           content: {
             type: 'records',
@@ -214,7 +214,7 @@ export class PatientHistoryComponent {
         newBlock = {
           id: option.id,
           title: 'Visual Patient Map',
-          isCollapsed: false,
+          isCollapsed: true,
           content: {
             type: 'anatomical'
           }
@@ -225,7 +225,7 @@ export class PatientHistoryComponent {
         newBlock = {
           id: option.id,
           title: 'All Images',
-          isCollapsed: false,
+          isCollapsed: true,
           content: {
             type: 'images',
             imagesByDate: this.medicalImages
