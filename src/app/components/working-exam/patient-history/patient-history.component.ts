@@ -410,28 +410,26 @@ export class PatientHistoryComponent {
     const examTime = exam.date.getTime() - firstDate.getTime();
     const xPercent = totalTime > 0 ? (examTime / totalTime) * 100 : 0;
     
-    // Y position (anatomical region) - Points SUR les lignes
+    // Y position (anatomical region) - Positionnement selon les 9 régions
     const regionMap: { [key: string]: number } = {
-      'Crâne': 0,          // Index 0 pour le crâne
-      'Thorax': 1,         // Index 1 pour le thorax
-      'Abdomen': 2,        // Index 2 pour l'abdomen
-      'Bassin': 3,         // Index 3 pour le bassin
-      'Colonne vertébrale': 3, // Même que bassin
-      'Membres': 4,        // Index 4 pour les membres
-      'Pied': 5            // Index 5 pour le pied
+      'Tête': 10,                    // 10% - En haut
+      'Cou': 20,                     // 20%
+      'Épaule': 30,                  // 30%
+      'Thorax': 40,                  // 40%
+      'Membres supérieurs': 50,      // 50%
+      'Dos': 60,                     // 60%
+      'Bassin': 55,                  // 55% - Entre 50% et 60%
+      'Membres inférieurs': 75,      // 75% - Entre 70% et 80%
+      'Pied': 95                     // 95% - Entre 90% et 100% (tout en bas)
     };
     
-    const yIndex = regionMap[exam.region];
-    if (yIndex === undefined) {
+    const yPercent = regionMap[exam.region];
+    if (yPercent === undefined) {
       console.warn('Unknown region:', exam.region);
       return { x: xPercent, y: 50 }; // Position par défaut au centre
     }
     
-    // Calcul Y : crâne en haut (10%), pied en bas (90%)
-    // Formule : 10% + (index/8) * 80%
-    const yPercent = 10 + (yIndex / 8) * 80;
-    
-    console.log(`Exam: ${exam.title}, Region: ${exam.region}, Index: ${yIndex}, Y%: ${yPercent}`);
+    console.log(`Exam: ${exam.title}, Region: ${exam.region}, Y%: ${yPercent}`);
     
     return { x: xPercent, y: yPercent };
   }
