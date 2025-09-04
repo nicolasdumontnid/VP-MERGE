@@ -187,8 +187,8 @@
                          *ngFor="let exam of getPatientExams()"
                          [style.left.%]="getExamPosition(exam).x"
                          [style.top.%]="getExamPosition(exam).y"
-                         (mouseenter)="onExamPointEnter($event, exam)"
-                         (mouseleave)="onExamPointLeave()">
+                        (mouseenter)="onExamPointEnter($event, exam)"
+                        (mouseleave)="onExamPointLeave()">
                     </div>
                   </div>
                   
