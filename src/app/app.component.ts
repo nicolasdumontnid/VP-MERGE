@@ -340,12 +340,20 @@ export class AppComponent {
   isWorkingExam = false;
   workingExamBreadcrumb = '';
   currentWorkingExam: DetailedExam | null = null;
+  
+  // Patient view state
+  isPatientView = false;
+  patientViewBreadcrumb = '';
+  currentPatientViewExam: DetailedExam | null = null;
 
   constructor(private router: Router) {
     this.sortConversations();
     
     // Make openWorkingExam available globally
     (window as any).openWorkingExam = this.openWorkingExam.bind(this);
+    
+    // Make openPatientView available globally
+    (window as any).openPatientView = this.openPatientView.bind(this);
     
     // Subscribe to router events to close working exam on navigation
     this.router.events.pipe(
@@ -354,6 +362,9 @@ export class AppComponent {
       // Close working exam when navigating to any route
       if (this.isWorkingExam) {
         this.closeWorkingExam();
+      }
+      if (this.isPatientView) {
+        this.closePatientView();
       }
     });
   }
@@ -550,6 +561,7 @@ export class AppComponent {
     this.isWorkingExam = true;
     this.currentWorkingExam = exam;
     this.workingExamBreadcrumb = `${exam.patientName} / ${exam.reference}`;
+    this.closePatientView();
     this.closeDropdowns();
     
     // Scroll to top when opening working exam
@@ -564,6 +576,28 @@ export class AppComponent {
     this.workingExamBreadcrumb = '';
     
     // Restore body scroll when closing working exam
+    document.body.style.overflow = 'auto';
+  }
+
+  openPatientView(exam: DetailedExam): void {
+    this.isPatientView = true;
+    this.currentPatientViewExam = exam;
+    this.patientViewBreadcrumb = `Patient History / ${exam.patientName}`;
+    this.closeWorkingExam();
+    this.closeDropdowns();
+    
+    // Scroll to top when opening patient view
+    window.scrollTo(0, 0);
+    // Prevent body scroll when patient view is open
+    document.body.style.overflow = 'hidden';
+  }
+
+  closePatientView(): void {
+    this.isPatientView = false;
+    this.currentPatientViewExam = null;
+    this.patientViewBreadcrumb = '';
+    
+    // Restore body scroll when closing patient view
     document.body.style.overflow = 'auto';
   }
 }
