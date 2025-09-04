@@ -56,6 +56,27 @@ export class InboxComponent implements OnInit {
     'assets/images/radio/99thumbnail.jpeg'
   ];
 
+  private microThumbnails = [
+    'assets/images/micro/micro-0-thumbnail.jpeg',
+    'assets/images/micro/micro-1-thumbnail.jpeg',
+    'assets/images/micro/thumbnail.jpeg',
+    'assets/images/micro/thumbnail (1).jpeg',
+    'assets/images/micro/thumbnail (2).jpeg',
+    'assets/images/micro/thumbnail (3).jpeg',
+    'assets/images/micro/thumbnail (4).jpeg',
+    'assets/images/micro/thumbnail (5).jpeg',
+    'assets/images/micro/thumbnail (6).jpeg',
+    'assets/images/micro/thumbnail (7).jpeg',
+    'assets/images/micro/thumbnail (8).jpeg',
+    'assets/images/micro/thumbnail (9).jpeg',
+    'assets/images/micro/thumbnail (10).jpeg',
+    'assets/images/micro/thumbnail (11).jpeg',
+    'assets/images/micro/thumbnail (12).jpeg',
+    'assets/images/micro/thumbnail (13).jpeg',
+    'assets/images/micro/thumbnail (14).jpeg',
+    'assets/images/micro/thumbnail (15).jpeg'
+  ];
+
   constructor(
     private examService: ExamService,
     private cdr: ChangeDetectorRef
@@ -101,6 +122,9 @@ export class InboxComponent implements OnInit {
 
   private enhanceExam(exam: Exam): DetailedExam {
     const elements: ExamElement[] = [];
+    
+    // Determine if this is a cytology exam
+    const isCytologyExam = exam.sectorName === 'Cytology' || exam.title.toLowerCase().includes('cytologie');
     const elementCount = 20 + Math.floor(Math.random() * 10);
     
     // Determine number of videos (0, 1, or 2 maximum)
@@ -108,11 +132,14 @@ export class InboxComponent implements OnInit {
     let videosAdded = 0;
     
     for (let i = 0; i < elementCount; i++) {
-      let types: ExamElement['type'][] = ['radio', 'mri', 'slide', 'macro', 'pdf', 'excel', 'text'];
+      let types: ExamElement['type'][];
       
-      // Add cytology type for some exams (20% chance)
-      if (Math.random() < 0.2) {
-        types.push('cytology');
+      if (isCytologyExam) {
+        // For cytology exams, use mostly cytology elements with some supporting files
+        types = ['cytology', 'cytology', 'cytology', 'cytology', 'cytology', 'pdf', 'excel', 'text'];
+      } else {
+        // For other exams, use standard types
+        types = ['radio', 'mri', 'slide', 'macro', 'pdf', 'excel', 'text'];
       }
       
       // Only add video to possible types if we haven't reached the limit
@@ -129,6 +156,9 @@ export class InboxComponent implements OnInit {
       
       let thumbnail = '';
       switch (type) {
+        case 'cytology':
+          thumbnail = this.microThumbnails[Math.floor(Math.random() * this.microThumbnails.length)];
+          break;
         case 'radio':
         case 'mri':
         case 'slide':

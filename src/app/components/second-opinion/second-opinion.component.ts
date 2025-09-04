@@ -119,6 +119,9 @@ export class SecondOpinionComponent implements OnInit {
 
   private enhanceExam(exam: Exam): DetailedExam {
     const elements: ExamElement[] = [];
+    
+    // Determine if this is a cytology exam
+    const isCytologyExam = exam.sectorName === 'Cytology' || exam.title.toLowerCase().includes('cytologie');
     const elementCount = 20 + Math.floor(Math.random() * 10);
     
     // Determine number of videos (0, 1, or 2 maximum)
@@ -126,7 +129,15 @@ export class SecondOpinionComponent implements OnInit {
     let videosAdded = 0;
     
     for (let i = 0; i < elementCount; i++) {
-      let types: ExamElement['type'][] = ['radio', 'mri', 'slide', 'macro', 'pdf', 'excel', 'text'];
+      let types: ExamElement['type'][];
+      
+      if (isCytologyExam) {
+        // For cytology exams, use mostly cytology elements with some supporting files
+        types = ['cytology', 'cytology', 'cytology', 'cytology', 'cytology', 'pdf', 'excel', 'text'];
+      } else {
+        // For other exams, use standard types
+        types = ['radio', 'mri', 'slide', 'macro', 'pdf', 'excel', 'text'];
+      }
       
       // Only add video to possible types if we haven't reached the limit
       if (videosAdded < videoCount) {
@@ -142,6 +153,9 @@ export class SecondOpinionComponent implements OnInit {
       
       let thumbnail = '';
       switch (type) {
+        case 'cytology':
+          thumbnail = this.microThumbnails[Math.floor(Math.random() * this.microThumbnails.length)];
+          break;
         case 'radio':
         case 'mri':
         case 'slide':
@@ -151,9 +165,6 @@ export class SecondOpinionComponent implements OnInit {
         case 'excel':
         case 'text':
           thumbnail = this.radioThumbnails[Math.floor(Math.random() * this.radioThumbnails.length)];
-          break;
-        case 'cytology':
-          thumbnail = this.microThumbnails[Math.floor(Math.random() * this.microThumbnails.length)];
           break;
       }
       
