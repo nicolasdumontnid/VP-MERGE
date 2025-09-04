@@ -39,7 +39,7 @@ export class PatientHistoryComponent {
   // Tooltip properties
   hoveredExam: any = null;
   tooltipPosition = { x: 0, y: 0 };
-  private hideTimeout: any = null;
+  private tooltipTimeout: any = null;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -406,7 +406,7 @@ export class PatientHistoryComponent {
 
   onExamPointEnter(event: MouseEvent, exam: any) {
     console.log('onExamPointEnter called for exam:', exam.title);
-    this.clearHideTimeout();
+    this.clearTooltipTimeout();
     this.hoveredExam = exam;
     
     const target = event.target as HTMLElement;
@@ -427,36 +427,43 @@ export class PatientHistoryComponent {
 
   onExamPointLeave() {
     console.log('onExamPointLeave called');
-    this.scheduleHide();
+    this.scheduleTooltipHide();
   }
 
   onTooltipEnter() {
     console.log('onTooltipEnter called');
-    this.clearHideTimeout();
+    this.clearTooltipTimeout();
   }
 
   onTooltipLeave() {
     console.log('onTooltipLeave called');
-    this.scheduleHide();
+    this.hideTooltipNow();
   }
 
-  private scheduleHide() {
-    this.clearHideTimeout();
-    this.hideTimeout = setTimeout(() => {
+  private scheduleTooltipHide() {
+    this.clearTooltipTimeout();
+    this.tooltipTimeout = setTimeout(() => {
       console.log('Hiding tooltip after timeout');
       this.hoveredExam = null;
       this.cdr.detectChanges();
     }, 100);
   }
 
-  private clearHideTimeout() {
-    if (this.hideTimeout) {
-      clearTimeout(this.hideTimeout);
-      this.hideTimeout = null;
+  private hideTooltipNow() {
+    console.log('Hiding tooltip immediately');
+    this.clearTooltipTimeout();
+    this.hoveredExam = null;
+    this.cdr.detectChanges();
+  }
+
+  private clearTooltipTimeout() {
+    if (this.tooltipTimeout) {
+      clearTimeout(this.tooltipTimeout);
+      this.tooltipTimeout = null;
     }
   }
 
   ngOnDestroy() {
-    this.clearHideTimeout();
+    this.clearTooltipTimeout();
   }
 }
