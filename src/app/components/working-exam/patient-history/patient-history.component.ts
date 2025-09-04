@@ -407,10 +407,6 @@ export class PatientHistoryComponent {
   onExamPointEnter(event: MouseEvent, exam: any) {
     console.log('onExamPointEnter called for exam:', exam.title);
     this.clearTooltipTimeout();
-    this.hoveredExam = exam;
-    
-    const target = event.target as HTMLElement;
-    const chartArea = target.closest('.chart-area') as HTMLElement;
     
     if (chartArea) {
       const pointRect = target.getBoundingClientRect();
@@ -427,7 +423,12 @@ export class PatientHistoryComponent {
 
   onExamPointLeave() {
     console.log('onExamPointLeave called');
-    this.scheduleTooltipHide();
+    // Use a longer delay to allow moving to tooltip
+    this.tooltipTimeout = setTimeout(() => {
+      console.log('Hiding tooltip after point leave timeout');
+      this.hoveredExam = null;
+      this.cdr.detectChanges();
+    }, 200);
   }
 
   onTooltipEnter() {
@@ -437,20 +438,8 @@ export class PatientHistoryComponent {
 
   onTooltipLeave() {
     console.log('onTooltipLeave called');
-    this.hideTooltipNow();
-  }
-
-  private scheduleTooltipHide() {
-    this.clearTooltipTimeout();
-    this.tooltipTimeout = setTimeout(() => {
-      console.log('Hiding tooltip after timeout');
-      this.hoveredExam = null;
-      this.cdr.detectChanges();
-    }, 100);
-  }
-
-  private hideTooltipNow() {
-    console.log('Hiding tooltip immediately');
+    // Hide immediately when leaving tooltip
+    console.log('Hiding tooltip immediately on tooltip leave');
     this.clearTooltipTimeout();
     this.hoveredExam = null;
     this.cdr.detectChanges();
