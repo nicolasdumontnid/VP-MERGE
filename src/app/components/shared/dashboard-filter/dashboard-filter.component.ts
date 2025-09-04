@@ -45,7 +45,7 @@ export class DashboardFilterComponent implements OnInit {
   @Input() icon: string = 'fas fa-inbox';
   @Input() foundCount: number = 6;
 
-  isExpanded = true;
+  isExpanded = false;
   
   // Filter inputs
   filterText = '';
