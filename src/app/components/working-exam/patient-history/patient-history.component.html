@@ -193,24 +193,24 @@
                   </div>
                   
                   <!-- Tooltip -->
-                  <div class="exam-tooltip" 
-                       *ngIf="hoveredExam"
+                  <div class="exam-tooltip"
+                       [hidden]="!hoveredExam"
                        [style.left.px]="tooltipPosition.x"
                        [style.top.px]="tooltipPosition.y"
                        (mouseenter)="onTooltipEnter()"
                        (mouseleave)="onTooltipLeave()"
                        (mousemove)="onTooltipMouseMove()">
                     <div class="tooltip-header">
-                      <strong>{{hoveredExam.title}}</strong>
+                      <strong>{{hoveredExam?.title}}</strong>
                     </div>
                     <div class="tooltip-content">
                       <div class="tooltip-row">
                         <span class="tooltip-label">Date:</span>
-                        <span class="tooltip-value">{{hoveredExam.date.toLocaleDateString('fr-FR')}}</span>
+                        <span class="tooltip-value">{{hoveredExam?.date.toLocaleDateString('fr-FR')}}</span>
                       </div>
                       <div class="tooltip-row">
                         <span class="tooltip-label">Région:</span>
-                        <span class="tooltip-value">{{hoveredExam.region}}</span>
+                        <span class="tooltip-value">{{hoveredExam?.region}}</span>
                       </div>
                     </div>
                   </div>
