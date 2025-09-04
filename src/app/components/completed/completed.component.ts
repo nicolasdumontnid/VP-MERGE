@@ -139,7 +139,7 @@ export class CompletedComponent implements OnInit {
         
         elements.push({
           type,
-         thumbnail: this.radioThumbnails[Math.floor(Math.random() * this.radioThumbnails.length)],
+          thumbnail: this.radioThumbnails[Math.floor(Math.random() * this.radioThumbnails.length)],
           name: `${type}_${i + 1}.dcm`
         });
       }
