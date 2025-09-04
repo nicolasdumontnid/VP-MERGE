@@ -426,7 +426,7 @@ export class PatientHistoryComponent {
 
   getExamPosition(exam: any) {
     const filteredExams = this.getFilteredExams();
-    const dates = exams.map(e => e.date).sort((a, b) => a.getTime() - b.getTime());
+    const dates = filteredExams.map(e => e.date).sort((a, b) => a.getTime() - b.getTime());
     const firstDate = dates[0];
     const lastDate = dates[dates.length - 1];
     const totalTime = lastDate.getTime() - firstDate.getTime();
