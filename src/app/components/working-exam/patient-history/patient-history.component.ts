@@ -425,7 +425,7 @@ export class PatientHistoryComponent {
   }
 
   getExamPosition(exam: any) {
-    const exams = this.getPatientExams();
+    const filteredExams = this.getFilteredExams();
     const dates = exams.map(e => e.date).sort((a, b) => a.getTime() - b.getTime());
     const firstDate = dates[0];
     const lastDate = dates[dates.length - 1];
@@ -630,5 +630,87 @@ export class PatientHistoryComponent {
       this.showExternalContent = true;
       this.cdr.detectChanges();
     }, 100);
+  }
+  
+  onGraphicFilterChange(filterState: GraphicFilterState): void {
+    this.graphicFilterState = filterState;
+    this.cdr.detectChanges();
+  }
+  
+  getFilteredExams() {
+    let exams = this.getPatientExams();
+    
+    // Filter by department/sector
+    if (this.graphicFilterState.viewMode === 'department' && this.graphicFilterState.selectedDepartment !== 'ALL') {
+      exams = exams.filter(exam => exam.sector === this.graphicFilterState.selectedDepartment);
+    }
+    
+    // Filter by anatomy
+    if (this.graphicFilterState.viewMode === 'anatomy' && this.graphicFilterState.selectedAnatomy !== 'ALL') {
+      if (this.graphicFilterState.selectedAnatomy === 'Others') {
+        // Show exams that don't match any standard anatomical region
+        const standardRegions = ['Tête', 'Cou', 'Épaule', 'Thorax', 'Membres supérieurs', 'Dos', 'Bassin', 'Membres inférieurs', 'Pied'];
+        exams = exams.filter(exam => !standardRegions.includes(exam.region));
+      } else {
+        exams = exams.filter(exam => exam.region === this.graphicFilterState.selectedAnatomy);
+      }
+    }
+    
+    // Filter by timeline
+    if (this.graphicFilterState.selectedTimeline !== 'ALL') {
+      const now = new Date();
+      let cutoffDate: Date;
+      
+      switch (this.graphicFilterState.selectedTimeline) {
+        case '1_WEEK':
+          cutoffDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+          break;
+        case '1_MONTH':
+          cutoffDate = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+          break;
+        case '3_MONTHS':
+          cutoffDate = new Date(now.getFullYear(), now.getMonth() - 3, now.getDate());
+          break;
+        case '6_MONTHS':
+          cutoffDate = new Date(now.getFullYear(), now.getMonth() - 6, now.getDate());
+          break;
+        case '1_YEAR':
+          cutoffDate = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+          break;
+        case '3_YEARS':
+          cutoffDate = new Date(now.getFullYear() - 3, now.getMonth(), now.getDate());
+          break;
+        case 'MORE_3_YEARS':
+          cutoffDate = new Date(now.getFullYear() - 3, now.getMonth(), now.getDate());
+          exams = exams.filter(exam => exam.date < cutoffDate);
+          return exams;
+        default:
+          return exams;
+      }
+      
+      exams = exams.filter(exam => exam.date >= cutoffDate);
+    }
+    
+    return exams;
+  }
+  
+  getFilteredTimelineMonths() {
+    const filteredExams = this.getFilteredExams();
+    if (filteredExams.length === 0) return [];
+    
+    const dates = filteredExams.map(exam => exam.date).sort((a, b) => a.getTime() - b.getTime());
+    const firstDate = dates[0];
+    const lastDate = dates[dates.length - 1];
+    
+    const months = [];
+    const current = new Date(firstDate.getFullYear(), firstDate.getMonth(), 1);
+    const end = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
+    
+    while (current <= end) {
+      months.push(new Date(current));
+      current.setMonth(current.getMonth() + 1);
+    }
+    
+    return months;
   }
 }

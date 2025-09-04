@@ -118,15 +118,11 @@
 
           <!-- Calendar Map -->
           <div *ngIf="block.content.type === 'calendar-map'" class="calendar-map-content">
-            <!-- Badges moved to body -->
-            <div class="calendar-badges" *ngIf="block.badges">
-              <span [class]="getBadgeClass(badge)" 
-                    *ngFor="let badge of block.badges"
-                    (click)="onBadgeClick(badge)"
-                    [style.background-color]="regionColors[badge] || '#6b7280'">
-                {{badge}}
-              </span>
-            </div>
+            <!-- Graphic Filter Component -->
+            <app-graphic-filter 
+              [sectors]="sectors"
+              (filterChange)="onGraphicFilterChange($event)">
+            </app-graphic-filter>
             
             <div class="calendar-map-layout">
               <!-- Left side: Human body SVG -->
@@ -214,7 +210,7 @@
                   <!-- X-axis (time) -->
                   <div class="x-axis">
                     <div class="x-axis-label" 
-                         *ngFor="let month of getTimelineMonths()"
+                         *ngFor="let month of getFilteredTimelineMonths()"
                          [style.left.%]="getMonthPosition(month)">
                       {{month.toLocaleDateString('fr-FR', {month: 'short', year: '2-digit'})}}
                     </div>
@@ -223,7 +219,7 @@
                   <!-- Exam points -->
                   <div class="exam-points">
                     <div class="exam-point" 
-                         *ngFor="let exam of getPatientExams()"
+                         *ngFor="let exam of getFilteredExams()"
                          [style.background-color]="getPointColor(exam)"
                          [style.border-color]="getPointBorderColor(exam)"
                          [style.left.%]="getExamPosition(exam).x"
