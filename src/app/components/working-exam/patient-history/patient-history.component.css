@@ -174,6 +174,15 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 4px;
+  border-radius: 4px;
+  margin: -4px;
+}
+
+.block-title-section:hover {
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .block-title-section h4 {
@@ -335,6 +344,15 @@
 
 .block-content {
   padding: 16px;
+  max-height: 2000px;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.block-content.collapsed {
+  max-height: 0;
+  padding: 0 16px;
+  overflow: hidden;
 }
 
 /* Summary Content */

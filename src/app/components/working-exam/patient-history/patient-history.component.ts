@@ -13,6 +13,7 @@ interface MenuOption {
 interface ActiveBlock {
   id: string;
   title: string;
+  isCollapsed: boolean;
   badges?: string[];
   content?: any;
 }
@@ -150,6 +151,7 @@ export class PatientHistoryComponent {
         newBlock = {
           id: option.id,
           title: 'Calendar Map',
+          isCollapsed: false,
           badges: this.getAnatomicalRegionBadges(),
           content: {
             type: 'calendar-map'
@@ -161,6 +163,7 @@ export class PatientHistoryComponent {
         newBlock = {
           id: option.id,
           title: 'IA Summary',
+          isCollapsed: false,
           badges: ['General', 'Critical'],
           content: {
             type: 'summary',
@@ -173,6 +176,7 @@ export class PatientHistoryComponent {
         newBlock = {
           id: option.id,
           title: 'Current Exam',
+          isCollapsed: false,
           badges: ['Reference', 'Date', 'Type', 'Description', 'Details'],
           content: {
             type: 'current-exam'
@@ -184,6 +188,7 @@ export class PatientHistoryComponent {
         newBlock = {
           id: option.id,
           title: 'Last Radio Report Conclusion',
+          isCollapsed: false,
           badges: ['Positive', 'Negative'],
           content: {
             type: 'conclusion',
@@ -196,6 +201,7 @@ export class PatientHistoryComponent {
         newBlock = {
           id: option.id,
           title: 'Top 10 Patient Record Information',
+          isCollapsed: false,
           badges: ['Recent', 'Critical', 'Lab', 'Imaging'],
           content: {
             type: 'records',
@@ -208,6 +214,7 @@ export class PatientHistoryComponent {
         newBlock = {
           id: option.id,
           title: 'Visual Patient Map',
+          isCollapsed: false,
           content: {
             type: 'anatomical'
           }
@@ -218,6 +225,7 @@ export class PatientHistoryComponent {
         newBlock = {
           id: option.id,
           title: 'All Images',
+          isCollapsed: false,
           content: {
             type: 'images',
             imagesByDate: this.medicalImages
@@ -229,6 +237,7 @@ export class PatientHistoryComponent {
         newBlock = {
           id: option.id,
           title: 'Patient Information',
+          isCollapsed: false,
           content: {
             type: 'patient-info'
           }
@@ -250,6 +259,14 @@ export class PatientHistoryComponent {
 
   removeBlock(blockId: string): void {
     this.activeBlocks = this.activeBlocks.filter(block => block.id !== blockId);
+  }
+
+  toggleBlockCollapse(blockId: string): void {
+    const block = this.activeBlocks.find(b => b.id === blockId);
+    if (block) {
+      block.isCollapsed = !block.isCollapsed;
+      this.cdr.detectChanges();
+    }
   }
 
   getImageDates(): string[] {

@@ -33,7 +33,7 @@
       <div class="content-block" *ngFor="let block of activeBlocks">
         <!-- Block Header -->
         <div class="block-header">
-          <div class="block-title-section">
+          <div class="block-title-section" (click)="toggleBlockCollapse(block.id)">
             <h4>{{block.title}}</h4>
             <div class="radio-badges" *ngIf="block.id === 'visual-map'">
               <label class="radio-badge">
@@ -63,7 +63,7 @@
         </div>
 
         <!-- Block Content -->
-        <div class="block-content">
+        <div class="block-content" [class.collapsed]="block.isCollapsed">
           <!-- IA Summary -->
           <div *ngIf="block.content.type === 'summary'" class="summary-content">
             <p>{{block.content.text}}</p>
