@@ -429,53 +429,146 @@ export class PatientHistoryComponent {
     return months;
   }
 
-  getExamPosition(exam: any) {
-    const filteredExams = this.getFilteredExams();
-    const dates = filteredExams.map(e => e.date).sort((a, b) => a.getTime() - b.getTime());
-    const firstDate = dates[0];
-    const lastDate = dates[dates.length - 1];
-    const totalTime = lastDate.getTime() - firstDate.getTime();
+  // New chart methods
+  getVisibleSectors(): string[] {
+    if (this.graphicFilterState.selectedDepartment !== 'ALL') {
+      return [this.graphicFilterState.selectedDepartment];
+    }
+    return this.sectors.map(s => s.name);
+  }
+  
+  getVisibleAnatomicalRegions(): string[] {
+    if (this.graphicFilterState.selectedAnatomy !== 'ALL') {
+      return [this.graphicFilterState.selectedAnatomy];
+    }
+    const regions = ['Tête', 'Cou', 'Épaule', 'Thorax', 'Membres supérieurs', 'Dos', 'Bassin', 'Membres inférieurs', 'Pied'];
+    return regions;
+  }
+  
+  getVisibleYears(): (number | string)[] {
+    const exams = this.getFilteredExams();
+    if (exams.length === 0) return ['Today'];
     
-    // X position (time)
-    const examTime = exam.date.getTime() - firstDate.getTime();
-    const xPercent = totalTime > 0 ? (examTime / totalTime) * 100 : 0;
+    const years = new Set<number>();
+    exams.forEach(exam => years.add(exam.date.getFullYear()));
     
-    // Y position (anatomical region) - Positionnement selon les 9 régions
-    const regionMap: { [key: string]: number } = {
-      'Tête': 10,                    // 10% - En haut
-      'Cou': 20,                     // 20%
-      'Épaule': 30,                  // 30%
-      'Thorax': 40,                  // 40%
-      'Membres supérieurs': 50,      // 50%
-      'Dos': 60,                     // 60%
-      'Bassin': 55,                  // 55% - Entre 50% et 60%
-      'Membres inférieurs': 75,      // 75% - Entre 70% et 80%
-      'Pied': 95                     // 95% - Entre 90% et 100% (tout en bas)
-    };
+    const sortedYears = Array.from(years).sort();
+    const result: (number | string)[] = [...sortedYears];
     
-    const yPercent = regionMap[exam.region];
-    if (yPercent === undefined) {
-      console.warn('Unknown region:', exam.region);
-      return { x: xPercent, y: 50 }; // Position par défaut au centre
+    // Add "Today" if current year is not in the list
+    const currentYear = new Date().getFullYear();
+    if (!years.has(currentYear)) {
+      result.push('Today');
     }
     
-    console.log(`Exam: ${exam.title}, Region: ${exam.region}, Y%: ${yPercent}`);
-    
-    return { x: xPercent, y: yPercent };
+    return result;
   }
-
-  getMonthPosition(month: Date): number {
-    const months = this.getTimelineMonths();
-    if (months.length <= 1) return 0;
+  
+  isToday(year: number | string): boolean {
+    return year === 'Today';
+  }
+  
+  getChartWidth(): number {
+    const years = this.getVisibleYears();
+    const exams = this.getFilteredExams();
     
-    const firstMonth = months[0];
-    const lastMonth = months[months.length - 1];
-    const totalTime = lastMonth.getTime() - firstMonth.getTime();
+    // Calculate width based on exam density per year
+    const examsByYear = new Map<number | string, number>();
     
-    if (totalTime === 0) return 0;
+    years.forEach(year => {
+      if (year === 'Today') {
+        examsByYear.set(year, 1);
+      } else {
+        const yearExams = exams.filter(exam => exam.date.getFullYear() === year).length;
+        examsByYear.set(year, yearExams);
+      }
+    });
     
-    const monthTime = month.getTime() - firstMonth.getTime();
-    return (monthTime / totalTime) * 100; // 0% à 100% depuis l'origine
+    // Base width per year + additional width based on exam count
+    const baseWidthPerYear = 120;
+    const additionalWidthPerExam = 20;
+    
+    let totalWidth = 0;
+    examsByYear.forEach(examCount => {
+      totalWidth += baseWidthPerYear + (examCount * additionalWidthPerExam);
+    });
+    
+    return Math.max(totalWidth, 800); // Minimum width
+  }
+  
+  getYearPosition(year: number | string): number {
+    const years = this.getVisibleYears();
+    const exams = this.getFilteredExams();
+    
+    let position = 0;
+    const baseWidthPerYear = 120;
+    const additionalWidthPerExam = 20;
+    
+    for (const y of years) {
+      if (y === year) {
+        // Return center position of this year
+        let yearExams = 0;
+        if (y === 'Today') {
+          yearExams = 1;
+        } else {
+          yearExams = exams.filter(exam => exam.date.getFullYear() === y).length;
+        }
+        const yearWidth = baseWidthPerYear + (yearExams * additionalWidthPerExam);
+        return position + (yearWidth / 2);
+      }
+      
+      // Add width of this year to position
+      let yearExams = 0;
+      if (y === 'Today') {
+        yearExams = 1;
+      } else {
+        yearExams = exams.filter(exam => exam.date.getFullYear() === y).length;
+      }
+      position += baseWidthPerYear + (yearExams * additionalWidthPerExam);
+    }
+    
+    return position;
+  }
+  
+  getExamPositionX(exam: any): number {
+    const year = exam.date.getFullYear();
+    const yearPosition = this.getYearPosition(year);
+    
+    // Add some random offset within the year for visual separation
+    const randomOffset = (Math.random() - 0.5) * 40;
+    return yearPosition + randomOffset;
+  }
+  
+  getExamPositionY(exam: any): number {
+    if (this.graphicFilterState.viewMode === 'department') {
+      const sectors = this.getVisibleSectors();
+      const sectorIndex = sectors.indexOf(exam.sector);
+      if (sectorIndex === -1) return 50;
+      
+      const sectorHeight = 100 / sectors.length;
+      return (sectorIndex * sectorHeight) + (sectorHeight / 2);
+    } else {
+      // Anatomy view
+      const regions = this.getVisibleAnatomicalRegions();
+      const regionIndex = regions.indexOf(exam.region);
+      if (regionIndex === -1) return 50;
+      
+      const regionHeight = 100 / regions.length;
+      return (regionIndex * regionHeight) + (regionHeight / 2);
+    }
+  }
+  
+  getYAxisCount(): number {
+    if (this.graphicFilterState.viewMode === 'department') {
+      return this.getVisibleSectors().length;
+    } else {
+      return this.getVisibleAnatomicalRegions().length;
+    }
+  }
+  
+  getYAxisIndices(): number[] {
+    const count = this.getYAxisCount();
+    return Array.from({length: count + 1}, (_, i) => i);
   }
 
   onRegionHover(event: MouseEvent, region: string) {

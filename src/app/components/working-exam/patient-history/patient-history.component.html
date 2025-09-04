@@ -124,96 +124,45 @@
               (filterChange)="onGraphicFilterChange($event)">
             </app-graphic-filter>
             
-            <div class="calendar-map-layout">
-              <!-- Left side: Human body SVG -->
-              <div class="body-reference">
+            <div class="chart-container">
+              <!-- Chart Header (empty space above Y-axis) -->
+              <div class="chart-header"></div>
+              
+              <!-- Y-axis (fixed, always visible) -->
+              <div class="chart-y-axis" *ngIf="graphicFilterState.viewMode === 'department'">
+                <div class="y-axis-item" *ngFor="let sector of getVisibleSectors()">
+                  {{sector}}
+                </div>
+              </div>
+              
+              <!-- SVG Body Reference (for anatomy view) -->
+              <div class="body-reference" *ngIf="graphicFilterState.viewMode === 'anatomy'">
                 <img src="assets/skeleton+skin.svg" 
                      alt="Human Skeleton Reference" 
                      class="reference-svg">
               </div>
               
-              <!-- Right side: Timeline chart -->
-              <div class="timeline-chart">
-                <!-- Y-axis labels and lines -->
-                <div class="y-axis">
-                  <div class="y-axis-line" data-region="tete">
-                    <span class="y-label">Tête</span>
-                  </div>
-                  <div class="region-space"
-                       [class.selected]="isRegionSelected('Tête')"
-                       (mouseenter)="onRegionHover($event, 'tete-cou')"
-                       (mouseleave)="onRegionLeave($event)">
-                  </div>
-                  <div class="y-axis-line" data-region="cou">
-                    <span class="y-label">Cou</span>
-                  </div>
-                  <div class="region-space"
-                       [class.selected]="isRegionSelected('Cou')"
-                       (mouseenter)="onRegionHover($event, 'cou-epaule')"
-                       (mouseleave)="onRegionLeave($event)">
-                  </div>
-                  <div class="y-axis-line" data-region="epaule">
-                    <span class="y-label">Épaule</span>
-                  </div>
-                  <div class="region-space"
-                       [class.selected]="isRegionSelected('Épaule')"
-                       (mouseenter)="onRegionHover($event, 'epaule-thorax')"
-                       (mouseleave)="onRegionLeave($event)">
-                  </div>
-                  <div class="y-axis-line" data-region="thorax">
-                    <span class="y-label">Thorax</span>
-                  </div>
-                  <div class="region-space"
-                       [class.selected]="isRegionSelected('Thorax')"
-                       (mouseenter)="onRegionHover($event, 'thorax-membres-sup')"
-                       (mouseleave)="onRegionLeave($event)">
-                  </div>
-                  <div class="y-axis-line" data-region="membres-sup">
-                    <span class="y-label">Membres sup.</span>
-                  </div>
-                  <div class="region-space"
-                       [class.selected]="isRegionSelected('Membres supérieurs')"
-                       (mouseenter)="onRegionHover($event, 'membres-sup-dos')"
-                       (mouseleave)="onRegionLeave($event)">
-                  </div>
-                  <div class="y-axis-line" data-region="dos">
-                    <span class="y-label">Dos</span>
-                  </div>
-                  <div class="region-space"
-                       [class.selected]="isRegionSelected('Dos')"
-                       (mouseenter)="onRegionHover($event, 'dos-bassin')"
-                       (mouseleave)="onRegionLeave($event)">
-                  </div>
-                  <div class="y-axis-line" data-region="bassin">
-                    <span class="y-label">Bassin</span>
-                  </div>
-                  <div class="region-space"
-                       [class.selected]="isRegionSelected('Bassin')"
-                       (mouseenter)="onRegionHover($event, 'bassin-membres-inf')"
-                       (mouseleave)="onRegionLeave($event)">
-                  </div>
-                  <div class="y-axis-line" data-region="membres-inf">
-                    <span class="y-label">Membres inf.</span>
-                  </div>
-                  <div class="region-space"
-                       [class.selected]="isRegionSelected('Membres inférieurs')"
-                       (mouseenter)="onRegionHover($event, 'membres-inf-pied')"
-                       (mouseleave)="onRegionLeave($event)">
-                  </div>
-                  <div class="y-axis-line" data-region="pied">
-                    <span class="y-label">Pied</span>
-                  </div>
+              <!-- Y-axis for anatomy (overlaid on SVG) -->
+              <div class="chart-y-axis" *ngIf="graphicFilterState.viewMode === 'anatomy'" style="background: transparent; border: none;">
+                <div class="y-axis-item" *ngFor="let region of getVisibleAnatomicalRegions()" style="background: rgba(42, 42, 42, 0.8); margin: 2px; border-radius: 4px;">
+                  {{region}}
                 </div>
-                
-                <!-- Chart area with exam points -->
-                <div class="chart-area">
-                  <!-- X-axis (time) -->
-                  <div class="x-axis">
-                    <div class="x-axis-label" 
-                         *ngFor="let month of getFilteredTimelineMonths()"
-                         [style.left.%]="getMonthPosition(month)">
-                      {{month.toLocaleDateString('fr-FR', {month: 'short', year: '2-digit'})}}
-                    </div>
+              </div>
+              
+              <!-- Scrollable chart body -->
+              <div class="chart-body">
+                <div class="chart-content" [style.width.px]="getChartWidth()">
+                  <!-- Horizontal grid lines -->
+                  <div class="grid-line-horizontal" 
+                       *ngFor="let index of getYAxisIndices()"
+                       [style.top.%]="(index / getYAxisCount()) * 100">
+                  </div>
+                  
+                  <!-- Vertical grid lines (years) -->
+                  <div class="grid-line-vertical" 
+                       *ngFor="let year of getVisibleYears()"
+                       [class.today]="isToday(year)"
+                       [style.left.px]="getYearPosition(year)">
                   </div>
                   
                   <!-- Exam points -->
@@ -222,10 +171,10 @@
                          *ngFor="let exam of getFilteredExams()"
                          [style.background-color]="getPointColor(exam)"
                          [style.border-color]="getPointBorderColor(exam)"
-                         [style.left.%]="getExamPosition(exam).x"
-                         [style.top.%]="getExamPosition(exam).y"
-                        (mouseenter)="onExamPointEnter($event, exam)"
-                        (mouseleave)="onExamPointLeave()">
+                         [style.left.px]="getExamPositionX(exam)"
+                         [style.top.%]="getExamPositionY(exam)"
+                         (mouseenter)="onExamPointEnter($event, exam)"
+                         (mouseleave)="onExamPointLeave()">
                     </div>
                   </div>
                   
@@ -235,8 +184,7 @@
                        [style.left.px]="tooltipPosition.x"
                        [style.top.px]="tooltipPosition.y"
                        (mouseenter)="onTooltipEnter()"
-                       (mouseleave)="onTooltipLeave()"
-                       (mousemove)="onTooltipMouseMove()">
+                       (mouseleave)="onTooltipLeave()">
                     <div class="tooltip-header">
                       <strong>{{hoveredExam?.title}}</strong>
                     </div>
@@ -246,14 +194,22 @@
                         <span class="tooltip-value">{{hoveredExam?.date.toLocaleDateString('fr-FR')}}</span>
                       </div>
                       <div class="tooltip-row">
-                        <span class="tooltip-label">Région:</span>
-                        <span class="tooltip-value">{{hoveredExam?.region}}</span>
-                      </div>
-                      <div class="tooltip-row">
-                        <span class="tooltip-label">Département:</span>
-                        <span class="tooltip-value">{{hoveredExam?.sector}}</span>
+                        <span class="tooltip-label">{{graphicFilterState.viewMode === 'anatomy' ? 'Région:' : 'Département:'}}</span>
+                        <span class="tooltip-value">{{graphicFilterState.viewMode === 'anatomy' ? hoveredExam?.region : hoveredExam?.sector}}</span>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- X-axis (fixed, always visible) -->
+              <div class="chart-x-axis">
+                <div class="x-axis-content" [style.width.px]="getChartWidth()">
+                  <div class="x-axis-label" 
+                       *ngFor="let year of getVisibleYears()"
+                       [class.today]="isToday(year)"
+                       [style.left.px]="getYearPosition(year)">
+                    {{isToday(year) ? 'Today' : year}}
                   </div>
                 </div>
               </div>
