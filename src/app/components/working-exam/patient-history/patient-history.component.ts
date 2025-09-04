@@ -377,13 +377,13 @@ export class PatientHistoryComponent {
     
     // Y position (anatomical region) - Points SUR les lignes
     const regionMap: { [key: string]: number } = {
-      'Crâne': 5,          // Sur la ligne crâne (en haut)
-      'Thorax': 4,         // Sur la ligne thorax
-      'Abdomen': 3,        // Sur la ligne abdomen
-      'Bassin': 2,         // Sur la ligne bassin
-      'Colonne vertébrale': 2, // Même que bassin
-      'Membres': 1,        // Sur la ligne membres
-      'Pied': 0            // Sur la ligne pied (en bas)
+      'Crâne': 0,          // Sur la ligne crâne (en haut)
+      'Thorax': 1,         // Sur la ligne thorax
+      'Abdomen': 2,        // Sur la ligne abdomen
+      'Bassin': 3,         // Sur la ligne bassin
+      'Colonne vertébrale': 3, // Même que bassin
+      'Membres': 4,        // Sur la ligne membres
+      'Pied': 5            // Sur la ligne pied (en bas)
     };
     
     const yIndex = regionMap[exam.region] || 2.5;
