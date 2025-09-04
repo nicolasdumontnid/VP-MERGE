@@ -127,55 +127,25 @@ export class InboxComponent implements OnInit {
     const isCytologyExam = exam.sectorName === 'Cytology' || exam.title.toLowerCase().includes('cytologie');
     const elementCount = 20 + Math.floor(Math.random() * 10);
     
-    // Determine number of videos (0, 1, or 2 maximum)
-    const videoCount = Math.floor(Math.random() * 3); // 0, 1, or 2
-    let videosAdded = 0;
-    
     for (let i = 0; i < elementCount; i++) {
-      let types: ExamElement['type'][];
-      
       if (isCytologyExam) {
-        // For cytology exams, use mostly cytology elements with some supporting files
-        types = ['cytology', 'cytology', 'cytology', 'cytology', 'cytology', 'pdf', 'excel', 'text'];
+        // For cytology exams, use ONLY cytology elements
+        elements.push({
+          type: 'cytology',
+          thumbnail: this.microThumbnails[Math.floor(Math.random() * this.microThumbnails.length)],
+          name: `cytology_${i + 1}.dcm`
+        });
       } else {
-        // For other exams, use standard types
-        types = ['radio', 'mri', 'slide', 'macro', 'pdf', 'excel', 'text'];
-      }
-      
-      // Only add video to possible types if we haven't reached the limit
-      if (videosAdded < videoCount) {
-        types.push('video');
-      }
-      
-      const type = types[Math.floor(Math.random() * types.length)];
-      
-      // Track video count
-      if (type === 'video') {
-        videosAdded++;
-      }
-      
-      let thumbnail = '';
-      switch (type) {
-        case 'cytology':
-          thumbnail = this.microThumbnails[Math.floor(Math.random() * this.microThumbnails.length)];
-          break;
-        case 'radio':
-        case 'mri':
-        case 'slide':
-        case 'video':
-        case 'macro':
-        case 'pdf':
-        case 'excel':
-        case 'text':
+        // For radiological exams, use ONLY radiological elements
+        const types: ExamElement['type'][] = ['radio', 'mri', 'slide', 'video', 'macro'];
+        const type = types[Math.floor(Math.random() * types.length)];
+        
+        elements.push({
+          type,
           thumbnail = this.radioThumbnails[Math.floor(Math.random() * this.radioThumbnails.length)];
-          break;
+          name: `${type}_${i + 1}.dcm`
+        });
       }
-      
-      elements.push({
-        type,
-        thumbnail,
-        name: `${type}_${i + 1}.${type === 'pdf' ? 'pdf' : type === 'excel' ? 'xlsx' : type === 'text' ? 'txt' : 'dcm'}`
-      });
     }
 
     const allSharedUsers: SharedUser[] = [
