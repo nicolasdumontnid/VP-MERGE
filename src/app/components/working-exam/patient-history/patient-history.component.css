@@ -211,6 +211,16 @@
   background: #9ca3af;
 }
 
+.badge.selected {
+  box-shadow: 0 0 0 2px white;
+  transform: scale(1.05);
+}
+
+.badge {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
 .badge:nth-child(1) { background: #ef4444; }
 .badge:nth-child(2) { background: #10b981; }
 .badge:nth-child(3) { background: #3b82f6; }
@@ -718,6 +728,10 @@
   background-color: rgba(107, 114, 128, 0.2);
 }
 
+.region-space.selected {
+  background-color: rgba(107, 114, 128, 0.3);
+}
+
 .chart-area {
   position: absolute;
   top: 0;
@@ -767,8 +781,7 @@
   position: absolute;
   width: 8px;
   height: 8px;
-  background-color: #3b82f6;
-  border: 2px solid #1e40af;
+  border: 2px solid;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -779,9 +792,7 @@
 .exam-point:hover {
   width: 12px;
   height: 12px;
-  background-color: #60a5fa;
-  border-color: #3b82f6;
-  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 /* Tooltip Styles */

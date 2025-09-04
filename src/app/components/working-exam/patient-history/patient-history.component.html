@@ -45,7 +45,15 @@
                 <span>organs</span>
               </label>
             </div>
-            <div class="badges" *ngIf="block.badges && block.id !== 'visual-map'">
+            <div class="badges" *ngIf="block.badges && block.id === 'calendar-map'">
+              <span [class]="getBadgeClass(badge)" 
+                    *ngFor="let badge of block.badges"
+                    (click)="onBadgeClick(badge)"
+                    [style.background-color]="regionColors[badge] || '#6b7280'">
+                {{badge}}
+              </span>
+            </div>
+            <div class="badges" *ngIf="block.badges && block.id !== 'visual-map' && block.id !== 'calendar-map'">
               <span class="badge" *ngFor="let badge of block.badges">{{badge}}</span>
             </div>
           </div>
@@ -133,7 +141,8 @@
                   <div class="y-axis-line" data-region="head">
                     <span class="y-label">Crâne</span>
                   </div>
-                  <div class="region-space" 
+                  <div class="region-space"
+                       [class.selected]="isRegionSelected('Crâne')"
                        (mouseenter)="onRegionHover($event, 'head-shoulder')"
                        (mouseleave)="onRegionLeave($event)">
                   </div>
@@ -141,6 +150,7 @@
                     <span class="y-label">Thorax</span>
                   </div>
                   <div class="region-space"
+                       [class.selected]="isRegionSelected('Thorax')"
                        (mouseenter)="onRegionHover($event, 'thorax-abdomen')"
                        (mouseleave)="onRegionLeave($event)">
                   </div>
@@ -148,6 +158,7 @@
                     <span class="y-label">Abdomen</span>
                   </div>
                   <div class="region-space"
+                       [class.selected]="isRegionSelected('Abdomen')"
                        (mouseenter)="onRegionHover($event, 'abdomen-pelvis')"
                        (mouseleave)="onRegionLeave($event)">
                   </div>
@@ -155,6 +166,7 @@
                     <span class="y-label">Bassin</span>
                   </div>
                   <div class="region-space"
+                       [class.selected]="isRegionSelected('Bassin') || isRegionSelected('Colonne vertébrale')"
                        (mouseenter)="onRegionHover($event, 'pelvis-leg')"
                        (mouseleave)="onRegionLeave($event)">
                   </div>
@@ -162,6 +174,7 @@
                     <span class="y-label">Membres</span>
                   </div>
                   <div class="region-space"
+                       [class.selected]="isRegionSelected('Membres')"
                        (mouseenter)="onRegionHover($event, 'leg-foot')"
                        (mouseleave)="onRegionLeave($event)">
                   </div>
@@ -185,6 +198,8 @@
                   <div class="exam-points">
                     <div class="exam-point" 
                          *ngFor="let exam of getPatientExams()"
+                         [style.background-color]="getPointColor(exam)"
+                         [style.border-color]="getPointBorderColor(exam)"
                          [style.left.%]="getExamPosition(exam).x"
                          [style.top.%]="getExamPosition(exam).y"
                         (mouseenter)="onExamPointEnter($event, exam)"

@@ -40,6 +40,20 @@ export class PatientHistoryComponent {
   hoveredExam: any = null;
   tooltipPosition = { x: 0, y: 0 };
   private tooltipTimeout: any = null;
+  
+  // Badge selection state
+  selectedRegions = new Set<string>();
+  
+  // Color mapping for anatomical regions
+  regionColors: { [key: string]: string } = {
+    'Crâne': '#ef4444',           // Red
+    'Thorax': '#f59e0b',          // Orange  
+    'Abdomen': '#10b981',         // Green
+    'Bassin': '#3b82f6',          // Blue
+    'Colonne vertébrale': '#3b82f6', // Same as Bassin
+    'Membres': '#8b5cf6',         // Purple
+    'Pied': '#ec4899'             // Pink
+  };
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -465,5 +479,56 @@ export class PatientHistoryComponent {
 
   ngOnDestroy() {
     this.clearTooltipTimeout();
+  }
+  
+  // Badge selection methods
+  onBadgeClick(region: string): void {
+    if (this.selectedRegions.has(region)) {
+      // Deselect region
+      this.selectedRegions.delete(region);
+    } else {
+      // Select region
+      this.selectedRegions.add(region);
+    }
+    this.cdr.detectChanges();
+  }
+  
+  isBadgeSelected(region: string): boolean {
+    return this.selectedRegions.has(region);
+  }
+  
+  getBadgeClass(region: string): string {
+    return this.isBadgeSelected(region) ? 'badge selected' : 'badge';
+  }
+  
+  getPointColor(exam: any): string {
+    return this.regionColors[exam.region] || '#6b7280';
+  }
+  
+  getPointBorderColor(exam: any): string {
+    if (this.selectedRegions.has(exam.region)) {
+      // Darker border when region is selected
+      const baseColor = this.regionColors[exam.region] || '#6b7280';
+      return this.darkenColor(baseColor);
+    }
+    return this.regionColors[exam.region] || '#6b7280';
+  }
+  
+  isRegionSelected(region: string): boolean {
+    return this.selectedRegions.has(region);
+  }
+  
+  private darkenColor(color: string): string {
+    // Simple color darkening - remove one level of brightness
+    const colorMap: { [key: string]: string } = {
+      '#ef4444': '#dc2626', // Red -> Darker red
+      '#f59e0b': '#d97706', // Orange -> Darker orange
+      '#10b981': '#059669', // Green -> Darker green
+      '#3b82f6': '#2563eb', // Blue -> Darker blue
+      '#8b5cf6': '#7c3aed', // Purple -> Darker purple
+      '#ec4899': '#db2777', // Pink -> Darker pink
+      '#6b7280': '#4b5563'  // Gray -> Darker gray
+    };
+    return colorMap[color] || '#374151';
   }
 }
