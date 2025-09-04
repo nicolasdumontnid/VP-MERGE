@@ -110,6 +110,11 @@ export class InboxComponent implements OnInit {
     for (let i = 0; i < elementCount; i++) {
       let types: ExamElement['type'][] = ['radio', 'mri', 'slide', 'macro', 'pdf', 'excel', 'text'];
       
+      // Add cytology type for some exams (20% chance)
+      if (Math.random() < 0.2) {
+        types.push('cytology');
+      }
+      
       // Only add video to possible types if we haven't reached the limit
       if (videosAdded < videoCount) {
         types.push('video');

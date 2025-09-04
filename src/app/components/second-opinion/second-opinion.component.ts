@@ -131,6 +131,9 @@ export class SecondOpinionComponent implements OnInit {
         case 'text':
           thumbnail = this.radioThumbnails[Math.floor(Math.random() * this.radioThumbnails.length)];
           break;
+        case 'cytology':
+          thumbnail = this.microThumbnails[Math.floor(Math.random() * this.microThumbnails.length)];
+          break;
       }
       
       elements.push({

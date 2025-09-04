@@ -78,7 +78,7 @@ export class MockDataService {
     const sectors = this.generateSectors();
     
     const anatomicalRegions = ['Thorax', 'Abdomen', 'Crâne', 'Bassin', 'Colonne vertébrale', 'Membres', 'Cou', 'Pelvis', 'Genou', 'Épaule'];
-    const examTypes = ['Scanner', 'IRM', 'Radiographie', 'Échographie', 'TEP Scan', 'Biopsie', 'Mammographie', 'Endoscopie'];
+    const examTypes = ['Scanner', 'IRM', 'Radiographie', 'Échographie', 'TEP Scan', 'Biopsie', 'Mammographie', 'Endoscopie', 'Cytologie'];
     const departments = ['Radiologie', 'Oncologie', 'Médecine interne', 'Chirurgie', 'Urgences', 'Cardiologie', 'Neurologie'];
     const prescribingDoctors = [
       'Dr. Jean Dupont', 'Dr. Marie Leclerc', 'Dr. Pierre Martin', 'Dr. Sophie Durand',
