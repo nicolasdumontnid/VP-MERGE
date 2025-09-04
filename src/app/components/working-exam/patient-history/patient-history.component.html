@@ -140,12 +140,28 @@
               <div class="timeline-chart">
                 <!-- Y-axis labels and lines -->
                 <div class="y-axis">
-                  <div class="y-axis-line" data-region="head">
-                    <span class="y-label">Crâne</span>
+                  <div class="y-axis-line" data-region="tete">
+                    <span class="y-label">Tête</span>
                   </div>
                   <div class="region-space"
-                       [class.selected]="isRegionSelected('Crâne')"
-                       (mouseenter)="onRegionHover($event, 'head-shoulder')"
+                       [class.selected]="isRegionSelected('Tête')"
+                       (mouseenter)="onRegionHover($event, 'tete-cou')"
+                       (mouseleave)="onRegionLeave($event)">
+                  </div>
+                  <div class="y-axis-line" data-region="cou">
+                    <span class="y-label">Cou</span>
+                  </div>
+                  <div class="region-space"
+                       [class.selected]="isRegionSelected('Cou')"
+                       (mouseenter)="onRegionHover($event, 'cou-epaule')"
+                       (mouseleave)="onRegionLeave($event)">
+                  </div>
+                  <div class="y-axis-line" data-region="epaule">
+                    <span class="y-label">Épaule</span>
+                  </div>
+                  <div class="region-space"
+                       [class.selected]="isRegionSelected('Épaule')"
+                       (mouseenter)="onRegionHover($event, 'epaule-thorax')"
                        (mouseleave)="onRegionLeave($event)">
                   </div>
                   <div class="y-axis-line" data-region="thorax">
@@ -153,34 +169,42 @@
                   </div>
                   <div class="region-space"
                        [class.selected]="isRegionSelected('Thorax')"
-                       (mouseenter)="onRegionHover($event, 'thorax-abdomen')"
+                       (mouseenter)="onRegionHover($event, 'thorax-membres-sup')"
                        (mouseleave)="onRegionLeave($event)">
                   </div>
-                  <div class="y-axis-line" data-region="abdomen">
-                    <span class="y-label">Abdomen</span>
+                  <div class="y-axis-line" data-region="membres-sup">
+                    <span class="y-label">Membres sup.</span>
                   </div>
                   <div class="region-space"
-                       [class.selected]="isRegionSelected('Abdomen')"
-                       (mouseenter)="onRegionHover($event, 'abdomen-pelvis')"
+                       [class.selected]="isRegionSelected('Membres supérieurs')"
+                       (mouseenter)="onRegionHover($event, 'membres-sup-dos')"
                        (mouseleave)="onRegionLeave($event)">
                   </div>
-                  <div class="y-axis-line" data-region="pelvis">
+                  <div class="y-axis-line" data-region="dos">
+                    <span class="y-label">Dos</span>
+                  </div>
+                  <div class="region-space"
+                       [class.selected]="isRegionSelected('Dos')"
+                       (mouseenter)="onRegionHover($event, 'dos-bassin')"
+                       (mouseleave)="onRegionLeave($event)">
+                  </div>
+                  <div class="y-axis-line" data-region="bassin">
                     <span class="y-label">Bassin</span>
                   </div>
                   <div class="region-space"
-                       [class.selected]="isRegionSelected('Bassin') || isRegionSelected('Colonne vertébrale')"
-                       (mouseenter)="onRegionHover($event, 'pelvis-leg')"
+                       [class.selected]="isRegionSelected('Bassin')"
+                       (mouseenter)="onRegionHover($event, 'bassin-membres-inf')"
                        (mouseleave)="onRegionLeave($event)">
                   </div>
-                  <div class="y-axis-line" data-region="membres">
-                    <span class="y-label">Membres</span>
+                  <div class="y-axis-line" data-region="membres-inf">
+                    <span class="y-label">Membres inf.</span>
                   </div>
                   <div class="region-space"
-                       [class.selected]="isRegionSelected('Membres')"
-                       (mouseenter)="onRegionHover($event, 'leg-foot')"
+                       [class.selected]="isRegionSelected('Membres inférieurs')"
+                       (mouseenter)="onRegionHover($event, 'membres-inf-pied')"
                        (mouseleave)="onRegionLeave($event)">
                   </div>
-                  <div class="y-axis-line" data-region="foot">
+                  <div class="y-axis-line" data-region="pied">
                     <span class="y-label">Pied</span>
                   </div>
                 </div>
