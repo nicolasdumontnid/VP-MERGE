@@ -918,6 +918,29 @@
   object-fit: cover;
 }
 
+.element-icon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4b5563;
+  color: white;
+  font-size: 32px;
+}
+
+.element-icon i.fa-file-pdf {
+  color: #ef4444;
+}
+
+.element-icon i.fa-file-excel {
+  color: #10b981;
+}
+
+.element-icon i.fa-file-alt {
+  color: #6b7280;
+}
+
 .play-overlay {
   position: absolute;
   top: 50%;

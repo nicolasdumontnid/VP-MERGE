@@ -134,14 +134,24 @@ export class PendingComponent implements OnInit {
         });
       } else {
         // For radiological exams, use ONLY radiological elements
-        const types: ExamElement['type'][] = ['radio', 'mri', 'slide', 'video', 'macro'];
+        const types: ExamElement['type'][] = ['radio', 'mri', 'slide', 'video', 'macro', 'pdf', 'excel', 'text'];
         const type = types[Math.floor(Math.random() * types.length)];
         
-        elements.push({
-          type,
-          thumbnail: this.radioThumbnails[Math.floor(Math.random() * this.radioThumbnails.length)],
-          name: `${type}_${i + 1}.dcm`
-        });
+        if (type === 'pdf' || type === 'excel' || type === 'text') {
+          // Use Font Awesome icons for documents
+          elements.push({
+            type,
+            thumbnail: 'icon', // Special value to indicate Font Awesome icon
+            name: `${type}_${i + 1}.${type === 'pdf' ? 'pdf' : type === 'excel' ? 'xlsx' : 'txt'}`
+          });
+        } else {
+          // Use radio thumbnails for medical images
+          elements.push({
+            type,
+            thumbnail: this.radioThumbnails[Math.floor(Math.random() * this.radioThumbnails.length)],
+            name: `${type}_${i + 1}.dcm`
+          });
+        }
       }
     }
 
