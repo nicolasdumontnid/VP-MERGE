@@ -47,12 +47,14 @@ export class PatientHistoryComponent {
   
   // Color mapping for anatomical regions
   regionColors: { [key: string]: string } = {
-    'Crâne': '#ef4444',           // Red
-    'Thorax': '#f59e0b',          // Orange  
-    'Abdomen': '#10b981',         // Green
+    'Tête': '#ef4444',            // Red
+    'Cou': '#f97316',             // Orange
+    'Épaule': '#eab308',          // Yellow
+    'Thorax': '#22c55e',          // Green
+    'Membres supérieurs': '#06b6d4', // Cyan
+    'Dos': '#3b82f6',             // Blue
     'Bassin': '#3b82f6',          // Blue
-    'Colonne vertébrale': '#3b82f6', // Same as Bassin
-    'Membres': '#8b5cf6',         // Purple
+    'Membres inférieurs': '#8b5cf6', // Purple
     'Pied': '#ec4899'             // Pink
   };
 
@@ -361,18 +363,18 @@ export class PatientHistoryComponent {
     if (!this.exam) return [];
     
     return [
-      { date: new Date('2024-01-15'), region: 'Pied', title: 'X-Ray - Foot' },
-      { date: new Date('2024-02-20'), region: 'Membres', title: 'MRI - Knee' },
+      { date: new Date('2024-01-15'), region: 'Pied', title: 'Radiographie - Pied' },
+      { date: new Date('2024-02-20'), region: 'Membres inférieurs', title: 'IRM - Genou' },
       { date: new Date('2024-03-10'), region: 'Bassin', title: 'X-Ray - Pelvis' },
-      { date: new Date('2024-04-05'), region: 'Colonne vertébrale', title: 'MRI - Spine' },
-      { date: new Date('2024-05-12'), region: 'Abdomen', title: 'MRI - Abdominal' },
-      { date: new Date('2024-06-18'), region: 'Thorax', title: 'X-Ray - Chest' },
-      { date: new Date('2024-07-22'), region: 'Crâne', title: 'CT Scan - Head' },
-      { date: new Date('2024-08-30'), region: 'Abdomen', title: 'Ultrasound' },
-      { date: new Date('2024-09-15'), region: 'Thorax', title: 'CT Scan - Lungs' },
-      { date: new Date('2024-10-08'), region: 'Membres', title: 'X-Ray - Wrist' },
+      { date: new Date('2024-04-05'), region: 'Dos', title: 'IRM - Rachis' },
+      { date: new Date('2024-05-12'), region: 'Thorax', title: 'IRM - Thorax' },
+      { date: new Date('2024-06-18'), region: 'Thorax', title: 'Radiographie - Thorax' },
+      { date: new Date('2024-07-22'), region: 'Tête', title: 'Scanner - Tête' },
+      { date: new Date('2024-08-30'), region: 'Thorax', title: 'Échographie' },
+      { date: new Date('2024-09-15'), region: 'Thorax', title: 'Scanner - Poumons' },
+      { date: new Date('2024-10-08'), region: 'Membres supérieurs', title: 'Radiographie - Poignet' },
       { date: new Date('2024-11-12'), region: 'Bassin', title: 'CT Scan - Hip' },
-      { date: new Date('2024-12-20'), region: 'Crâne', title: 'MRI - Brain' },
+      { date: new Date('2024-12-20'), region: 'Tête', title: 'IRM - Cerveau' },
       { date: new Date('2025-01-15'), region: this.exam.anatomicalRegion, title: this.exam.title }
     ];
   }
