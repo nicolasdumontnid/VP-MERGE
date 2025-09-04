@@ -354,4 +354,19 @@ export class ExamResultsComponent implements OnInit, OnChanges {
   closeDisplayMenu(): void {
     this.isDisplayMenuOpen = false;
   }
+
+  togglePatientCard(patientName: string): void {
+    const patientGroup = this._allGroupedPatients.find(p => p.patientName === patientName);
+    if (patientGroup) {
+      patientGroup.isExpanded = !patientGroup.isExpanded;
+      
+      if (patientGroup.isExpanded) {
+        this.expandedPatients.add(patientName);
+      } else {
+        this.expandedPatients.delete(patientName);
+      }
+      
+      this.cdr.detectChanges();
+    }
+  }
 }
