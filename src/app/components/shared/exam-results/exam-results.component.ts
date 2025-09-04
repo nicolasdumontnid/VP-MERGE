@@ -129,6 +129,7 @@ export class ExamResultsComponent implements OnInit, OnChanges {
     this.cdr.detectChanges();
   }
 
+  private requestAllDataForPatientView() {
     // Request all data from parent component
     this.requestAllData.emit();
     this.cdr.detectChanges();
