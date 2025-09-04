@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DetailedExam } from '../../models/detailed-exam.interface';
+import { DetailedExam } from '@models/detailed-exam.interface';
 import { PatientHistoryComponent } from '../working-exam/patient-history/patient-history.component';
 
 @Component({
