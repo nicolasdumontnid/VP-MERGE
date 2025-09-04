@@ -45,14 +45,6 @@
                 <span>organs</span>
               </label>
             </div>
-            <div class="badges" *ngIf="block.badges && block.id === 'calendar-map'">
-              <span [class]="getBadgeClass(badge)" 
-                    *ngFor="let badge of block.badges"
-                    (click)="onBadgeClick(badge)"
-                    [style.background-color]="regionColors[badge] || '#6b7280'">
-                {{badge}}
-              </span>
-            </div>
             <div class="badges" *ngIf="block.badges && block.id !== 'visual-map' && block.id !== 'calendar-map'">
               <span class="badge" *ngFor="let badge of block.badges">{{badge}}</span>
             </div>
@@ -126,6 +118,16 @@
 
           <!-- Calendar Map -->
           <div *ngIf="block.content.type === 'calendar-map'" class="calendar-map-content">
+            <!-- Badges moved to body -->
+            <div class="calendar-badges" *ngIf="block.badges">
+              <span [class]="getBadgeClass(badge)" 
+                    *ngFor="let badge of block.badges"
+                    (click)="onBadgeClick(badge)"
+                    [style.background-color]="regionColors[badge] || '#6b7280'">
+                {{badge}}
+              </span>
+            </div>
+            
             <div class="calendar-map-layout">
               <!-- Left side: Human body SVG -->
               <div class="body-reference">

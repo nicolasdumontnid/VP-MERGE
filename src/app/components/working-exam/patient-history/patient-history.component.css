@@ -659,6 +659,37 @@
   padding: 16px;
 }
 
+.calendar-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #4b5563;
+}
+
+.calendar-badges .badge {
+  background: #6b7280;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.calendar-badges .badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.calendar-badges .badge.selected {
+  box-shadow: 0 0 0 2px white;
+  transform: scale(1.05);
+}
+
 .calendar-map-layout {
   display: flex;
   gap: 20px;
