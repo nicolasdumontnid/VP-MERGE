@@ -425,4 +425,59 @@
     <i [class]="noResultsIcon + ' no-results-icon-' + pageType"></i>
     <h3>{{noResultsTitle}}</h3>
   </div>
+
+  <!-- Bottom Pagination Controls (duplicate of top) -->
+  <div class="pagination-controls" *ngIf="exams.length > 0 && (paginatedExams.length > 0 || paginatedGroupedPatients.length > 0)">
+    <div class="items-per-page">
+      <label>Items per page:</label>
+      <select [value]="_currentItemsPerPage" (change)="onItemsPerPageChange($event)" class="items-select">
+        <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
+      </select>
+    </div>
+    
+    <div class="pagination-nav">
+      <button class="page-btn" (click)="goToFirstPage()" [disabled]="currentPageForDisplay === 1" title="First page">
+        <i class="fas fa-angle-double-left"></i>
+      </button>
+      <button class="page-btn" (click)="previousPage()" [disabled]="currentPageForDisplay === 1" title="Previous page">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      
+      <div class="page-numbers">
+        <button 
+          *ngFor="let page of getPageNumbers()" 
+          class="page-btn" 
+          [class]="page === currentPageForDisplay ? 'page-btn active ' + getActiveBtnClass() : 'page-btn'"
+          (click)="goToPage(page)">
+          {{page}}
+        </button>
+      </div>
+      
+      <button class="page-btn" (click)="nextPage()" [disabled]="currentPageForDisplay === totalPagesForCurrentView" title="Next page">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+      <button class="page-btn" (click)="goToLastPage()" [disabled]="currentPageForDisplay === totalPagesForCurrentView" title="Last page">
+        <i class="fas fa-angle-double-right"></i>
+      </button>
+    </div>
+    
+    <!-- View Mode Selector -->
+    <div class="view-mode-selector">
+      <div class="dropdown" [class.open]="isViewMenuOpen">
+        <button class="view-menu-btn" (click)="toggleViewMenu()" title="View options">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="dropdown-menu">
+          <button class="dropdown-item" [class.active]="viewMode === 'exam'" (click)="setViewMode('exam')">
+            <i class="fas fa-x-ray"></i>
+            <span>Examen view</span>
+          </button>
+          <button class="dropdown-item" [class.active]="viewMode === 'patient'" (click)="setViewMode('patient')">
+            <i class="fas fa-user"></i>
+            <span>Patient view</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
