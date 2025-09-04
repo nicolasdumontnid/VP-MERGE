@@ -377,19 +377,19 @@ export class PatientHistoryComponent {
     
     // Y position (anatomical region) - Points SUR les lignes
     const regionMap: { [key: string]: number } = {
-      'Pied': 5,           // Sur la ligne pied (en bas)
-      'Membres': 1,        // Sur la ligne membres
+      'Crâne': 5,          // Sur la ligne crâne (en haut)
+      'Thorax': 4,         // Sur la ligne thorax
+      'Abdomen': 3,        // Sur la ligne abdomen
       'Bassin': 2,         // Sur la ligne bassin
       'Colonne vertébrale': 2, // Même que bassin
-      'Abdomen': 3,        // Sur la ligne abdomen
-      'Thorax': 4,         // Sur la ligne thorax
-      'Crâne': 0           // Sur la ligne crâne (en haut)
+      'Membres': 1,        // Sur la ligne membres
+      'Pied': 0            // Sur la ligne pied (en bas)
     };
     
     const yIndex = regionMap[exam.region] || 2.5;
-    // Inverser l'axe Y : crâne en haut (10%), pied en bas (90%)
+    // Axe Y : crâne en haut (10%), pied en bas (90%)
     // Points SUR les lignes : pas d'ajustement
-    const yPercent = 90 - (yIndex / 5) * 80; // 80% de l'espace utilisable, 10% de marge en haut et en bas
+    const yPercent = 10 + (yIndex / 5) * 80; // 80% de l'espace utilisable, 10% de marge en haut et en bas
     
     return { x: xPercent, y: yPercent };
   }
