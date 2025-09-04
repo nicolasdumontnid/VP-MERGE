@@ -377,19 +377,26 @@ export class PatientHistoryComponent {
     
     // Y position (anatomical region) - Points SUR les lignes
     const regionMap: { [key: string]: number } = {
-      'Crâne': 0,          // Sur la ligne crâne (en haut)
-      'Thorax': 1,         // Sur la ligne thorax
-      'Abdomen': 2,        // Sur la ligne abdomen
-      'Bassin': 3,         // Sur la ligne bassin
+      'Crâne': 0,          // Index 0 pour le crâne
+      'Thorax': 1,         // Index 1 pour le thorax
+      'Abdomen': 2,        // Index 2 pour l'abdomen
+      'Bassin': 3,         // Index 3 pour le bassin
       'Colonne vertébrale': 3, // Même que bassin
-      'Membres': 4,        // Sur la ligne membres
-      'Pied': 5            // Sur la ligne pied (en bas)
+      'Membres': 4,        // Index 4 pour les membres
+      'Pied': 5            // Index 5 pour le pied
     };
     
-    const yIndex = regionMap[exam.region] || 2.5;
-    // Axe Y : crâne en haut (10%), pied en bas (90%) 
-    // Calcul direct : 10% + (index/5) * 80%
-    const yPercent = 10 + (yIndex / 5) * 80; // 80% de l'espace utilisable, 10% de marge en haut et en bas
+    const yIndex = regionMap[exam.region];
+    if (yIndex === undefined) {
+      console.warn('Unknown region:', exam.region);
+      return { x: xPercent, y: 50 }; // Position par défaut au centre
+    }
+    
+    // Calcul Y : crâne en haut (10%), pied en bas (90%)
+    // Formule : 10% + (index/5) * 80%
+    const yPercent = 10 + (yIndex / 5) * 80;
+    
+    console.log(`Exam: ${exam.title}, Region: ${exam.region}, Index: ${yIndex}, Y%: ${yPercent}`);
     
     return { x: xPercent, y: yPercent };
   }
