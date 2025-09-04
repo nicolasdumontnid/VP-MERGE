@@ -917,8 +917,68 @@
   transition: all 0.2s ease;
   transform: translate(-50%, -50%);
   z-index: 20;
+/* Exam Labels */
+.exam-label {
+  position: absolute;
+  background-color: rgba(26, 26, 26, 0.95);
+  border: 1px solid #4b5563;
+  border-radius: 6px;
+  padding: 6px 8px;
+  min-width: 80px;
+  text-align: center;
+  font-size: 11px;
+  pointer-events: none;
+  z-index: 15;
+  transform: translateX(-50%);
 }
 
+.exam-title {
+  color: white;
+  font-weight: 600;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+
+.exam-date {
+  color: #9ca3af;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+/* Selection Controls */
+.selection-controls {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+  padding: 12px;
+  background-color: #374151;
+  border-radius: 8px;
+  border: 1px solid #4b5563;
+}
+
+.open-selection-btn {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.open-selection-btn:hover {
+  background-color: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+/* Detailed Tooltip Styles */
+.exam-tooltip-detailed {
 .exam-point:hover {
   width: 12px;
   height: 12px;
@@ -1001,11 +1061,9 @@
   transform: translate(-50%, -100%);
   margin-top: -10px;
   transition: opacity 0.2s ease;
-}
-
 .exam-tooltip-detailed[hidden] {
   opacity: 0;
-  pointer-events: none;
+.exam-tooltip-detailed[hidden] {
 }
 
 .exam-tooltip-detailed:not([hidden]) {
@@ -1061,6 +1119,296 @@
 
 .tooltip-value {
   color: white;
+  text-align: right;
+  font-size: 12px;
+}
+
+.tooltip-section-title {
+  color: #d1d5db;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.tooltip-thumbnails {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.tooltip-thumbnail {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #4b5563;
+}
+
+.tooltip-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tooltip-doc-icons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tooltip-doc-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #374151;
+  border-radius: 4px;
+  border: 1px solid #4b5563;
+}
+
+.tooltip-doc-icon i.fa-file-pdf {
+  color: #ef4444;
+  font-size: 16px;
+}
+
+.tooltip-doc-icon i.fa-file-excel {
+  color: #10b981;
+  font-size: 16px;
+}
+
+.tooltip-doc-icon i.fa-file-alt {
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.tooltip-doc-icon i.fa-play-circle {
+  color: #3b82f6;
+  font-size: 16px;
+}
+
+.tooltip-more {
+  background-color: #4b5563;
+  color: #9ca3af;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* Context Menu */
+.context-menu {
+  position: fixed;
+  background-color: #374151;
+  border: 1px solid #4b5563;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  z-index: 2000;
+  min-width: 180px;
+  overflow: hidden;
+}
+
+.context-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: white;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+}
+
+.context-menu-item:hover {
+  background-color: #4b5563;
+}
+
+.context-menu-item i {
+  width: 16px;
+  color: #9ca3af;
+}
+
+.context-submenu {
+  position: relative;
+}
+
+.submenu-content {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: #374151;
+  border: 1px solid #4b5563;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  min-width: 160px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+.exam-tooltip-detailed:not([hidden]) {
+
+.context-submenu:hover .submenu-content {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+.exam-tooltip-detailed.below {
+.submenu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  color: white;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 13px;
+}
+
+.submenu-item:hover {
+  background-color: #4b5563;
+}
+
+.submenu-item.selected {
+  background-color: #6b7280;
+  color: #252525;
+}
+
+.submenu-item i {
+  color: #10b981;
+  font-size: 12px;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.exam-detail-modal {
+  background-color: #2a2a2a;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 20px;
+  border-bottom: 1px solid #4b5563;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #374151;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 18px;
+}
+
+.modal-close-btn:hover {
+  background-color: #4b5563;
+  color: white;
+}
+
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.exam-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detail-section {
+  background-color: #374151;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.detail-section h4 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #d1d5db;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.detail-item {
+.tooltip-date {
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.tooltip-content-detailed {
+  justify-content: space-between;
+  padding: 8px 0;
+  gap: 12px;
+}
+
+.tooltip-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+  gap: 8px;
+.detail-label {
+  color: #9ca3af;
+  font-weight: 500;
+  font-size: 14px;
+}
+  font-size: 12px;
+
+.detail-value {
+  color: white;
+  font-size: 14px;
   text-align: right;
   font-size: 12px;
 }
@@ -1447,6 +1795,133 @@
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  font-size: 14px;
+}
+
+.exam-tab:hover {
+  background-color: #4b5563;
+  color: white;
+}
+
+.exam-tab.active {
+  color: white;
+  border-bottom-color: #6b7280;
+  background-color: #4b5563;
+}
+
+.tab-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.elements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 12px;
+}
+
+.element-item-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background-color: #4b5563;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.element-item-modal:hover {
+  background-color: #5b6572;
+  transform: translateY(-2px);
+}
+
+.element-thumbnail-modal {
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.element-thumbnail-modal img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.element-icon-modal {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #6b7280;
+  border-radius: 4px;
+  font-size: 24px;
+}
+
+.element-icon-modal i.fa-file-pdf {
+  color: #ef4444;
+}
+
+.element-icon-modal i.fa-file-excel {
+  color: #10b981;
+}
+
+.element-icon-modal i.fa-file-alt {
+  color: #9ca3af;
+}
+
+.element-icon-modal i.fa-play-circle {
+  color: #3b82f6;
+}
+
+.element-name-modal {
+  font-size: 11px;
+  color: #d1d5db;
+  text-align: center;
+  word-break: break-all;
+  max-width: 100px;
+}
+
+/* Selection Modal */
+.selection-modal {
+  background-color: #2a2a2a;
+  border-radius: 12px;
+  width: 95%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.selection-modal-body {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.exam-tabs {
+  display: flex;
+  background-color: #374151;
+  border-bottom: 1px solid #4b5563;
+  overflow-x: auto;
+}
+.tooltip-header-detailed {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+.exam-tab {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  padding: 16px 20px;
   border-bottom: 3px solid transparent;
   font-size: 14px;
 }

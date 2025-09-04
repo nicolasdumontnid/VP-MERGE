@@ -44,6 +44,18 @@ export class PatientHistoryComponent {
   tooltipPosition = { x: 0, y: 0 };
   private tooltipTimeout: any = null;
   
+  // Selection and interaction state
+  selectedExams = new Set<string>();
+  contextMenuVisible = false;
+  contextMenuPosition = { x: 0, y: 0 };
+  contextMenuExam: any = null;
+  
+  // Modal state
+  showExamDetailModal = false;
+  selectedExamForModal: any = null;
+  showSelectionModal = false;
+  selectedTabIndex = 0;
+  
   // Badge selection state
   selectedRegions = new Set<string>();
   
@@ -387,7 +399,7 @@ export class PatientHistoryComponent {
     // Mock data for patient exams - in real app, this would come from a service
     if (!this.exam) return [];
     
-    return [
+    const baseExams = [
       { date: new Date('2024-01-15'), region: 'Pied', title: 'X-Ray - Foot', sector: 'General' },
       { date: new Date('2024-02-20'), region: 'Membres inférieurs', title: 'MRI - Knee', sector: 'General' },
       { date: new Date('2024-03-10'), region: 'Bassin', title: 'X-Ray - Pelvis', sector: 'General' },
@@ -407,6 +419,203 @@ export class PatientHistoryComponent {
       { date: new Date('2024-11-20'), region: 'Bassin', title: 'Cytology - Cervical Smear', sector: 'Cytology' },
       { date: new Date('2025-01-15'), region: this.exam.anatomicalRegion, title: this.exam.title, sector: this.exam.sectorName }
     ];
+    
+    // Add future appointments
+    const futureExams = [
+      { date: new Date('2025-01-18'), region: 'Thorax', title: 'Mammography', sector: 'Breast' },
+      { date: new Date('2025-01-25'), region: 'Tête', title: 'MRI - Brain', sector: 'General' },
+      { date: new Date('2025-02-10'), region: 'Dos', title: 'X-Ray - Spine', sector: 'General' }
+    ];
+    
+    return [...baseExams, ...futureExams].map(exam => this.enhanceExamWithElements(exam));
+  }
+  
+  private enhanceExamWithElements(exam: any) {
+    // Add images and documents to each exam
+    const images = [];
+    const documents = [];
+    
+    // Add random images
+    const imageCount = 3 + Math.floor(Math.random() * 5);
+    const isCytology = exam.sector === 'Cytology';
+    
+    for (let i = 0; i < imageCount; i++) {
+      if (isCytology) {
+        images.push({
+          thumbnail: this.microThumbnails[Math.floor(Math.random() * this.microThumbnails.length)],
+          name: `cytology_${i + 1}.dcm`,
+          type: 'cytology'
+        });
+      } else {
+        images.push({
+          thumbnail: this.radioThumbnails[Math.floor(Math.random() * this.radioThumbnails.length)],
+          name: `radio_${i + 1}.dcm`,
+          type: 'radio'
+        });
+      }
+    }
+    
+    // Add random documents
+    const docCount = Math.floor(Math.random() * 4);
+    const docTypes = ['pdf', 'excel', 'text', 'video'];
+    
+    for (let i = 0; i < docCount; i++) {
+      const type = docTypes[Math.floor(Math.random() * docTypes.length)];
+      documents.push({
+        type,
+        name: `document_${i + 1}.${type === 'pdf' ? 'pdf' : type === 'excel' ? 'xlsx' : type === 'text' ? 'txt' : 'mp4'}`
+      });
+    }
+    
+    return {
+      ...exam,
+      id: `exam_${Date.now()}_${Math.random()}`,
+      images,
+      documents,
+      site: 'CHU-Angers'
+    };
+  }
+  
+  // Sample thumbnails arrays
+  private radioThumbnails = [
+    'assets/images/radio/0-thumbnail.jpeg',
+    'assets/images/radio/1-thumbnail.jpeg',
+    'assets/images/radio/2-thumbnail.jpeg',
+    'assets/images/radio/3-thumbnail.jpeg',
+    'assets/images/radio/4-thumbnail.jpeg',
+    'assets/images/radio/5thumbnail.jpeg',
+    'assets/images/radio/7-thumbnail.jpeg',
+    'assets/images/radio/8-thumbnail.jpeg',
+    'assets/images/radio/9-thumbnail.jpeg'
+  ];
+  
+  private microThumbnails = [
+    'assets/images/micro/micro-0-thumbnail.jpeg',
+    'assets/images/micro/micro-1-thumbnail.jpeg',
+    'assets/images/micro/thumbnail.jpeg',
+    'assets/images/micro/thumbnail (1).jpeg',
+    'assets/images/micro/thumbnail (2).jpeg',
+    'assets/images/micro/thumbnail (3).jpeg',
+    'assets/images/micro/thumbnail (4).jpeg',
+    'assets/images/micro/thumbnail (5).jpeg'
+  ];
+
+  // Interaction methods
+  onExamPointClick(event: MouseEvent, exam: any): void {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (event.ctrlKey || event.metaKey) {
+      // Ctrl+Click: Toggle selection
+      if (this.selectedExams.has(exam.id)) {
+        this.selectedExams.delete(exam.id);
+      } else {
+        this.selectedExams.add(exam.id);
+      }
+      this.cdr.detectChanges();
+    } else {
+      // Regular click: Open exam detail modal
+      this.openExamDetailModal(exam);
+    }
+  }
+  
+  onExamPointRightClick(event: MouseEvent, exam: any): void {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    this.contextMenuExam = exam;
+    this.contextMenuPosition = { x: event.clientX, y: event.clientY };
+    this.contextMenuVisible = true;
+    this.cdr.detectChanges();
+    
+    // Close context menu when clicking elsewhere
+    setTimeout(() => {
+      document.addEventListener('click', this.closeContextMenu.bind(this), { once: true });
+    }, 0);
+  }
+  
+  closeContextMenu(): void {
+    this.contextMenuVisible = false;
+    this.contextMenuExam = null;
+    this.cdr.detectChanges();
+  }
+  
+  openExamDetailModal(exam: any): void {
+    this.selectedExamForModal = exam;
+    this.showExamDetailModal = true;
+    this.cdr.detectChanges();
+  }
+  
+  closeExamDetailModal(): void {
+    this.showExamDetailModal = false;
+    this.selectedExamForModal = null;
+    this.cdr.detectChanges();
+  }
+  
+  openSelectionModal(): void {
+    this.showSelectionModal = true;
+    this.selectedTabIndex = 0;
+    this.cdr.detectChanges();
+  }
+  
+  closeSelectionModal(): void {
+    this.showSelectionModal = false;
+    this.selectedTabIndex = 0;
+    this.cdr.detectChanges();
+  }
+  
+  selectTab(index: number): void {
+    this.selectedTabIndex = index;
+    this.cdr.detectChanges();
+  }
+  
+  getSelectedExams(): any[] {
+    const allExams = this.getFilteredExams();
+    return allExams.filter(exam => this.selectedExams.has(exam.id));
+  }
+  
+  // Context menu actions
+  onContextMenuOpen(): void {
+    if (this.contextMenuExam) {
+      this.openExamDetailModal(this.contextMenuExam);
+    }
+    this.closeContextMenu();
+  }
+  
+  onContextMenuAddToPreviewer(): void {
+    console.log('Add to previewer:', this.contextMenuExam?.title);
+    this.closeContextMenu();
+  }
+  
+  onContextMenuHide(): void {
+    console.log('Hide exam:', this.contextMenuExam?.title);
+    this.closeContextMenu();
+  }
+  
+  changeDepartment(newDepartment: string): void {
+    if (this.contextMenuExam) {
+      this.contextMenuExam.sector = newDepartment;
+      console.log('Changed department to:', newDepartment);
+      this.cdr.detectChanges();
+    }
+    this.closeContextMenu();
+  }
+  
+  changeAnatomy(newRegion: string): void {
+    if (this.contextMenuExam) {
+      this.contextMenuExam.region = newRegion;
+      console.log('Changed anatomy to:', newRegion);
+      this.cdr.detectChanges();
+    }
+    this.closeContextMenu();
+  }
+  
+  getAvailableDepartments(): string[] {
+    return this.sectors.map(s => s.name);
+  }
+  
+  getAvailableAnatomicalRegions(): string[] {
+    return ['Tête', 'Cou', 'Épaule', 'Thorax', 'Membres supérieurs', 'Dos', 'Bassin', 'Membres inférieurs', 'Pied'];
   }
 
   getTimelineMonths() {
