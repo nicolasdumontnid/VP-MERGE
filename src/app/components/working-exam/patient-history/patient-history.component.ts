@@ -56,6 +56,9 @@ export class PatientHistoryComponent {
     'Pied': '#ec4899'             // Pink
   };
 
+  // External sources state
+  selectedExternalSource = 'SEGUR';
+  showExternalContent = true;
   constructor(private cdr: ChangeDetectorRef) {}
 
   menuOptions: MenuOption[] = [
@@ -66,7 +69,8 @@ export class PatientHistoryComponent {
     { id: 'patient-records', label: 'Top 10 Patient Record Information', icon: 'fas fa-list' },
     { id: 'visual-map', label: 'Visual Patient Map', icon: 'fas fa-user-md' },
     { id: 'all-images', label: 'All Images', icon: 'fas fa-images' },
-    { id: 'patient-info', label: 'Patient Information', icon: 'fas fa-user' }
+    { id: 'patient-info', label: 'Patient Information', icon: 'fas fa-user' },
+    { id: 'external-sources', label: 'External sources', icon: 'fas fa-external-link-alt' }
   ];
 
   // Sample medical images for different dates
@@ -241,6 +245,17 @@ export class PatientHistoryComponent {
           isCollapsed: false,
           content: {
             type: 'patient-info'
+          }
+        };
+        break;
+
+      case 'external-sources':
+        newBlock = {
+          id: option.id,
+          title: 'All the other from external sources',
+          isCollapsed: false,
+          content: {
+            type: 'external-sources'
           }
         };
         break;
@@ -578,5 +593,17 @@ export class PatientHistoryComponent {
       '#6b7280': '#4b5563'  // Gray -> Darker gray
     };
     return colorMap[color] || '#374151';
+  }
+
+  onExternalSourceChange(): void {
+    // Hide content temporarily
+    this.showExternalContent = false;
+    this.cdr.detectChanges();
+    
+    // Show content again after a brief delay
+    setTimeout(() => {
+      this.showExternalContent = true;
+      this.cdr.detectChanges();
+    }, 100);
   }
 }

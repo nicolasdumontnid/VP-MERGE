@@ -618,6 +618,55 @@
   max-width: 60%;
 }
 
+/* External Sources Content */
+.external-sources-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.external-source-selector {
+  margin-bottom: 12px;
+}
+
+.source-select {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: #4b5563;
+  border: 1px solid #6b7280;
+  border-radius: 6px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.source-select:focus {
+  outline: none;
+  border-color: #9ca3af;
+}
+
+.source-select option {
+  background-color: #4b5563;
+  color: white;
+}
+
+.external-content {
+  padding: 16px;
+  background-color: #374151;
+  border-radius: 6px;
+  border: 1px solid #4b5563;
+  transition: opacity 0.2s ease;
+}
+
+.no-content-message {
+  color: #9ca3af;
+  font-style: italic;
+  text-align: center;
+  margin: 0;
+  font-size: 14px;
+}
+
 /* Scrollbar styling */
 .images-row::-webkit-scrollbar {
   height: 6px;

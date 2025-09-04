@@ -270,6 +270,20 @@
               </div>
             </div>
           </div>
+
+          <!-- External Sources -->
+          <div *ngIf="block.content.type === 'external-sources'" class="external-sources-content">
+            <div class="external-source-selector">
+              <select [(ngModel)]="selectedExternalSource" (change)="onExternalSourceChange()" class="source-select">
+                <option value="SEGUR">SEGUR</option>
+                <option value="E-HEALTH">E-HEALTH</option>
+              </select>
+            </div>
+            
+            <div class="external-content" *ngIf="showExternalContent">
+              <p class="no-content-message">No external data available from {{selectedExternalSource}} for this patient.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
