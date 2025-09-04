@@ -14,10 +14,6 @@ export class MockDataService {
     return Math.random().toString(36).substr(2, 9);
   }
 
-  private getRandomDate(start: Date, end: Date): Date {
-    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-  }
-
   generateUsers(): User[] {
     return [
       { id: 'U001', firstName: 'Damien', lastName: 'Petit', email: 'damien.petit@chu-angers.fr', specialty: 'Oncologist', site: 'CHU-Angers', isActive: true },
@@ -66,163 +62,828 @@ export class MockDataService {
       { id: 'P003', firstName: 'Rebecca', lastName: 'Cohen', dateOfBirth: new Date('1985-11-21'), gender: 'F', bloodType: 'B+', phone: '0758669310', email: 'rebecca.cohen@example.com', address: '7 place Saint-Jacques, 75004 Paris', socialSecurityNumber: '285112145896732', createdAt: new Date('2023-03-10') },
       { id: 'P004', firstName: 'Emmy', lastName: 'Dubois', dateOfBirth: new Date('2010-06-05'), gender: 'F', bloodType: 'AB-', phone: '0687142954', email: 'emmy.dubois@example.com', address: '18 rue des Lilas, 69003 Lyon', socialSecurityNumber: '210060545879611', createdAt: new Date('2023-04-05') },
       { id: 'P005', firstName: 'Bastien', lastName: 'Leroy', dateOfBirth: new Date('1992-09-17'), gender: 'M', bloodType: 'O-', phone: '0722483177', email: 'bastien.leroy@example.com', address: '30 rue de Verdun, 31000 Toulouse', socialSecurityNumber: '192091745123498', createdAt: new Date('2023-05-12') },
-      { id: 'P006', firstName: 'Lucie', lastName: 'Bernard', dateOfBirth: new Date('2001-01-29'), gender: 'F', bloodType: 'A+', phone: '0639275502', email: 'lucie.bernard@example.com', address: '4 rue Victor Hugo, 13001 Marseille', socialSecurityNumber: '201012945876564', createdAt: new Date('2023-06-18') }
+      { id: 'P006', firstName: 'Lucie', lastName: 'Bernard', dateOfBirth: new Date('2001-01-29'), gender: 'F', bloodType: 'A+', phone: '0639275502', email: 'lucie.bernard@example.com', address: '4 rue Victor Hugo, 13001 Marseille', socialSecurityNumber: '201012945876564', createdAt: new Date('2023-06-18') },
+      { id: 'P007', firstName: 'Sophie', lastName: 'Girard', dateOfBirth: new Date('1978-12-03'), gender: 'F', bloodType: 'B-', phone: '0756891234', email: 'sophie.girard@example.com', address: '22 boulevard Haussmann, 75009 Paris', socialSecurityNumber: '278120345612789', createdAt: new Date('2023-07-22') },
+      { id: 'P008', firstName: 'Marc', lastName: 'Lefebvre', dateOfBirth: new Date('1965-08-15'), gender: 'M', bloodType: 'AB+', phone: '0634567890', email: 'marc.lefebvre@example.com', address: '8 rue de la Paix, 44000 Nantes', socialSecurityNumber: '165081534567123', createdAt: new Date('2023-08-10') },
+      { id: 'P009', firstName: 'Claire', lastName: 'Fontaine', dateOfBirth: new Date('1990-04-22'), gender: 'F', bloodType: 'O+', phone: '0698765432', email: 'claire.fontaine@example.com', address: '15 avenue des Champs, 67000 Strasbourg', socialSecurityNumber: '190042234567890', createdAt: new Date('2023-09-05') },
+      { id: 'P010', firstName: 'Antoine', lastName: 'Roussel', dateOfBirth: new Date('1982-11-08'), gender: 'M', bloodType: 'A+', phone: '0612345678', email: 'antoine.roussel@example.com', address: '33 rue Nationale, 59000 Lille', socialSecurityNumber: '182110834567234', createdAt: new Date('2023-10-12') }
     ];
   }
 
   generateExams(): Exam[] {
-    const exams: Exam[] = [];
-    const patients = this.generatePatients();
-    const users = this.generateUsers();
-    const sites = this.generateSites();
-    const sectors = this.generateSectors();
-    
-    const anatomicalRegions = ['Thorax', 'Abdomen', 'Crâne', 'Bassin', 'Colonne vertébrale', 'Membres', 'Cou', 'Pelvis', 'Genou', 'Épaule'];
-    const examTypes = ['Scanner', 'IRM', 'Radiographie', 'Échographie', 'TEP Scan', 'Biopsie', 'Mammographie', 'Endoscopie', 'Cytologie'];
-    const departments = ['Radiologie', 'Oncologie', 'Médecine interne', 'Chirurgie', 'Urgences', 'Cardiologie', 'Neurologie'];
-    const prescribingDoctors = [
-      'Dr. Jean Dupont', 'Dr. Marie Leclerc', 'Dr. Pierre Martin', 'Dr. Sophie Durand',
-      'Dr. Michel Bernard', 'Dr. Anne Rousseau', 'Dr. François Moreau', 'Dr. Catherine Petit'
-    ];
-    
-    console.log('Generating exams for', patients.length, 'patients');
-    
-    patients.forEach((patient, patientIndex) => {
-      console.log(`Generating 10 exams for patient ${patientIndex + 1}: ${patient.firstName} ${patient.lastName}`);
-      for (let i = 0; i < 10; i++) {
-        // Premier examen toujours dans le mois courant
-        let examDate: Date;
-        if (i === 0) {
-          const now = new Date();
-          const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-          examDate = this.getRandomDate(startOfMonth, now);
-        } else {
-          // Autres examens répartis sur les 3 derniers mois
-          const now = new Date();
-          const threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, 1);
-          examDate = this.getRandomDate(threeMonthsAgo, now);
-        }
-        
-        const randomSite = sites[Math.floor(Math.random() * sites.length)];
-        const availableSectors = sectors.filter(s => s.siteId === randomSite.id);
-        const randomSector = availableSectors.length > 0 ? availableSectors[Math.floor(Math.random() * availableSectors.length)] : sectors[0];
-        
-        // Assignation : 70% de chance d'avoir un radiologue assigné
-        const assignedUser = Math.random() > 0.3 ? 
-          users[Math.floor(Math.random() * users.length)].firstName + ' ' + users[Math.floor(Math.random() * users.length)].lastName : 
-          null;
-        
-        // Calculer l'âge à la date de l'examen
-        const ageAtExam = examDate.getFullYear() - patient.dateOfBirth.getFullYear() - 
-          (examDate < new Date(examDate.getFullYear(), patient.dateOfBirth.getMonth(), patient.dateOfBirth.getDate()) ? 1 : 0);
-        
-        // Poids réaliste selon l'âge et le genre
-        let weight: number;
-        if (ageAtExam < 18) {
-          weight = Math.floor(Math.random() * 30) + 30; // 30-60kg pour les enfants/ados
-        } else {
-          weight = patient.gender === 'M' ? 
-            Math.floor(Math.random() * 40) + 60 : // 60-100kg pour les hommes
-            Math.floor(Math.random() * 35) + 50;   // 50-85kg pour les femmes
-        }
-        
-        // Quelques examens urgents (10% de chance)
-        const isUrgent = Math.random() < 0.1;
-        
-        const examType = examTypes[Math.floor(Math.random() * examTypes.length)];
-        const anatomicalRegion = anatomicalRegions[Math.floor(Math.random() * anatomicalRegions.length)];
-        const department = departments[Math.floor(Math.random() * departments.length)];
-        const prescribingPhysician = prescribingDoctors[Math.floor(Math.random() * prescribingDoctors.length)];
-        
-        // Diagnostic avec probabilités réalistes
-        const diagnosisRandom = Math.random();
-        let diagnosis: 'positive' | 'negative' | 'pending';
-        if (diagnosisRandom < 0.15) {
-          diagnosis = 'positive'; // 15% positif
-        } else if (diagnosisRandom < 0.70) {
-          diagnosis = 'negative'; // 55% négatif
-        } else {
-          diagnosis = 'pending';  // 30% en attente
-        }
-        
-        // Statut de l'examen
-        const statusRandom = Math.random();
-        let status: 'scheduled' | 'in-progress' | 'completed' | 'cancelled';
-        if (statusRandom < 0.10) {
-          status = 'scheduled';   // 10% programmé
-        } else if (statusRandom < 0.25) {
-          status = 'in-progress'; // 15% en cours
-        } else if (statusRandom < 0.95) {
-          status = 'completed';   // 70% terminé
-        } else {
-          status = 'cancelled';   // 5% annulé
-        }
-        
-        // Description détaillée
-        const descriptions = [
-          `${examType} de contrôle de la région ${anatomicalRegion.toLowerCase()} suite à des symptômes persistants.`,
-          `Examen ${examType.toLowerCase()} programmé pour investigation diagnostique de la zone ${anatomicalRegion.toLowerCase()}.`,
-          `${examType} de suivi post-traitement pour évaluation de l'évolution clinique.`,
-          `Exploration par ${examType.toLowerCase()} dans le cadre d'un bilan de santé approfondi.`,
-          `${examType} urgent suite à traumatisme ou symptômes aigus au niveau ${anatomicalRegion.toLowerCase()}.`
-        ];
-        
-        // Conclusions variées selon le diagnostic
-        let conclusion: string;
-        if (diagnosis === 'positive') {
-          const positiveConclusions = [
-            'Anomalie détectée nécessitant un suivi médical rapproché.',
-            'Lésion identifiée, traitement recommandé.',
-            'Pathologie confirmée, orientation vers spécialiste.',
-            'Résultats anormaux, investigations complémentaires nécessaires.'
-          ];
-          conclusion = positiveConclusions[Math.floor(Math.random() * positiveConclusions.length)];
-        } else if (diagnosis === 'negative') {
-          const negativeConclusions = [
-            'Examen normal, aucune anomalie détectée.',
-            'Résultats dans les limites de la normale.',
-            'Pas de signe pathologique visible.',
-            'Structures anatomiques normales.'
-          ];
-          conclusion = negativeConclusions[Math.floor(Math.random() * negativeConclusions.length)];
-        } else {
-          conclusion = 'Analyse en cours, résultats en attente de validation.';
-        }
-        
-        const newExam = {
-          id: `E${String(patientIndex + 1).padStart(3, '0')}-${String(i + 1).padStart(2, '0')}`,
-          patientId: patient.id,
-          patientName: `${patient.firstName} ${patient.lastName}`,
-          patientBirthDate: patient.dateOfBirth,
-          patientGender: patient.gender,
-          title: `${examType} - ${anatomicalRegion}`,
-          anatomicalRegion,
-          examDate,
-          patientWeight: weight,
-          patientAge: ageAtExam,
-          diagnosis,
-          department,
-          description: descriptions[Math.floor(Math.random() * descriptions.length)],
-          conclusion,
-          prescribingPhysician,
-          assignedRadiologist: assignedUser,
-          siteId: randomSite.id,
-          siteName: randomSite.name,
-          sectorId: randomSector.id,
-          sectorName: randomSector.name,
-          status,
-          isUrgent
-        };
-        
-        exams.push(newExam);
-        console.log(`Created exam ${newExam.id} for patient ${patient.firstName} ${patient.lastName}`);
+    return [
+      // Adam Morel - P001 (3 examens)
+      {
+        id: 'E001-01',
+        patientId: 'P001',
+        patientName: 'Adam Morel',
+        patientBirthDate: new Date('2005-03-14'),
+        patientGender: 'M',
+        title: 'Scanner - Thorax',
+        anatomicalRegion: 'Thorax',
+        examDate: new Date('2025-01-15'),
+        patientWeight: 65,
+        patientAge: 19,
+        diagnosis: 'negative',
+        department: 'Radiologie',
+        description: 'Scanner thoracique de contrôle suite à des douleurs persistantes.',
+        conclusion: 'Examen normal, aucune anomalie détectée.',
+        prescribingPhysician: 'Dr. Jean Dupont',
+        assignedRadiologist: 'Damien Petit',
+        siteId: 'S001',
+        siteName: 'CHU-Angers',
+        sectorId: 'SEC001',
+        sectorName: 'Colon',
+        status: 'completed',
+        isUrgent: false
+      },
+      {
+        id: 'E001-02',
+        patientId: 'P001',
+        patientName: 'Adam Morel',
+        patientBirthDate: new Date('2005-03-14'),
+        patientGender: 'M',
+        title: 'IRM - Genou',
+        anatomicalRegion: 'Membres inférieurs',
+        examDate: new Date('2025-01-10'),
+        patientWeight: 65,
+        patientAge: 19,
+        diagnosis: 'pending',
+        department: 'Orthopédie',
+        description: 'IRM du genou suite à traumatisme sportif.',
+        conclusion: 'Analyse en cours, résultats en attente de validation.',
+        prescribingPhysician: 'Dr. Marie Leclerc',
+        assignedRadiologist: null,
+        siteId: 'S001',
+        siteName: 'CHU-Angers',
+        sectorId: 'SEC010',
+        sectorName: 'General',
+        status: 'in-progress',
+        isUrgent: true
+      },
+      {
+        id: 'E001-03',
+        patientId: 'P001',
+        patientName: 'Adam Morel',
+        patientBirthDate: new Date('2005-03-14'),
+        patientGender: 'M',
+        title: 'Radiographie - Épaule',
+        anatomicalRegion: 'Épaule',
+        examDate: new Date('2024-12-20'),
+        patientWeight: 64,
+        patientAge: 19,
+        diagnosis: 'negative',
+        department: 'Urgences',
+        description: 'Radiographie de l\'épaule après chute.',
+        conclusion: 'Pas de fracture visible, contusion légère.',
+        prescribingPhysician: 'Dr. Pierre Martin',
+        assignedRadiologist: 'Nicolas Martin',
+        siteId: 'S002',
+        siteName: 'CHU-Caen',
+        sectorId: 'SEC010',
+        sectorName: 'General',
+        status: 'completed',
+        isUrgent: false
+      },
+
+      // Gabriel Laurent - P002 (4 examens dont cytologie)
+      {
+        id: 'E002-01',
+        patientId: 'P002',
+        patientName: 'Gabriel Laurent',
+        patientBirthDate: new Date('1998-07-02'),
+        patientGender: 'M',
+        title: 'Cytologie - Bronches',
+        anatomicalRegion: 'Thorax',
+        examDate: new Date('2025-01-14'),
+        patientWeight: 75,
+        patientAge: 26,
+        diagnosis: 'positive',
+        department: 'Pneumologie',
+        description: 'Analyse cytologique des sécrétions bronchiques.',
+        conclusion: 'Cellules atypiques détectées, investigations complémentaires nécessaires.',
+        prescribingPhysician: 'Dr. Sophie Durand',
+        assignedRadiologist: 'Déborah Dupont',
+        siteId: 'S001',
+        siteName: 'CHU-Angers',
+        sectorId: 'SEC002',
+        sectorName: 'Cytology',
+        status: 'completed',
+        isUrgent: true
+      },
+      {
+        id: 'E002-02',
+        patientId: 'P002',
+        patientName: 'Gabriel Laurent',
+        patientBirthDate: new Date('1998-07-02'),
+        patientGender: 'M',
+        title: 'Scanner - Thorax',
+        anatomicalRegion: 'Thorax',
+        examDate: new Date('2025-01-12'),
+        patientWeight: 75,
+        patientAge: 26,
+        diagnosis: 'pending',
+        department: 'Radiologie',
+        description: 'Scanner thoracique pour investigation pulmonaire.',
+        conclusion: 'Analyse en cours, résultats en attente de validation.',
+        prescribingPhysician: 'Dr. Michel Bernard',
+        assignedRadiologist: null,
+        siteId: 'S003',
+        siteName: 'CHU-Brest',
+        sectorId: 'SEC004',
+        sectorName: 'Lungs',
+        status: 'scheduled',
+        isUrgent: false
+      },
+      {
+        id: 'E002-03',
+        patientId: 'P002',
+        patientName: 'Gabriel Laurent',
+        patientBirthDate: new Date('1998-07-02'),
+        patientGender: 'M',
+        title: 'Biopsie - Poumon',
+        anatomicalRegion: 'Thorax',
+        examDate: new Date('2025-01-08'),
+        patientWeight: 75,
+        patientAge: 26,
+        diagnosis: 'positive',
+        department: 'Pneumologie',
+        description: 'Biopsie pulmonaire guidée par scanner.',
+        conclusion: 'Lésion maligne confirmée, traitement oncologique recommandé.',
+        prescribingPhysician: 'Dr. Anne Rousseau',
+        assignedRadiologist: 'Claire Rousseau',
+        siteId: 'S003',
+        siteName: 'CHU-Brest',
+        sectorId: 'SEC007',
+        sectorName: 'Histology',
+        status: 'completed',
+        isUrgent: true
+      },
+      {
+        id: 'E002-04',
+        patientId: 'P002',
+        patientName: 'Gabriel Laurent',
+        patientBirthDate: new Date('1998-07-02'),
+        patientGender: 'M',
+        title: 'TEP Scan - Corps entier',
+        anatomicalRegion: 'Corps entier',
+        examDate: new Date('2024-12-15'),
+        patientWeight: 74,
+        patientAge: 26,
+        diagnosis: 'negative',
+        department: 'Médecine nucléaire',
+        description: 'TEP scan pour bilan d\'extension oncologique.',
+        conclusion: 'Pas de fixation pathologique détectée.',
+        prescribingPhysician: 'Dr. François Moreau',
+        assignedRadiologist: 'Fatima Benali',
+        siteId: 'S002',
+        siteName: 'CHU-Caen',
+        sectorId: 'SEC009',
+        sectorName: 'Oncology',
+        status: 'completed',
+        isUrgent: false
+      },
+
+      // Rebecca Cohen - P003 (5 examens dont cytologie)
+      {
+        id: 'E003-01',
+        patientId: 'P003',
+        patientName: 'Rebecca Cohen',
+        patientBirthDate: new Date('1985-11-21'),
+        patientGender: 'F',
+        title: 'Cytologie - Frottis cervical',
+        anatomicalRegion: 'Bassin',
+        examDate: new Date('2025-01-13'),
+        patientWeight: 62,
+        patientAge: 39,
+        diagnosis: 'negative',
+        department: 'Gynécologie',
+        description: 'Frottis cervical de dépistage.',
+        conclusion: 'Cellules normales, pas d\'anomalie détectée.',
+        prescribingPhysician: 'Dr. Catherine Petit',
+        assignedRadiologist: 'Déborah Dupont',
+        siteId: 'S001',
+        siteName: 'CHU-Angers',
+        sectorId: 'SEC002',
+        sectorName: 'Cytology',
+        status: 'completed',
+        isUrgent: false
+      },
+      {
+        id: 'E003-02',
+        patientId: 'P003',
+        patientName: 'Rebecca Cohen',
+        patientBirthDate: new Date('1985-11-21'),
+        patientGender: 'F',
+        title: 'Mammographie - Sein',
+        anatomicalRegion: 'Thorax',
+        examDate: new Date('2025-01-11'),
+        patientWeight: 62,
+        patientAge: 39,
+        diagnosis: 'pending',
+        department: 'Radiologie',
+        description: 'Mammographie de dépistage annuel.',
+        conclusion: 'Analyse en cours, résultats en attente de validation.',
+        prescribingPhysician: 'Dr. Jean Dupont',
+        assignedRadiologist: null,
+        siteId: 'S003',
+        siteName: 'CHU-Brest',
+        sectorId: 'SEC006',
+        sectorName: 'Breast',
+        status: 'in-progress',
+        isUrgent: false
+      },
+      {
+        id: 'E003-03',
+        patientId: 'P003',
+        patientName: 'Rebecca Cohen',
+        patientBirthDate: new Date('1985-11-21'),
+        patientGender: 'F',
+        title: 'Échographie - Abdomen',
+        anatomicalRegion: 'Abdomen',
+        examDate: new Date('2025-01-05'),
+        patientWeight: 62,
+        patientAge: 39,
+        diagnosis: 'negative',
+        department: 'Médecine interne',
+        description: 'Échographie abdominale pour douleurs persistantes.',
+        conclusion: 'Organes abdominaux normaux.',
+        prescribingPhysician: 'Dr. Marie Leclerc',
+        assignedRadiologist: 'Thomas Dubois',
+        siteId: 'S001',
+        siteName: 'CHU-Angers',
+        sectorId: 'SEC010',
+        sectorName: 'General',
+        status: 'completed',
+        isUrgent: false
+      },
+      {
+        id: 'E003-04',
+        patientId: 'P003',
+        patientName: 'Rebecca Cohen',
+        patientBirthDate: new Date('1985-11-21'),
+        patientGender: 'F',
+        title: 'IRM - Bassin',
+        anatomicalRegion: 'Bassin',
+        examDate: new Date('2024-12-28'),
+        patientWeight: 61,
+        patientAge: 39,
+        diagnosis: 'negative',
+        department: 'Gynécologie',
+        description: 'IRM pelvienne pour bilan gynécologique.',
+        conclusion: 'Structures pelviennes normales.',
+        prescribingPhysician: 'Dr. Pierre Martin',
+        assignedRadiologist: 'Julien Leroy',
+        siteId: 'S002',
+        siteName: 'CHU-Caen',
+        sectorId: 'SEC010',
+        sectorName: 'General',
+        status: 'completed',
+        isUrgent: false
+      },
+      {
+        id: 'E003-05',
+        patientId: 'P003',
+        patientName: 'Rebecca Cohen',
+        patientBirthDate: new Date('1985-11-21'),
+        patientGender: 'F',
+        title: 'Cytologie - Liquide pleural',
+        anatomicalRegion: 'Thorax',
+        examDate: new Date('2024-11-15'),
+        patientWeight: 61,
+        patientAge: 39,
+        diagnosis: 'negative',
+        department: 'Pneumologie',
+        description: 'Analyse cytologique du liquide pleural.',
+        conclusion: 'Pas de cellules malignes détectées.',
+        prescribingPhysician: 'Dr. Sophie Durand',
+        assignedRadiologist: 'Déborah Dupont',
+        siteId: 'S001',
+        siteName: 'CHU-Angers',
+        sectorId: 'SEC002',
+        sectorName: 'Cytology',
+        status: 'completed',
+        isUrgent: false
+      },
+
+      // Emmy Dubois - P004 (2 examens)
+      {
+        id: 'E004-01',
+        patientId: 'P004',
+        patientName: 'Emmy Dubois',
+        patientBirthDate: new Date('2010-06-05'),
+        patientGender: 'F',
+        title: 'Radiographie - Crâne',
+        anatomicalRegion: 'Tête',
+        examDate: new Date('2025-01-09'),
+        patientWeight: 45,
+        patientAge: 14,
+        diagnosis: 'negative',
+        department: 'Pédiatrie',
+        description: 'Radiographie crânienne après chute.',
+        conclusion: 'Pas de fracture visible.',
+        prescribingPhysician: 'Dr. Michel Bernard',
+        assignedRadiologist: 'Déborah Dupont',
+        siteId: 'S001',
+        siteName: 'CHU-Angers',
+        sectorId: 'SEC010',
+        sectorName: 'General',
+        status: 'completed',
+        isUrgent: false
+      },
+      {
+        id: 'E004-02',
+        patientId: 'P004',
+        patientName: 'Emmy Dubois',
+        patientBirthDate: new Date('2010-06-05'),
+        patientGender: 'F',
+        title: 'Échographie - Abdomen',
+        anatomicalRegion: 'Abdomen',
+        examDate: new Date('2024-12-22'),
+        patientWeight: 44,
+        patientAge: 14,
+        diagnosis: 'negative',
+        department: 'Pédiatrie',
+        description: 'Échographie abdominale pour douleurs.',
+        conclusion: 'Organes abdominaux normaux pour l\'âge.',
+        prescribingPhysician: 'Dr. Anne Rousseau',
+        assignedRadiologist: 'Déborah Dupont',
+        siteId: 'S001',
+        siteName: 'CHU-Angers',
+        sectorId: 'SEC010',
+        sectorName: 'General',
+        status: 'completed',
+        isUrgent: false
+      },
+
+      // Bastien Leroy - P005 (3 examens)
+      {
+        id: 'E005-01',
+        patientId: 'P005',
+        patientName: 'Bastien Leroy',
+        patientBirthDate: new Date('1992-09-17'),
+        patientGender: 'M',
+        title: 'Scanner - Abdomen',
+        anatomicalRegion: 'Abdomen',
+        examDate: new Date('2025-01-07'),
+        patientWeight: 78,
+        patientAge: 32,
+        diagnosis: 'pending',
+        department: 'Chirurgie',
+        description: 'Scanner abdominal pré-opératoire.',
+        conclusion: 'Analyse en cours, résultats en attente de validation.',
+        prescribingPhysician: 'Dr. François Moreau',
+        assignedRadiologist: null,
+        siteId: 'S002',
+        siteName: 'CHU-Caen',
+        sectorId: 'SEC010',
+        sectorName: 'General',
+        status: 'scheduled',
+        isUrgent: false
+      },
+      {
+        id: 'E005-02',
+        patientId: 'P005',
+        patientName: 'Bastien Leroy',
+        patientBirthDate: new Date('1992-09-17'),
+        patientGender: 'M',
+        title: 'IRM - Colonne vertébrale',
+        anatomicalRegion: 'Dos',
+        examDate: new Date('2024-12-30'),
+        patientWeight: 78,
+        patientAge: 32,
+        diagnosis: 'positive',
+        department: 'Neurologie',
+        description: 'IRM rachidienne pour lombalgie chronique.',
+        conclusion: 'Hernie discale L4-L5 confirmée.',
+        prescribingPhysician: 'Dr. Catherine Petit',
+        assignedRadiologist: 'Fatima Benali',
+        siteId: 'S003',
+        siteName: 'CHU-Brest',
+        sectorId: 'SEC010',
+        sectorName: 'General',
+        status: 'completed',
+        isUrgent: false
+      },
+      {
+        id: 'E005-03',
+        patientId: 'P005',
+        patientName: 'Bastien Leroy',
+        patientBirthDate: new Date('1992-09-17'),
+        patientGender: 'M',
+        title: 'Radiographie - Dos',
+        anatomicalRegion: 'Dos',
+        examDate: new Date('2024-11-25'),
+        patientWeight: 77,
+        patientAge: 32,
+        diagnosis: 'negative',
+        department: 'Rhumatologie',
+        description: 'Radiographie lombaire standard.',
+        conclusion: 'Structures osseuses normales.',
+        prescribingPhysician: 'Dr. Jean Dupont',
+        assignedRadiologist: 'Thomas Dubois',
+        siteId: 'S001',
+        siteName: 'CHU-Angers',
+        sectorId: 'SEC010',
+        sectorName: 'General',
+        status: 'completed',
+        isUrgent: false
+      },
+
+      // Lucie Bernard - P006 (4 examens dont cytologie)
+      {
+        id: 'E006-01',
+        patientId: 'P006',
+        patientName: 'Lucie Bernard',
+        patientBirthDate: new Date('2001-01-29'),
+        patientGender: 'F',
+        title: 'Cytologie - Thyroïde',
+        anatomicalRegion: 'Cou',
+        examDate: new Date('2025-01-06'),
+        patientWeight: 58,
+        patientAge: 24,
+        diagnosis: 'pending',
+        department: 'Endocrinologie',
+        description: 'Ponction thyroïdienne à l\'aiguille fine.',
+        conclusion: 'Analyse en cours, résultats en attente de validation.',
+        prescribingPhysician: 'Dr. Marie Leclerc',
+        assignedRadiologist: null,
+        siteId: 'S001',
+        siteName: 'CHU-Angers',
+        sectorId: 'SEC002',
+        sectorName: 'Cytology',
+        status: 'in-progress',
+        isUrgent: false
+      },
+      {
+        id: 'E006-02',
+        patientId: 'P006',
+        patientName: 'Lucie Bernard',
+        patientBirthDate: new Date('2001-01-29'),
+        patientGender: 'F',
+        title: 'Échographie - Thyroïde',
+        anatomicalRegion: 'Cou',
+        examDate: new Date('2025-01-04'),
+        patientWeight: 58,
+        patientAge: 24,
+        diagnosis: 'positive',
+        department: 'Endocrinologie',
+        description: 'Échographie thyroïdienne pour nodule palpable.',
+        conclusion: 'Nodule thyroïdien de 15mm détecté.',
+        prescribingPhysician: 'Dr. Pierre Martin',
+        assignedRadiologist: 'Nicolas Martin',
+        siteId: 'S002',
+        siteName: 'CHU-Caen',
+        sectorId: 'SEC008',
+        sectorName: 'Throat',
+        status: 'completed',
+        isUrgent: false
+      },
+      {
+        id: 'E006-03',
+        patientId: 'P006',
+        patientName: 'Lucie Bernard',
+        patientBirthDate: new Date('2001-01-29'),
+        patientGender: 'F',
+        title: 'Scanner - Cou',
+        anatomicalRegion: 'Cou',
+        examDate: new Date('2024-12-18'),
+        patientWeight: 57,
+        patientAge: 23,
+        diagnosis: 'negative',
+        department: 'ORL',
+        description: 'Scanner cervical avec injection.',
+        conclusion: 'Pas d\'adénopathie significative.',
+        prescribingPhysician: 'Dr. Sophie Durand',
+        assignedRadiologist: 'Daniel Bernard',
+        siteId: 'S002',
+        siteName: 'CHU-Caen',
+        sectorId: 'SEC008',
+        sectorName: 'Throat',
+        status: 'completed',
+        isUrgent: false
+      },
+      {
+        id: 'E006-04',
+        patientId: 'P006',
+        patientName: 'Lucie Bernard',
+        patientBirthDate: new Date('2001-01-29'),
+        patientGender: 'F',
+        title: 'Fluorescence - Thyroïde',
+        anatomicalRegion: 'Cou',
+        examDate: new Date('2024-11-10'),
+        patientWeight: 57,
+        patientAge: 23,
+        diagnosis: 'negative',
+        department: 'Médecine nucléaire',
+        description: 'Scintigraphie thyroïdienne au technétium.',
+        conclusion: 'Fixation homogène normale.',
+        prescribingPhysician: 'Dr. Michel Bernard',
+        assignedRadiologist: 'Damien Petit',
+        siteId: 'S001',
+        siteName: 'CHU-Angers',
+        sectorId: 'SEC003',
+        sectorName: 'Fluorescence',
+        status: 'completed',
+        isUrgent: false
+      },
+
+      // Sophie Girard - P007 (3 examens)
+      {
+        id: 'E007-01',
+        patientId: 'P007',
+        patientName: 'Sophie Girard',
+        patientBirthDate: new Date('1978-12-03'),
+        patientGender: 'F',
+        title: 'IRM - Cerveau',
+        anatomicalRegion: 'Tête',
+        examDate: new Date('2025-01-03'),
+        patientWeight: 68,
+        patientAge: 46,
+        diagnosis: 'negative',
+        department: 'Neurologie',
+        description: 'IRM cérébrale pour céphalées persistantes.',
+        conclusion: 'Pas d\'anomalie structurelle détectée.',
+        prescribingPhysician: 'Dr. Anne Rousseau',
+        assignedRadiologist: 'Fatima Benali',
+        siteId: 'S003',
+        siteName: 'CHU-Brest',
+        sectorId: 'SEC010',
+        sectorName: 'General',
+        status: 'completed',
+        isUrgent: false
+      },
+      {
+        id: 'E007-02',
+        patientId: 'P007',
+        patientName: 'Sophie Girard',
+        patientBirthDate: new Date('1978-12-03'),
+        patientGender: 'F',
+        title: 'Scanner - Sinus',
+        anatomicalRegion: 'Tête',
+        examDate: new Date('2024-12-12'),
+        patientWeight: 68,
+        patientAge: 46,
+        diagnosis: 'positive',
+        department: 'ORL',
+        description: 'Scanner des sinus pour sinusite chronique.',
+        conclusion: 'Sinusite maxillaire bilatérale confirmée.',
+        prescribingPhysician: 'Dr. François Moreau',
+        assignedRadiologist: 'Sylvie Moreau',
+        siteId: 'S002',
+        siteName: 'CHU-Caen',
+        sectorId: 'SEC008',
+        sectorName: 'Throat',
+        status: 'completed',
+        isUrgent: false
+      },
+      {
+        id: 'E007-03',
+        patientId: 'P007',
+        patientName: 'Sophie Girard',
+        patientBirthDate: new Date('1978-12-03'),
+        patientGender: 'F',
+        title: 'Radiographie - Thorax',
+        anatomicalRegion: 'Thorax',
+        examDate: new Date('2024-10-20'),
+        patientWeight: 67,
+        patientAge: 45,
+        diagnosis: 'negative',
+        department: 'Médecine interne',
+        description: 'Radiographie thoracique de routine.',
+        conclusion: 'Champs pulmonaires clairs.',
+        prescribingPhysician: 'Dr. Catherine Petit',
+        assignedRadiologist: 'Claire Rousseau',
+        siteId: 'S003',
+        siteName: 'CHU-Brest',
+        sectorId: 'SEC005',
+        sectorName: 'Chest',
+        status: 'completed',
+        isUrgent: false
+      },
+
+      // Marc Lefebvre - P008 (2 examens)
+      {
+        id: 'E008-01',
+        patientId: 'P008',
+        patientName: 'Marc Lefebvre',
+        patientBirthDate: new Date('1965-08-15'),
+        patientGender: 'M',
+        title: 'Coloscopie - Côlon',
+        anatomicalRegion: 'Abdomen',
+        examDate: new Date('2025-01-02'),
+        patientWeight: 82,
+        patientAge: 59,
+        diagnosis: 'positive',
+        department: 'Gastroentérologie',
+        description: 'Coloscopie de dépistage avec biopsies.',
+        conclusion: 'Polypes adénomateux détectés et réséqués.',
+        prescribingPhysician: 'Dr. Jean Dupont',
+        assignedRadiologist: 'Damien Petit',
+        siteId: 'S001',
+        siteName: 'CHU-Angers',
+        sectorId: 'SEC001',
+        sectorName: 'Colon',
+        status: 'completed',
+        isUrgent: false
+      },
+      {
+        id: 'E008-02',
+        patientId: 'P008',
+        patientName: 'Marc Lefebvre',
+        patientBirthDate: new Date('1965-08-15'),
+        patientGender: 'M',
+        title: 'Scanner - Abdomen',
+        anatomicalRegion: 'Abdomen',
+        examDate: new Date('2024-11-28'),
+        patientWeight: 81,
+        patientAge: 59,
+        diagnosis: 'negative',
+        department: 'Gastroentérologie',
+        description: 'Scanner abdominal de suivi post-coloscopie.',
+        conclusion: 'Pas de lésion résiduelle détectée.',
+        prescribingPhysician: 'Dr. Marie Leclerc',
+        assignedRadiologist: 'Thomas Dubois',
+        siteId: 'S001',
+        siteName: 'CHU-Angers',
+        sectorId: 'SEC001',
+        sectorName: 'Colon',
+        status: 'completed',
+        isUrgent: false
+      },
+
+      // Claire Fontaine - P009 (4 examens dont cytologie)
+      {
+        id: 'E009-01',
+        patientId: 'P009',
+        patientName: 'Claire Fontaine',
+        patientBirthDate: new Date('1990-04-22'),
+        patientGender: 'F',
+        title: 'Cytologie - Liquide d\'ascite',
+        anatomicalRegion: 'Abdomen',
+        examDate: new Date('2025-01-01'),
+        patientWeight: 65,
+        patientAge: 34,
+        diagnosis: 'negative',
+        department: 'Gastroentérologie',
+        description: 'Analyse cytologique du liquide d\'ascite.',
+        conclusion: 'Pas de cellules malignes, ascite bénigne.',
+        prescribingPhysician: 'Dr. Pierre Martin',
+        assignedRadiologist: 'Déborah Dupont',
+        siteId: 'S001',
+        siteName: 'CHU-Angers',
+        sectorId: 'SEC002',
+        sectorName: 'Cytology',
+        status: 'completed',
+        isUrgent: false
+      },
+      {
+        id: 'E009-02',
+        patientId: 'P009',
+        patientName: 'Claire Fontaine',
+        patientBirthDate: new Date('1990-04-22'),
+        patientGender: 'F',
+        title: 'Échographie - Foie',
+        anatomicalRegion: 'Abdomen',
+        examDate: new Date('2024-12-25'),
+        patientWeight: 65,
+        patientAge: 34,
+        diagnosis: 'pending',
+        department: 'Hépatologie',
+        description: 'Échographie hépatique pour bilan.',
+        conclusion: 'Analyse en cours, résultats en attente de validation.',
+        prescribingPhysician: 'Dr. Sophie Durand',
+        assignedRadiologist: null,
+        siteId: 'S001',
+        siteName: 'CHU-Angers',
+        sectorId: 'SEC010',
+        sectorName: 'General',
+        status: 'in-progress',
+        isUrgent: false
+      },
+      {
+        id: 'E009-03',
+        patientId: 'P009',
+        patientName: 'Claire Fontaine',
+        patientBirthDate: new Date('1990-04-22'),
+        patientGender: 'F',
+        title: 'Scanner - Abdomen',
+        anatomicalRegion: 'Abdomen',
+        examDate: new Date('2024-11-18'),
+        patientWeight: 64,
+        patientAge: 34,
+        diagnosis: 'negative',
+        department: 'Médecine interne',
+        description: 'Scanner abdominal avec contraste.',
+        conclusion: 'Organes abdominaux normaux.',
+        prescribingPhysician: 'Dr. Michel Bernard',
+        assignedRadiologist: 'Claire Rousseau',
+        siteId: 'S003',
+        siteName: 'CHU-Brest',
+        sectorId: 'SEC010',
+        sectorName: 'General',
+        status: 'completed',
+        isUrgent: false
+      },
+      {
+        id: 'E009-04',
+        patientId: 'P009',
+        patientName: 'Claire Fontaine',
+        patientBirthDate: new Date('1990-04-22'),
+        patientGender: 'F',
+        title: 'Histologie - Biopsie hépatique',
+        anatomicalRegion: 'Abdomen',
+        examDate: new Date('2024-10-15'),
+        patientWeight: 64,
+        patientAge: 34,
+        diagnosis: 'negative',
+        department: 'Anatomopathologie',
+        description: 'Analyse histologique de biopsie hépatique.',
+        conclusion: 'Tissu hépatique normal, pas de fibrose.',
+        prescribingPhysician: 'Dr. Anne Rousseau',
+        assignedRadiologist: 'Thomas Dubois',
+        siteId: 'S003',
+        siteName: 'CHU-Brest',
+        sectorId: 'SEC007',
+        sectorName: 'Histology',
+        status: 'completed',
+        isUrgent: false
+      },
+
+      // Antoine Roussel - P010 (3 examens)
+      {
+        id: 'E010-01',
+        patientId: 'P010',
+        patientName: 'Antoine Roussel',
+        patientBirthDate: new Date('1982-11-08'),
+        patientGender: 'M',
+        title: 'Scanner - Thorax',
+        anatomicalRegion: 'Thorax',
+        examDate: new Date('2024-12-31'),
+        patientWeight: 85,
+        patientAge: 42,
+        diagnosis: 'pending',
+        department: 'Pneumologie',
+        description: 'Scanner thoracique pour toux persistante.',
+        conclusion: 'Analyse en cours, résultats en attente de validation.',
+        prescribingPhysician: 'Dr. François Moreau',
+        assignedRadiologist: null,
+        siteId: 'S003',
+        siteName: 'CHU-Brest',
+        sectorId: 'SEC004',
+        sectorName: 'Lungs',
+        status: 'scheduled',
+        isUrgent: true
+      },
+      {
+        id: 'E010-02',
+        patientId: 'P010',
+        patientName: 'Antoine Roussel',
+        patientBirthDate: new Date('1982-11-08'),
+        patientGender: 'M',
+        title: 'Radiographie - Thorax',
+        anatomicalRegion: 'Thorax',
+        examDate: new Date('2024-12-10'),
+        patientWeight: 85,
+        patientAge: 42,
+        diagnosis: 'negative',
+        department: 'Médecine interne',
+        description: 'Radiographie thoracique standard.',
+        conclusion: 'Champs pulmonaires clairs.',
+        prescribingPhysician: 'Dr. Catherine Petit',
+        assignedRadiologist: 'Julien Leroy',
+        siteId: 'S003',
+        siteName: 'CHU-Brest',
+        sectorId: 'SEC005',
+        sectorName: 'Chest',
+        status: 'completed',
+        isUrgent: false
+      },
+      {
+        id: 'E010-03',
+        patientId: 'P010',
+        patientName: 'Antoine Roussel',
+        patientBirthDate: new Date('1982-11-08'),
+        patientGender: 'M',
+        title: 'Bronchoscopie - Bronches',
+        anatomicalRegion: 'Thorax',
+        examDate: new Date('2024-11-05'),
+        patientWeight: 84,
+        patientAge: 42,
+        diagnosis: 'negative',
+        department: 'Pneumologie',
+        description: 'Bronchoscopie avec lavage broncho-alvéolaire.',
+        conclusion: 'Pas de lésion endobronchique visible.',
+        prescribingPhysician: 'Dr. Jean Dupont',
+        assignedRadiologist: 'Claire Rousseau',
+        siteId: 'S003',
+        siteName: 'CHU-Brest',
+        sectorId: 'SEC004',
+        sectorName: 'Lungs',
+        status: 'completed',
+        isUrgent: false
       }
-    });
-    
-    console.log('Total exams generated:', exams.length);
-    console.log('Unique patients in exams:', [...new Set(exams.map(e => e.patientName))]);
-    
-    return exams;
+    ];
   }
 
   generateConversations(): Conversation[] {
@@ -245,30 +906,30 @@ export class MockDataService {
     ];
     
     exams.forEach((exam, index) => {
-      const otherUser = users[Math.floor(Math.random() * (users.length - 1)) + 1];
-      const messageCount = 5 + Math.floor(Math.random() * 6);
+      const otherUser = users[(index % (users.length - 1)) + 1];
+      const messageCount = 3 + (index % 4);
       const messages: Message[] = [];
       
       const isToday = index < 6;
-      const baseDate = isToday ? new Date() : this.getRandomDate(new Date(2024, 9, 1), new Date());
+      const baseDate = isToday ? new Date() : new Date(2024, 9 + (index % 3), 1 + (index % 28));
       
       for (let i = 0; i < messageCount; i++) {
-        const messageDate = new Date(baseDate.getTime() + i * 30 * 60000); // 30 minutes apart
-        const isFromCurrentUser = Math.random() > 0.5;
+        const messageDate = new Date(baseDate.getTime() + i * 30 * 60000);
+        const isFromCurrentUser = i % 2 === 0;
         const sender = isFromCurrentUser ? currentUser : otherUser;
         
         messages.push({
           id: this.generateId(),
           senderId: sender.id,
           senderName: `${sender.firstName} ${sender.lastName}`,
-          content: messageContents[Math.floor(Math.random() * messageContents.length)],
+          content: messageContents[i % messageContents.length],
           timestamp: messageDate,
-          isRead: Math.random() > 0.2
+          isRead: i < messageCount - 1 || index % 3 !== 0
         });
       }
       
-      const isUnread = index < 3 || (index === 4); // 3 unread + 1 pinned unread
-      const isPinned = index === 4 || index === 5; // 2 pinned (one unread, one read)
+      const isUnread = index < 3 || index === 4;
+      const isPinned = index === 4 || index === 5;
       
       conversations.push({
         id: `C${String(index + 1).padStart(3, '0')}`,
