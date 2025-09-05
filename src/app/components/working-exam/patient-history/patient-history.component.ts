@@ -645,6 +645,7 @@ export class PatientHistoryComponent {
     if (this.graphicFilterState.selectedDepartment !== 'ALL') {
       return [this.graphicFilterState.selectedDepartment];
     }
+    // Return all sectors when in department mode
     return this.sectors.map(s => s.name);
   }
   
@@ -652,8 +653,8 @@ export class PatientHistoryComponent {
     if (this.graphicFilterState.selectedAnatomy !== 'ALL') {
       return [this.graphicFilterState.selectedAnatomy];
     }
-    const regions = ['Head', 'Neck', 'Shoulder', 'Thorax', 'Upper limbs', 'Back', 'Pelvis', 'Lower limbs', 'Foot'];
-    return regions;
+    // Return all anatomical regions when in anatomy mode
+    return ['Head', 'Neck', 'Shoulder', 'Thorax', 'Upper limbs', 'Back', 'Pelvis', 'Lower limbs', 'Foot'];
   }
   
   getVisibleYears(): (number | string)[] {
