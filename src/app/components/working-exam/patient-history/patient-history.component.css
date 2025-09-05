@@ -956,6 +956,8 @@
   transition: all 0.2s ease;
   transform: translate(-50%, -50%);
   z-index: 20;
+}
+
 /* Exam Labels */
 .exam-label {
   position: absolute;
