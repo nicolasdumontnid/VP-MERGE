@@ -11,7 +11,7 @@
   background: #374151;
   border-bottom: 1px solid #4b5563;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
   height: 80px;
   flex-shrink: 0;
@@ -65,6 +65,7 @@
 /* Menu Section */
 .menu-section {
   margin-bottom: 20px;
+  position: relative;
 }
 
 .dropdown {
@@ -84,11 +85,17 @@
   align-items: center;
   gap: 8px;
   font-size: 16px;
+  width: 100%;
+  justify-content: center;
 }
 
 .burger-menu-btn:hover {
   background: #5b6572;
   border-color: #9ca3af;
+}
+
+.burger-menu-btn i {
+  font-size: 14px;
 }
 
 .dropdown-menu {
@@ -98,7 +105,8 @@
   background-color: #374151;
   border: 1px solid #4b5563;
   border-radius: 8px;
-  min-width: 250px;
+  min-width: 280px;
+  width: 100%;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
   opacity: 0;
   visibility: hidden;
@@ -142,7 +150,9 @@
 
 .dropdown-item i {
   width: 16px;
+  font-size: 14px;
   color: #9ca3af;
+  flex-shrink: 0;
 }
 
 /* Blocks Container */
@@ -167,6 +177,7 @@
   padding-right: 40px;
   background: #4b5563;
   border-bottom: 1px solid #6b7280;
+  cursor: pointer;
 }
 
 .block-title-section {
@@ -191,6 +202,34 @@
   font-weight: 600;
   color: white;
   margin-bottom: 0;
+}
+
+.remove-block-btn {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 30;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-block-btn:hover {
+  background: #6b7280;
+  color: white;
+}
+
+.remove-block-btn i {
+  font-size: 12px;
 }
 
 .badges {
