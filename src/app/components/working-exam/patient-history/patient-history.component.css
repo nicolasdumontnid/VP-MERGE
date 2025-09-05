@@ -202,8 +202,9 @@
 
 .block-content {
   padding: 20px;
-  min-height: auto;
+  max-height: 400px;
   overflow: hidden;
+  overflow-y: auto;
   transition: opacity 0.3s ease, transform 0.3s ease;
   opacity: 1;
   transform: scaleY(1);
@@ -216,6 +217,26 @@
   overflow: hidden;
   padding: 0 20px;
   height: 0;
+  max-height: 0;
+}
+
+/* Scrollbar styling for block content */
+.block-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.block-content::-webkit-scrollbar-track {
+  background: #374151;
+  border-radius: 4px;
+}
+
+.block-content::-webkit-scrollbar-thumb {
+  background: #6b7280;
+  border-radius: 4px;
+}
+
+.block-content::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }
 
 /* Badges */
