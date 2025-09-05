@@ -57,8 +57,7 @@
           <div *ngIf="block.content?.type === 'calendar-map'" class="calendar-map-content">
             <!-- Graphic Filter -->
             <app-graphic-filter 
-              [sectors]="sectors"
-              (stateChange)="onGraphicFilterChange($event)">
+              (filterChange)="onGraphicFilterChange($event)">
             </app-graphic-filter>
 
             <!-- Selection Controls -->
