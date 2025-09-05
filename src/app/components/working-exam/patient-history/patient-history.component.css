@@ -1017,12 +1017,19 @@
 }
 
 /* Detailed Tooltip Styles */
-.exam-tooltip-detailed {
 .exam-point:hover {
   width: 12px;
   height: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
+.exam-tooltip-detailed {
+  position: absolute;
+  background-color: #1f2937;
+  border: 1px solid #4b5563; /* remplace #... par une vraie couleur */
+  border-radius: 6px;
+  padding: 8px 10px;
+  min-width: 120px;
+  z-index: 20;
 }
 
 /* Exam Labels */
