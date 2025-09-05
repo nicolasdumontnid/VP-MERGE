@@ -44,7 +44,7 @@
         <div class="dropdown-menu">
           <button class="dropdown-item" [class.active]="viewMode === 'exam'" (click)="setViewMode('exam')">
             <i class="fas fa-x-ray"></i>
-            <span>Examen view</span>
+            <span>Exam view</span>
           </button>
           <button class="dropdown-item" [class.active]="viewMode === 'patient'" (click)="setViewMode('patient')">
             <i class="fas fa-user"></i>
@@ -55,7 +55,7 @@
     </div>
   </div>
 
-  <!-- Examen View - Card View (Default) -->
+  <!-- Exam View - Card View (Default) -->
   <div class="exam-list card-view" *ngIf="displayMode === 'card' && viewMode === 'exam' && paginatedExams.length > 0">
     <div class="exam-card" [class]="getBorderClass()" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of paginatedExams" (click)="onOpenExam(exam)">
       <!-- Exam Header -->
@@ -273,7 +273,7 @@
       </div>
     </div>
   </div>
-  <!-- Examen View - Row View -->
+  <!-- Exam View - Row View -->
   <div class="exam-list row-view" *ngIf="displayMode === 'row' && viewMode === 'exam' && paginatedExams.length > 0">
     <div class="exam-row" [class]="getBorderClass()" [class.urgent-exam]="exam.isUrgent" *ngFor="let exam of paginatedExams" (click)="onOpenExam(exam)">
       <!-- Row Header -->
@@ -357,7 +357,7 @@
     </div>
   </div>
 
-  <!-- Examen View - Table View -->
+  <!-- Exam View - Table View -->
   <div class="exam-table-container" *ngIf="displayMode === 'table' && viewMode === 'exam' && paginatedExams.length > 0">
     <table class="exam-table">
       <thead>

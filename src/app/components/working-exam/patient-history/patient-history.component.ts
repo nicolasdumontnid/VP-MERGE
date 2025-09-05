@@ -61,15 +61,15 @@ export class PatientHistoryComponent {
   
   // Color mapping for anatomical regions
   regionColors: { [key: string]: string } = {
-    'Tête': '#ef4444',            // Red
-    'Cou': '#f97316',             // Orange
-    'Épaule': '#eab308',          // Yellow
+    'Head': '#ef4444',            // Red
+    'Neck': '#f97316',            // Orange
+    'Shoulder': '#eab308',        // Yellow
     'Thorax': '#22c55e',          // Green
-    'Membres supérieurs': '#06b6d4', // Cyan
-    'Dos': '#3b82f6',             // Blue
-    'Bassin': '#3b82f6',          // Blue
-    'Membres inférieurs': '#8b5cf6', // Purple
-    'Pied': '#ec4899'             // Pink
+    'Upper limbs': '#06b6d4',     // Cyan
+    'Back': '#3b82f6',            // Blue
+    'Pelvis': '#3b82f6',          // Blue
+    'Lower limbs': '#8b5cf6',     // Purple
+    'Foot': '#ec4899'             // Pink
   };
 
   // External sources state
@@ -101,15 +101,15 @@ export class PatientHistoryComponent {
   constructor(private cdr: ChangeDetectorRef) {}
 
   menuOptions: MenuOption[] = [
-    { id: 'ia-summary', label: 'IA Summary', icon: 'fas fa-brain' },
+    { id: 'ia-summary', label: 'AI Summary', icon: 'fas fa-brain' },
     { id: 'calendar-map', label: 'Calendar Map', icon: 'fas fa-calendar-alt' },
     { id: 'current-exam', label: 'Current Exam', icon: 'fas fa-file-medical-alt' },
-    { id: 'last-report', label: 'Last Radio Report Conclusion', icon: 'fas fa-file-medical' },
-    { id: 'patient-records', label: 'Top 10 Patient Record Information', icon: 'fas fa-list' },
+    { id: 'last-report', label: 'Last Radiology Report Conclusion', icon: 'fas fa-file-medical' },
+    { id: 'patient-records', label: 'Top 10 Patient Records', icon: 'fas fa-list' },
     { id: 'visual-map', label: 'Visual Patient Map', icon: 'fas fa-user-md' },
     { id: 'all-images', label: 'All Images', icon: 'fas fa-images' },
     { id: 'patient-info', label: 'Patient Information', icon: 'fas fa-user' },
-    { id: 'external-sources', label: 'External sources', icon: 'fas fa-external-link-alt' }
+    { id: 'external-sources', label: 'External Sources', icon: 'fas fa-external-link-alt' }
   ];
 
   // Sample medical images for different dates
@@ -206,7 +206,7 @@ export class PatientHistoryComponent {
       case 'ia-summary':
         newBlock = {
           id: option.id,
-          title: 'IA Summary',
+          title: 'AI Summary',
           isCollapsed: true,
           badges: ['General', 'Critical'],
           content: {
@@ -231,7 +231,7 @@ export class PatientHistoryComponent {
       case 'last-report':
         newBlock = {
           id: option.id,
-          title: 'Last Radio Report Conclusion',
+          title: 'Last Radiology Report Conclusion',
           isCollapsed: false,
           badges: ['Positive', 'Negative'],
           content: {
@@ -244,7 +244,7 @@ export class PatientHistoryComponent {
       case 'patient-records':
         newBlock = {
           id: option.id,
-          title: 'Top 10 Patient Record Information',
+          title: 'Top 10 Patient Records',
           isCollapsed: true,
           badges: ['Recent', 'Critical', 'Lab', 'Imaging'],
           content: {
@@ -291,7 +291,7 @@ export class PatientHistoryComponent {
       case 'external-sources':
         newBlock = {
           id: option.id,
-          title: 'All the other from external sources',
+          title: 'External Sources Data',
           isCollapsed: false,
           content: {
             type: 'external-sources'
@@ -390,7 +390,7 @@ export class PatientHistoryComponent {
       regions.add(this.exam.anatomicalRegion);
       
       // Add some sample regions for demonstration
-      const sampleRegions = ['Tête', 'Cou', 'Épaule', 'Thorax', 'Membres supérieurs', 'Dos', 'Bassin', 'Membres inférieurs', 'Pied'];
+      const sampleRegions = ['Head', 'Neck', 'Shoulder', 'Thorax', 'Upper limbs', 'Back', 'Pelvis', 'Lower limbs', 'Foot'];
       sampleRegions.forEach(region => regions.add(region));
     }
     
@@ -402,31 +402,31 @@ export class PatientHistoryComponent {
     if (!this.exam) return [];
     
     const baseExams = [
-      { date: new Date('2024-01-15'), region: 'Pied', title: 'X-Ray - Foot', sector: 'General' },
-      { date: new Date('2024-02-20'), region: 'Membres inférieurs', title: 'MRI - Knee', sector: 'General' },
-      { date: new Date('2024-03-10'), region: 'Bassin', title: 'X-Ray - Pelvis', sector: 'General' },
-      { date: new Date('2024-04-05'), region: 'Dos', title: 'MRI - Spine', sector: 'General' },
+      { date: new Date('2024-01-15'), region: 'Foot', title: 'X-Ray - Foot', sector: 'General' },
+      { date: new Date('2024-02-20'), region: 'Lower limbs', title: 'MRI - Knee', sector: 'General' },
+      { date: new Date('2024-03-10'), region: 'Pelvis', title: 'X-Ray - Pelvis', sector: 'General' },
+      { date: new Date('2024-04-05'), region: 'Back', title: 'MRI - Spine', sector: 'General' },
       { date: new Date('2024-05-12'), region: 'Thorax', title: 'MRI - Chest', sector: 'Chest' },
       { date: new Date('2024-06-18'), region: 'Thorax', title: 'X-Ray - Chest', sector: 'Lungs' },
-      { date: new Date('2024-07-22'), region: 'Tête', title: 'CT Scan - Head', sector: 'General' },
+      { date: new Date('2024-07-22'), region: 'Head', title: 'CT Scan - Head', sector: 'General' },
       { date: new Date('2024-08-30'), region: 'Thorax', title: 'Ultrasound', sector: 'Chest' },
       { date: new Date('2024-09-15'), region: 'Thorax', title: 'CT Scan - Lungs', sector: 'Lungs' },
-      { date: new Date('2024-10-08'), region: 'Membres supérieurs', title: 'X-Ray - Wrist', sector: 'General' },
-      { date: new Date('2024-11-12'), region: 'Bassin', title: 'CT Scan - Hip', sector: 'General' },
-      { date: new Date('2024-12-20'), region: 'Tête', title: 'MRI - Brain', sector: 'General' },
+      { date: new Date('2024-10-08'), region: 'Upper limbs', title: 'X-Ray - Wrist', sector: 'General' },
+      { date: new Date('2024-11-12'), region: 'Pelvis', title: 'CT Scan - Hip', sector: 'General' },
+      { date: new Date('2024-12-20'), region: 'Head', title: 'MRI - Brain', sector: 'General' },
       { date: new Date('2024-03-25'), region: 'Thorax', title: 'Cytology - Lung Biopsy', sector: 'Cytology' },
       { date: new Date('2024-05-18'), region: 'Thorax', title: 'Cytology - Pleural Fluid', sector: 'Cytology' },
-      { date: new Date('2024-07-10'), region: 'Tête', title: 'Cytology - Thyroid FNA', sector: 'Cytology' },
+      { date: new Date('2024-07-10'), region: 'Head', title: 'Cytology - Thyroid FNA', sector: 'Cytology' },
       { date: new Date('2024-09-05'), region: 'Thorax', title: 'Cytology - Bronchial Wash', sector: 'Cytology' },
-      { date: new Date('2024-11-20'), region: 'Bassin', title: 'Cytology - Cervical Smear', sector: 'Cytology' },
+      { date: new Date('2024-11-20'), region: 'Pelvis', title: 'Cytology - Cervical Smear', sector: 'Cytology' },
       { date: new Date('2025-01-15'), region: this.exam.anatomicalRegion, title: this.exam.title, sector: this.exam.sectorName }
     ];
     
     // Add future appointments
     const futureExams = [
       { date: new Date('2025-01-18'), region: 'Thorax', title: 'Mammography', sector: 'Breast' },
-      { date: new Date('2025-01-25'), region: 'Tête', title: 'MRI - Brain', sector: 'General' },
-      { date: new Date('2025-02-10'), region: 'Dos', title: 'X-Ray - Spine', sector: 'General' }
+      { date: new Date('2025-01-25'), region: 'Head', title: 'MRI - Brain', sector: 'General' },
+      { date: new Date('2025-02-10'), region: 'Back', title: 'X-Ray - Spine', sector: 'General' }
     ];
     
     return [...baseExams, ...futureExams].map(exam => this.enhanceExamWithElements(exam));
@@ -617,7 +617,7 @@ export class PatientHistoryComponent {
   }
   
   getAvailableAnatomicalRegions(): string[] {
-    return ['Tête', 'Cou', 'Épaule', 'Thorax', 'Membres supérieurs', 'Dos', 'Bassin', 'Membres inférieurs', 'Pied'];
+    return ['Head', 'Neck', 'Shoulder', 'Thorax', 'Upper limbs', 'Back', 'Pelvis', 'Lower limbs', 'Foot'];
   }
 
   getTimelineMonths() {
@@ -652,7 +652,7 @@ export class PatientHistoryComponent {
     if (this.graphicFilterState.selectedAnatomy !== 'ALL') {
       return [this.graphicFilterState.selectedAnatomy];
     }
-    const regions = ['Tête', 'Cou', 'Épaule', 'Thorax', 'Membres supérieurs', 'Dos', 'Bassin', 'Membres inférieurs', 'Pied'];
+    const regions = ['Head', 'Neck', 'Shoulder', 'Thorax', 'Upper limbs', 'Back', 'Pelvis', 'Lower limbs', 'Foot'];
     return regions;
   }
   

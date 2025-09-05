@@ -35,10 +35,10 @@ export class AppComponent {
   presetsFilter = '';
   presetsCollapsed = false;
   presets = [
-    { name: 'Hopital Saint-Luc (UCLouvain)', count: 12 },
-    { name: 'Clinique Saint-Luc (Bouge)', count: 7 },
-    { name: 'Hôpital Vivalia (Arlon)', count: 3 },
-    { name: 'URGENCE Jolimont', count: 1 }
+    { name: 'Saint-Luc Hospital (UCLouvain)', count: 12 },
+    { name: 'Saint-Luc Clinic (Bouge)', count: 7 },
+    { name: 'Vivalia Hospital (Arlon)', count: 3 },
+    { name: 'EMERGENCY Jolimont', count: 1 }
   ];
   filteredPresets = [...this.presets];
   
@@ -532,18 +532,18 @@ export class AppComponent {
     const messageDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     
     if (messageDate.getTime() === today.getTime()) {
-      return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
     } else {
-      return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' });
+      return date.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit' });
     }
   }
   
   formatExamDate(date: Date): string {
-    return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    return date.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
   }
   
   formatMessageTime(date: Date): string {
-    return date.toLocaleString('fr-FR', { 
+    return date.toLocaleString('en-US', { 
       day: '2-digit', 
       month: '2-digit', 
       hour: '2-digit', 

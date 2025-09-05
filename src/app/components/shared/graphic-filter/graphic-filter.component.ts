@@ -56,15 +56,15 @@ export class GraphicFilterComponent implements OnInit {
 
   // Anatomical regions
   anatomicalRegions = [
-    'Tête',
-    'Cou', 
-    'Épaule',
+    'Head',
+    'Neck', 
+    'Shoulder',
     'Thorax',
-    'Membres supérieurs',
-    'Dos',
-    'Bassin',
-    'Membres inférieurs',
-    'Pied'
+    'Upper limbs',
+    'Back',
+    'Pelvis',
+    'Lower limbs',
+    'Foot'
   ];
 
   // Timeline options
