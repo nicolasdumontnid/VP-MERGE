@@ -1306,8 +1306,8 @@
   opacity: 1;
   visibility: visible;
   transform: translateX(0);
-.exam-tooltip-detailed.below {
-
+}
+  
 .submenu-item {
   display: flex;
   align-items: center;
