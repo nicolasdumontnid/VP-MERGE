@@ -1309,7 +1309,7 @@
 .exam-tooltip-detailed.below {
 .submenu-item {
 /* Modal Styles */
-.modal-overlay {
+.modal-overlay { }
 .submenu-item {
   display: flex;
   align-items: center;
