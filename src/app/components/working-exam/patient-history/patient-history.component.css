@@ -1301,8 +1301,9 @@
   visibility: hidden;
   transform: translateX(-10px);
   transition: all 0.3s ease;
-.exam-tooltip-detailed:not([hidden]) {
+}
 
+.exam-tooltip-detailed:not([hidden]) {
   opacity: 1;
   visibility: visible;
   transform: translateX(0);
