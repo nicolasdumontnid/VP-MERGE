@@ -305,9 +305,11 @@ export class PatientHistoryComponent {
 
     // For initialization, add to the end to maintain order
     // For user-added blocks, add to the beginning
-    if (this.activeBlocks.length === 0 || this.isInitializing) {
+    if (this.isInitializing) {
       this.activeBlocks.push(newBlock);
     } else {
+      // User-added blocks go to the top and are expanded by default
+      newBlock.isCollapsed = false;
       this.activeBlocks.unshift(newBlock);
     }
   }

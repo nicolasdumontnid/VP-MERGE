@@ -202,15 +202,20 @@
 
 .block-content {
   padding: 20px;
-  max-height: 2000px;
+  min-height: auto;
   overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 1;
+  transform: scaleY(1);
+  transform-origin: top;
 }
 
 .block-content.collapsed {
-  max-height: 0;
-  padding: 0 20px;
+  opacity: 0;
+  transform: scaleY(0);
   overflow: hidden;
+  padding: 0 20px;
+  height: 0;
 }
 
 /* Badges */
