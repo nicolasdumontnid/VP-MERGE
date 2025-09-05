@@ -876,6 +876,10 @@ export class PatientHistoryComponent {
     this.clearTooltipTimeout();
   }
   
+  trackByBlockId(index: number, block: ActiveBlock): string {
+    return block.id;
+  }
+  
   // Badge selection methods
   onBadgeClick(region: string): void {
     if (this.selectedRegions.has(region)) {
