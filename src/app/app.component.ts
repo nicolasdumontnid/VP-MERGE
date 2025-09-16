@@ -1,372 +1,488 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { Router, NavigationEnd } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { WorkingExamComponent } from './components/working-exam/working-exam.component';
-import { PatientViewComponent } from './components/patient-view/patient-view.component';
-import { DetailedExam } from '../models/detailed-exam.interface';
-import { filter } from 'rxjs/operators';
+import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { RouterOutlet, RouterLink, RouterLinkActive } from "@angular/router";
+import { Router, NavigationEnd } from "@angular/router";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { WorkingExamComponent } from "./components/working-exam/working-exam.component";
+import { PatientViewComponent } from "./components/patient-view/patient-view.component";
+import { DetailedExam } from "../models/detailed-exam.interface";
+import { filter } from "rxjs/operators";
+
+import { ElementRef, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, NgZone } from "@angular/core";
 
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule, FormsModule, WorkingExamComponent, PatientViewComponent],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    CommonModule,
+    FormsModule,
+    WorkingExamComponent,
+    PatientViewComponent,
+  ],
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  title = 'Medical Application';
-  currentBreadcrumb = 'Dashboard';
+  @ViewChild("sidebar", { static: false }) sidebar!: ElementRef;
+  private sidebarWindow: Window | null = null;
+  private sidebarPlaceholder: Comment | null = null; // marqueur de l’emplacement original7
+  isMenuDetached = false; // pour savoir si le menu est détaché
+
+  title = "Telemis Medical Application";
+  currentBreadcrumb = "Dashboard";
   isManagementDropdownOpen = false;
   isMenuDropdownOpen = false;
-  
+
   // Active states for menu items
   activeMenuItem: string | null = null;
-  
+
   // BOXES data
   inboxCount = Math.floor(Math.random() * 21);
   pendingCount = Math.floor(Math.random() * 21);
   secondOpinionCount = Math.floor(Math.random() * 21);
   completedCount = Math.floor(Math.random() * 21);
-  
+
   // PRESETS data
-  presetsFilter = '';
+  presetsFilter = "";
   presetsCollapsed = false;
   presets = [
-    { name: 'Saint-Luc Hospital (UCLouvain)', count: 12 },
-    { name: 'Saint-Luc Clinic (Bouge)', count: 7 },
-    { name: 'Vivalia Hospital (Arlon)', count: 3 },
-    { name: 'EMERGENCY Jolimont', count: 1 }
+    { name: "Saint-Luc Hospital (UCLouvain)", count: 12 },
+    { name: "Saint-Luc Clinic (Bouge)", count: 7 },
+    { name: "Vivalia Hospital (Arlon)", count: 3 },
+    { name: "EMERGENCY Jolimont", count: 1 },
   ];
   filteredPresets = [...this.presets];
-  
+
   // CHAT data
-  chatFilter = '';
+  chatFilter = "";
   chatCollapsed = true;
   selectedConversation: any = null;
-  newMessage = '';
-  
+  newMessage = "";
+
   conversations = [
     {
       id: 1,
-      recipient: 'Dr. Marie Dubois',
-      patientName: 'Jean Martin',
-      examDate: new Date('2025-01-15'),
-      examDescription: 'CT Scan - Chest examination for diagnostic purposes. Patient presents with persistent cough and chest pain.',
-      avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
+      recipient: "Dr. Marie Dubois",
+      patientName: "Jean Martin",
+      examDate: new Date("2025-01-15"),
+      examDescription:
+        "CT Scan - Chest examination for diagnostic purposes. Patient presents with persistent cough and chest pain.",
+      avatar: "https://randomuser.me/api/portraits/women/1.jpg",
       isUnread: false,
       isPinned: true,
-      lastMessageDate: new Date('2025-01-15T14:30:00'),
+      lastMessageDate: new Date("2025-01-15T14:30:00"),
       messages: [
-        { sender: 'Dr. Marie Dubois', content: 'Hello, I need your opinion on this case.', timestamp: new Date('2025-01-15T14:00:00') },
-        { sender: 'Damien', content: 'Of course, I\'ll take a look at the images.', timestamp: new Date('2025-01-15T14:30:00') }
-      ]
+        {
+          sender: "Dr. Marie Dubois",
+          content: "Hello, I need your opinion on this case.",
+          timestamp: new Date("2025-01-15T14:00:00"),
+        },
+        {
+          sender: "Damien",
+          content: "Of course, I'll take a look at the images.",
+          timestamp: new Date("2025-01-15T14:30:00"),
+        },
+      ],
     },
     {
       id: 2,
-      recipient: 'Dr. Pierre Leroy',
-      patientName: 'Sophie Bernard',
-      examDate: new Date('2025-01-14'),
-      examDescription: 'MRI - Brain scan following patient complaints of severe headaches and vision problems.',
-      avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
+      recipient: "Dr. Pierre Leroy",
+      patientName: "Sophie Bernard",
+      examDate: new Date("2025-01-14"),
+      examDescription:
+        "MRI - Brain scan following patient complaints of severe headaches and vision problems.",
+      avatar: "https://randomuser.me/api/portraits/men/2.jpg",
       isUnread: true,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-15T16:45:00'),
+      lastMessageDate: new Date("2025-01-15T16:45:00"),
       messages: [
-        { sender: 'Dr. Pierre Leroy', content: 'Could you review the latest findings?', timestamp: new Date('2025-01-15T16:45:00') }
-      ]
+        {
+          sender: "Dr. Pierre Leroy",
+          content: "Could you review the latest findings?",
+          timestamp: new Date("2025-01-15T16:45:00"),
+        },
+      ],
     },
     {
       id: 3,
-      recipient: 'Dr. Claire Moreau',
-      patientName: 'Michel Rousseau',
-      examDate: new Date('2025-01-13'),
-      examDescription: 'X-Ray - Spine examination after patient fall. Checking for potential fractures or displacement.',
-      avatar: 'https://randomuser.me/api/portraits/women/3.jpg',
+      recipient: "Dr. Claire Moreau",
+      patientName: "Michel Rousseau",
+      examDate: new Date("2025-01-13"),
+      examDescription:
+        "X-Ray - Spine examination after patient fall. Checking for potential fractures or displacement.",
+      avatar: "https://randomuser.me/api/portraits/women/3.jpg",
       isUnread: true,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-15T09:20:00'),
+      lastMessageDate: new Date("2025-01-15T09:20:00"),
       messages: [
-        { sender: 'Dr. Claire Moreau', content: 'The patient has been responding well.', timestamp: new Date('2025-01-15T09:20:00') }
-      ]
+        {
+          sender: "Dr. Claire Moreau",
+          content: "The patient has been responding well.",
+          timestamp: new Date("2025-01-15T09:20:00"),
+        },
+      ],
     },
     {
       id: 4,
-      recipient: 'Dr. Thomas Petit',
-      patientName: 'Anne Durand',
-      examDate: new Date('2025-01-12'),
-      examDescription: 'Ultrasound - Abdominal examination for suspected gallbladder issues.',
-      avatar: 'https://randomuser.me/api/portraits/men/4.jpg',
+      recipient: "Dr. Thomas Petit",
+      patientName: "Anne Durand",
+      examDate: new Date("2025-01-12"),
+      examDescription:
+        "Ultrasound - Abdominal examination for suspected gallbladder issues.",
+      avatar: "https://randomuser.me/api/portraits/men/4.jpg",
       isUnread: false,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-14T11:15:00'),
+      lastMessageDate: new Date("2025-01-14T11:15:00"),
       messages: [
-        { sender: 'Dr. Thomas Petit', content: 'I recommend scheduling a follow-up.', timestamp: new Date('2025-01-14T11:15:00') },
-        { sender: 'Damien', content: 'Agreed, let\'s schedule it for next week.', timestamp: new Date('2025-01-14T11:30:00') }
-      ]
+        {
+          sender: "Dr. Thomas Petit",
+          content: "I recommend scheduling a follow-up.",
+          timestamp: new Date("2025-01-14T11:15:00"),
+        },
+        {
+          sender: "Damien",
+          content: "Agreed, let's schedule it for next week.",
+          timestamp: new Date("2025-01-14T11:30:00"),
+        },
+      ],
     },
     {
       id: 5,
-      recipient: 'Dr. Sarah Johnson',
-      patientName: 'Paul Mercier',
-      examDate: new Date('2025-01-11'),
-      examDescription: 'CT Scan - Abdominal examination for suspected appendicitis.',
-      avatar: 'https://randomuser.me/api/portraits/women/5.jpg',
+      recipient: "Dr. Sarah Johnson",
+      patientName: "Paul Mercier",
+      examDate: new Date("2025-01-11"),
+      examDescription:
+        "CT Scan - Abdominal examination for suspected appendicitis.",
+      avatar: "https://randomuser.me/api/portraits/women/5.jpg",
       isUnread: true,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-15T08:30:00'),
+      lastMessageDate: new Date("2025-01-15T08:30:00"),
       messages: [
-        { sender: 'Dr. Sarah Johnson', content: 'Urgent case, please review ASAP.', timestamp: new Date('2025-01-15T08:30:00') }
-      ]
+        {
+          sender: "Dr. Sarah Johnson",
+          content: "Urgent case, please review ASAP.",
+          timestamp: new Date("2025-01-15T08:30:00"),
+        },
+      ],
     },
     {
       id: 6,
-      recipient: 'Dr. Marc Lefebvre',
-      patientName: 'Emma Girard',
-      examDate: new Date('2025-01-10'),
-      examDescription: 'MRI - Knee examination following sports injury.',
-      avatar: 'https://randomuser.me/api/portraits/men/6.jpg',
+      recipient: "Dr. Marc Lefebvre",
+      patientName: "Emma Girard",
+      examDate: new Date("2025-01-10"),
+      examDescription: "MRI - Knee examination following sports injury.",
+      avatar: "https://randomuser.me/api/portraits/men/6.jpg",
       isUnread: false,
       isPinned: true,
-      lastMessageDate: new Date('2025-01-14T17:20:00'),
+      lastMessageDate: new Date("2025-01-14T17:20:00"),
       messages: [
-        { sender: 'Dr. Marc Lefebvre', content: 'The MRI shows some interesting findings.', timestamp: new Date('2025-01-14T17:20:00') }
-      ]
+        {
+          sender: "Dr. Marc Lefebvre",
+          content: "The MRI shows some interesting findings.",
+          timestamp: new Date("2025-01-14T17:20:00"),
+        },
+      ],
     },
     {
       id: 7,
-      recipient: 'Dr. Julie Roux',
-      patientName: 'Lucas Blanc',
-      examDate: new Date('2025-01-09'),
-      examDescription: 'X-Ray - Chest examination for pneumonia screening.',
-      avatar: 'https://randomuser.me/api/portraits/women/7.jpg',
+      recipient: "Dr. Julie Roux",
+      patientName: "Lucas Blanc",
+      examDate: new Date("2025-01-09"),
+      examDescription: "X-Ray - Chest examination for pneumonia screening.",
+      avatar: "https://randomuser.me/api/portraits/women/7.jpg",
       isUnread: true,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-15T12:45:00'),
+      lastMessageDate: new Date("2025-01-15T12:45:00"),
       messages: [
-        { sender: 'Dr. Julie Roux', content: 'Patient shows signs of improvement.', timestamp: new Date('2025-01-15T12:45:00') }
-      ]
+        {
+          sender: "Dr. Julie Roux",
+          content: "Patient shows signs of improvement.",
+          timestamp: new Date("2025-01-15T12:45:00"),
+        },
+      ],
     },
     {
       id: 8,
-      recipient: 'Dr. Antoine Duval',
-      patientName: 'Camille Faure',
-      examDate: new Date('2025-01-08'),
-      examDescription: 'Ultrasound - Cardiac examination for arrhythmia investigation.',
-      avatar: 'https://randomuser.me/api/portraits/men/8.jpg',
+      recipient: "Dr. Antoine Duval",
+      patientName: "Camille Faure",
+      examDate: new Date("2025-01-08"),
+      examDescription:
+        "Ultrasound - Cardiac examination for arrhythmia investigation.",
+      avatar: "https://randomuser.me/api/portraits/men/8.jpg",
       isUnread: false,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-13T15:10:00'),
+      lastMessageDate: new Date("2025-01-13T15:10:00"),
       messages: [
-        { sender: 'Dr. Antoine Duval', content: 'Cardiac function appears normal.', timestamp: new Date('2025-01-13T15:10:00') }
-      ]
+        {
+          sender: "Dr. Antoine Duval",
+          content: "Cardiac function appears normal.",
+          timestamp: new Date("2025-01-13T15:10:00"),
+        },
+      ],
     },
     {
       id: 9,
-      recipient: 'Dr. Isabelle Martin',
-      patientName: 'Hugo Lemoine',
-      examDate: new Date('2025-01-07'),
-      examDescription: 'CT Scan - Head examination following concussion.',
-      avatar: 'https://randomuser.me/api/portraits/women/9.jpg',
+      recipient: "Dr. Isabelle Martin",
+      patientName: "Hugo Lemoine",
+      examDate: new Date("2025-01-07"),
+      examDescription: "CT Scan - Head examination following concussion.",
+      avatar: "https://randomuser.me/api/portraits/women/9.jpg",
       isUnread: true,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-15T10:15:00'),
+      lastMessageDate: new Date("2025-01-15T10:15:00"),
       messages: [
-        { sender: 'Dr. Isabelle Martin', content: 'No signs of internal bleeding detected.', timestamp: new Date('2025-01-15T10:15:00') }
-      ]
+        {
+          sender: "Dr. Isabelle Martin",
+          content: "No signs of internal bleeding detected.",
+          timestamp: new Date("2025-01-15T10:15:00"),
+        },
+      ],
     },
     {
       id: 10,
-      recipient: 'Dr. François Garnier',
-      patientName: 'Léa Moreau',
-      examDate: new Date('2025-01-06'),
-      examDescription: 'MRI - Spine examination for chronic back pain.',
-      avatar: 'https://randomuser.me/api/portraits/men/10.jpg',
+      recipient: "Dr. François Garnier",
+      patientName: "Léa Moreau",
+      examDate: new Date("2025-01-06"),
+      examDescription: "MRI - Spine examination for chronic back pain.",
+      avatar: "https://randomuser.me/api/portraits/men/10.jpg",
       isUnread: false,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-12T14:30:00'),
+      lastMessageDate: new Date("2025-01-12T14:30:00"),
       messages: [
-        { sender: 'Dr. François Garnier', content: 'Disc herniation confirmed at L4-L5.', timestamp: new Date('2025-01-12T14:30:00') }
-      ]
+        {
+          sender: "Dr. François Garnier",
+          content: "Disc herniation confirmed at L4-L5.",
+          timestamp: new Date("2025-01-12T14:30:00"),
+        },
+      ],
     },
     {
       id: 11,
-      recipient: 'Dr. Nathalie Perrin',
-      patientName: 'Maxime Roussel',
-      examDate: new Date('2025-01-05'),
-      examDescription: 'X-Ray - Wrist examination following fracture.',
-      avatar: 'https://randomuser.me/api/portraits/women/11.jpg',
+      recipient: "Dr. Nathalie Perrin",
+      patientName: "Maxime Roussel",
+      examDate: new Date("2025-01-05"),
+      examDescription: "X-Ray - Wrist examination following fracture.",
+      avatar: "https://randomuser.me/api/portraits/women/11.jpg",
       isUnread: true,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-15T13:20:00'),
+      lastMessageDate: new Date("2025-01-15T13:20:00"),
       messages: [
-        { sender: 'Dr. Nathalie Perrin', content: 'Healing process is progressing well.', timestamp: new Date('2025-01-15T13:20:00') }
-      ]
+        {
+          sender: "Dr. Nathalie Perrin",
+          content: "Healing process is progressing well.",
+          timestamp: new Date("2025-01-15T13:20:00"),
+        },
+      ],
     },
     {
       id: 12,
-      recipient: 'Dr. Olivier Bonnet',
-      patientName: 'Chloé Dupuis',
-      examDate: new Date('2025-01-04'),
-      examDescription: 'Ultrasound - Thyroid examination for nodule assessment.',
-      avatar: 'https://randomuser.me/api/portraits/men/12.jpg',
+      recipient: "Dr. Olivier Bonnet",
+      patientName: "Chloé Dupuis",
+      examDate: new Date("2025-01-04"),
+      examDescription:
+        "Ultrasound - Thyroid examination for nodule assessment.",
+      avatar: "https://randomuser.me/api/portraits/men/12.jpg",
       isUnread: false,
       isPinned: true,
-      lastMessageDate: new Date('2025-01-14T09:45:00'),
+      lastMessageDate: new Date("2025-01-14T09:45:00"),
       messages: [
-        { sender: 'Dr. Olivier Bonnet', content: 'Nodule appears benign, recommend monitoring.', timestamp: new Date('2025-01-14T09:45:00') }
-      ]
+        {
+          sender: "Dr. Olivier Bonnet",
+          content: "Nodule appears benign, recommend monitoring.",
+          timestamp: new Date("2025-01-14T09:45:00"),
+        },
+      ],
     },
     {
       id: 13,
-      recipient: 'Dr. Céline Vidal',
-      patientName: 'Nathan Chevalier',
-      examDate: new Date('2025-01-03'),
-      examDescription: 'CT Scan - Lung examination for persistent cough.',
-      avatar: 'https://randomuser.me/api/portraits/women/13.jpg',
+      recipient: "Dr. Céline Vidal",
+      patientName: "Nathan Chevalier",
+      examDate: new Date("2025-01-03"),
+      examDescription: "CT Scan - Lung examination for persistent cough.",
+      avatar: "https://randomuser.me/api/portraits/women/13.jpg",
       isUnread: true,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-15T11:30:00'),
+      lastMessageDate: new Date("2025-01-15T11:30:00"),
       messages: [
-        { sender: 'Dr. Céline Vidal', content: 'Possible pneumonia, starting treatment.', timestamp: new Date('2025-01-15T11:30:00') }
-      ]
+        {
+          sender: "Dr. Céline Vidal",
+          content: "Possible pneumonia, starting treatment.",
+          timestamp: new Date("2025-01-15T11:30:00"),
+        },
+      ],
     },
     {
       id: 14,
-      recipient: 'Dr. Stéphane Leclerc',
-      patientName: 'Manon Gauthier',
-      examDate: new Date('2025-01-02'),
-      examDescription: 'MRI - Shoulder examination for rotator cuff injury.',
-      avatar: 'https://randomuser.me/api/portraits/men/14.jpg',
+      recipient: "Dr. Stéphane Leclerc",
+      patientName: "Manon Gauthier",
+      examDate: new Date("2025-01-02"),
+      examDescription: "MRI - Shoulder examination for rotator cuff injury.",
+      avatar: "https://randomuser.me/api/portraits/men/14.jpg",
       isUnread: false,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-13T16:15:00'),
+      lastMessageDate: new Date("2025-01-13T16:15:00"),
       messages: [
-        { sender: 'Dr. Stéphane Leclerc', content: 'Partial tear confirmed, surgery recommended.', timestamp: new Date('2025-01-13T16:15:00') }
-      ]
+        {
+          sender: "Dr. Stéphane Leclerc",
+          content: "Partial tear confirmed, surgery recommended.",
+          timestamp: new Date("2025-01-13T16:15:00"),
+        },
+      ],
     },
     {
       id: 15,
-      recipient: 'Dr. Valérie Morel',
-      patientName: 'Théo Lambert',
-      examDate: new Date('2025-01-01'),
-      examDescription: 'X-Ray - Hip examination for arthritis assessment.',
-      avatar: 'https://randomuser.me/api/portraits/women/15.jpg',
+      recipient: "Dr. Valérie Morel",
+      patientName: "Théo Lambert",
+      examDate: new Date("2025-01-01"),
+      examDescription: "X-Ray - Hip examination for arthritis assessment.",
+      avatar: "https://randomuser.me/api/portraits/women/15.jpg",
       isUnread: true,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-15T14:50:00'),
+      lastMessageDate: new Date("2025-01-15T14:50:00"),
       messages: [
-        { sender: 'Dr. Valérie Morel', content: 'Advanced arthritis, consider joint replacement.', timestamp: new Date('2025-01-15T14:50:00') }
-      ]
+        {
+          sender: "Dr. Valérie Morel",
+          content: "Advanced arthritis, consider joint replacement.",
+          timestamp: new Date("2025-01-15T14:50:00"),
+        },
+      ],
     },
     {
       id: 16,
-      recipient: 'Dr. Jérôme Fournier',
-      patientName: 'Inès Barbier',
-      examDate: new Date('2024-12-31'),
-      examDescription: 'Ultrasound - Liver examination for hepatitis screening.',
-      avatar: 'https://randomuser.me/api/portraits/men/16.jpg',
+      recipient: "Dr. Jérôme Fournier",
+      patientName: "Inès Barbier",
+      examDate: new Date("2024-12-31"),
+      examDescription:
+        "Ultrasound - Liver examination for hepatitis screening.",
+      avatar: "https://randomuser.me/api/portraits/men/16.jpg",
       isUnread: false,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-12T10:20:00'),
+      lastMessageDate: new Date("2025-01-12T10:20:00"),
       messages: [
-        { sender: 'Dr. Jérôme Fournier', content: 'Liver function tests are normal.', timestamp: new Date('2025-01-12T10:20:00') }
-      ]
+        {
+          sender: "Dr. Jérôme Fournier",
+          content: "Liver function tests are normal.",
+          timestamp: new Date("2025-01-12T10:20:00"),
+        },
+      ],
     },
     {
       id: 17,
-      recipient: 'Dr. Sandrine Giraud',
-      patientName: 'Quentin Mercier',
-      examDate: new Date('2024-12-30'),
-      examDescription: 'CT Scan - Pelvis examination for trauma assessment.',
-      avatar: 'https://randomuser.me/api/portraits/women/17.jpg',
+      recipient: "Dr. Sandrine Giraud",
+      patientName: "Quentin Mercier",
+      examDate: new Date("2024-12-30"),
+      examDescription: "CT Scan - Pelvis examination for trauma assessment.",
+      avatar: "https://randomuser.me/api/portraits/women/17.jpg",
       isUnread: true,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-15T15:40:00'),
+      lastMessageDate: new Date("2025-01-15T15:40:00"),
       messages: [
-        { sender: 'Dr. Sandrine Giraud', content: 'No fractures detected, soft tissue injury only.', timestamp: new Date('2025-01-15T15:40:00') }
-      ]
+        {
+          sender: "Dr. Sandrine Giraud",
+          content: "No fractures detected, soft tissue injury only.",
+          timestamp: new Date("2025-01-15T15:40:00"),
+        },
+      ],
     },
     {
       id: 18,
-      recipient: 'Dr. Christophe Renard',
-      patientName: 'Jade Fontaine',
-      examDate: new Date('2024-12-29'),
-      examDescription: 'MRI - Brain examination for migraine investigation.',
-      avatar: 'https://randomuser.me/api/portraits/men/18.jpg',
+      recipient: "Dr. Christophe Renard",
+      patientName: "Jade Fontaine",
+      examDate: new Date("2024-12-29"),
+      examDescription: "MRI - Brain examination for migraine investigation.",
+      avatar: "https://randomuser.me/api/portraits/men/18.jpg",
       isUnread: false,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-11T13:25:00'),
+      lastMessageDate: new Date("2025-01-11T13:25:00"),
       messages: [
-        { sender: 'Dr. Christophe Renard', content: 'No structural abnormalities found.', timestamp: new Date('2025-01-11T13:25:00') }
-      ]
+        {
+          sender: "Dr. Christophe Renard",
+          content: "No structural abnormalities found.",
+          timestamp: new Date("2025-01-11T13:25:00"),
+        },
+      ],
     },
     {
       id: 19,
-      recipient: 'Dr. Aurélie Blanchard',
-      patientName: 'Romain Lefevre',
-      examDate: new Date('2024-12-28'),
-      examDescription: 'X-Ray - Ankle examination following sprain.',
-      avatar: 'https://randomuser.me/api/portraits/women/19.jpg',
+      recipient: "Dr. Aurélie Blanchard",
+      patientName: "Romain Lefevre",
+      examDate: new Date("2024-12-28"),
+      examDescription: "X-Ray - Ankle examination following sprain.",
+      avatar: "https://randomuser.me/api/portraits/women/19.jpg",
       isUnread: true,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-15T16:10:00'),
+      lastMessageDate: new Date("2025-01-15T16:10:00"),
       messages: [
-        { sender: 'Dr. Aurélie Blanchard', content: 'Grade 2 sprain, recommend physiotherapy.', timestamp: new Date('2025-01-15T16:10:00') }
-      ]
+        {
+          sender: "Dr. Aurélie Blanchard",
+          content: "Grade 2 sprain, recommend physiotherapy.",
+          timestamp: new Date("2025-01-15T16:10:00"),
+        },
+      ],
     },
     {
       id: 20,
-      recipient: 'Dr. Philippe Rousseau',
-      patientName: 'Océane Dubois',
-      examDate: new Date('2024-12-27'),
-      examDescription: 'Ultrasound - Kidney examination for stone detection.',
-      avatar: 'https://randomuser.me/api/portraits/men/20.jpg',
+      recipient: "Dr. Philippe Rousseau",
+      patientName: "Océane Dubois",
+      examDate: new Date("2024-12-27"),
+      examDescription: "Ultrasound - Kidney examination for stone detection.",
+      avatar: "https://randomuser.me/api/portraits/men/20.jpg",
       isUnread: false,
       isPinned: false,
-      lastMessageDate: new Date('2025-01-10T12:00:00'),
+      lastMessageDate: new Date("2025-01-10T12:00:00"),
       messages: [
-        { sender: 'Dr. Philippe Rousseau', content: 'Small stone detected, monitoring recommended.', timestamp: new Date('2025-01-10T12:00:00') }
-      ]
-    }
+        {
+          sender: "Dr. Philippe Rousseau",
+          content: "Small stone detected, monitoring recommended.",
+          timestamp: new Date("2025-01-10T12:00:00"),
+        },
+      ],
+    },
   ];
-  
+
   filteredConversations = [...this.conversations];
   isConversationMenuOpen = false;
-  
+
   // Working exam state
   isWorkingExam = false;
-  workingExamBreadcrumb = '';
+  workingExamBreadcrumb = "";
   currentWorkingExam: DetailedExam | null = null;
-  
+
   // Patient view state
   isPatientView = false;
-  patientViewBreadcrumb = '';
+  patientViewBreadcrumb = "";
   currentPatientViewExam: DetailedExam | null = null;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+    private zone: NgZone
+  ) {
     this.sortConversations();
-    
+
     // Make openWorkingExam available globally
     (window as any).openWorkingExam = this.openWorkingExam.bind(this);
-    
+
     // Make openPatientView available globally
     (window as any).openPatientView = this.openPatientView.bind(this);
-    
+
     // Subscribe to router events to close working exam on navigation
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: NavigationEnd) => {
-      // Close working exam when navigating to any route
-      if (this.isWorkingExam) {
-        this.closeWorkingExam();
-      }
-      if (this.isPatientView) {
-        this.closePatientView();
-      }
-    });
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        // Close working exam when navigating to any route
+        if (this.isWorkingExam) {
+          this.closeWorkingExam();
+        }
+        if (this.isPatientView) {
+          this.closePatientView();
+        }
+      });
   }
 
   toggleManagementDropdown(): void {
@@ -379,7 +495,7 @@ export class AppComponent {
     this.isMenuDropdownOpen = !this.isMenuDropdownOpen;
     this.isManagementDropdownOpen = false;
   }
-  
+
   toggleConversationMenu(): void {
     this.isConversationMenuOpen = !this.isConversationMenuOpen;
   }
@@ -393,90 +509,101 @@ export class AppComponent {
   public setBreadcrumb(breadcrumb: string): void {
     this.currentBreadcrumb = breadcrumb;
     // Clear active state when navigating via other means (like top nav)
-    if (!breadcrumb.includes('Inbox') && !breadcrumb.includes('Pending') && 
-        !breadcrumb.includes('Second Opinion') && !breadcrumb.includes('Completed') &&
-        !this.presets.some(p => breadcrumb.includes(p.name))) {
+    if (
+      !breadcrumb.includes("Inbox") &&
+      !breadcrumb.includes("Pending") &&
+      !breadcrumb.includes("Second Opinion") &&
+      !breadcrumb.includes("Completed") &&
+      !this.presets.some((p) => breadcrumb.includes(p.name))
+    ) {
       this.activeMenuItem = null;
     }
     this.closeDropdowns();
   }
 
   logout(): void {
-    console.log('Logout clicked');
+    console.log("Logout clicked");
     this.closeDropdowns();
   }
-  
+
   // BOXES navigation methods
   navigateToInbox(): void {
-    this.activeMenuItem = 'inbox';
-    this.setBreadcrumb('Inbox');
-    this.router.navigate(['/inbox']);
+    this.activeMenuItem = "inbox";
+    this.setBreadcrumb("Inbox");
+    this.router.navigate(["/inbox"]);
   }
-  
+
   navigateToPending(): void {
-    this.activeMenuItem = 'pending';
-    this.setBreadcrumb('Pending');
-    this.router.navigate(['/pending']);
+    this.activeMenuItem = "pending";
+    this.setBreadcrumb("Pending");
+    this.router.navigate(["/pending"]);
   }
-  
+
   navigateToSecondOpinion(): void {
-    this.activeMenuItem = 'second-opinion';
-    this.setBreadcrumb('Second Opinion');
-    this.router.navigate(['/second-opinion']);
+    this.activeMenuItem = "second-opinion";
+    this.setBreadcrumb("Second Opinion");
+    this.router.navigate(["/second-opinion"]);
   }
-  
+
   navigateToCompleted(): void {
-    this.activeMenuItem = 'completed';
-    this.setBreadcrumb('Completed');
-    this.router.navigate(['/completed']);
+    this.activeMenuItem = "completed";
+    this.setBreadcrumb("Completed");
+    this.router.navigate(["/completed"]);
   }
-  
+
   // PRESETS methods
   filterPresets(): void {
     if (!this.presetsFilter.trim()) {
       this.filteredPresets = [...this.presets];
     } else {
-      this.filteredPresets = this.presets.filter(preset =>
+      this.filteredPresets = this.presets.filter((preset) =>
         preset.name.toLowerCase().includes(this.presetsFilter.toLowerCase())
       );
     }
   }
-  
+
   public expandPresets(): void {
     this.presetsCollapsed = false;
   }
-  
+
   togglePresetsCollapse(): void {
     this.presetsCollapsed = !this.presetsCollapsed;
   }
-  
+
   selectPreset(preset: any): void {
-    this.activeMenuItem = 'preset-' + preset.name;
+    this.activeMenuItem = "preset-" + preset.name;
     this.setBreadcrumb(preset.name);
   }
-  
+
   // CHAT methods
   filterConversations(): void {
     if (!this.chatFilter.trim()) {
       this.filteredConversations = [...this.conversations];
     } else {
-      this.filteredConversations = this.conversations.filter(conv =>
-        conv.recipient.toLowerCase().includes(this.chatFilter.toLowerCase()) ||
-        conv.patientName.toLowerCase().includes(this.chatFilter.toLowerCase()) ||
-        conv.examDescription.toLowerCase().includes(this.chatFilter.toLowerCase())
+      this.filteredConversations = this.conversations.filter(
+        (conv) =>
+          conv.recipient
+            .toLowerCase()
+            .includes(this.chatFilter.toLowerCase()) ||
+          conv.patientName
+            .toLowerCase()
+            .includes(this.chatFilter.toLowerCase()) ||
+          conv.examDescription
+            .toLowerCase()
+            .includes(this.chatFilter.toLowerCase())
       );
     }
     this.sortConversations();
   }
-  
+
   public expandChat(): void {
     this.chatCollapsed = false;
   }
-  
+
   toggleChatCollapse(): void {
     this.chatCollapsed = !this.chatCollapsed;
   }
-  
+
   sortConversations(): void {
     this.filteredConversations.sort((a, b) => {
       if (a.isPinned && !b.isPinned) return -1;
@@ -486,75 +613,89 @@ export class AppComponent {
       return b.lastMessageDate.getTime() - a.lastMessageDate.getTime();
     });
   }
-  
+
   openConversationModal(conversation: any): void {
     this.selectedConversation = conversation;
     if (conversation.isUnread) {
       conversation.isUnread = false;
     }
   }
-  
+
   closeConversationModal(): void {
     this.selectedConversation = null;
-    this.newMessage = '';
+    this.newMessage = "";
     this.isConversationMenuOpen = false;
   }
-  
+
   markAsUnread(conversation: any): void {
     conversation.isUnread = true;
     this.sortConversations();
     this.closeConversationModal();
   }
-  
+
   togglePin(conversation: any): void {
     conversation.isPinned = !conversation.isPinned;
     this.sortConversations();
     this.isConversationMenuOpen = false;
   }
-  
+
   sendMessage(): void {
     if (!this.newMessage.trim() || !this.selectedConversation) return;
-    
+
     const message = {
-      sender: 'Damien',
+      sender: "Damien",
       content: this.newMessage.trim(),
-      timestamp: new Date()
+      timestamp: new Date(),
     };
-    
+
     this.selectedConversation.messages.push(message);
     this.selectedConversation.lastMessageDate = new Date();
-    this.newMessage = '';
+    this.newMessage = "";
   }
-  
+
   formatTimestamp(date: Date): string {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const messageDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    
+    const messageDate = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
+
     if (messageDate.getTime() === today.getTime()) {
-      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+      return date.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     } else {
-      return date.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit' });
+      return date.toLocaleDateString("en-US", {
+        day: "2-digit",
+        month: "2-digit",
+      });
     }
   }
-  
+
   formatExamDate(date: Date): string {
-    return date.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
-  }
-  
-  formatMessageTime(date: Date): string {
-    return date.toLocaleString('en-US', { 
-      day: '2-digit', 
-      month: '2-digit', 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    return date.toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
     });
   }
-  
+
+  formatMessageTime(date: Date): string {
+    return date.toLocaleString("en-US", {
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+
   truncateDescription(description: string): string {
     const maxLength = 60;
     if (description.length <= maxLength) return description;
-    return description.substring(0, maxLength) + '...';
+    return description.substring(0, maxLength) + "...";
   }
 
   openWorkingExam(exam: any): void {
@@ -563,20 +704,20 @@ export class AppComponent {
     this.workingExamBreadcrumb = `${exam.patientName} / ${exam.reference}`;
     this.closePatientView();
     this.closeDropdowns();
-    
+
     // Scroll to top when opening working exam
     window.scrollTo(0, 0);
     // Prevent body scroll when working exam is open
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   }
 
   closeWorkingExam(): void {
     this.isWorkingExam = false;
     this.currentWorkingExam = null;
-    this.workingExamBreadcrumb = '';
-    
+    this.workingExamBreadcrumb = "";
+
     // Restore body scroll when closing working exam
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = "auto";
   }
 
   openPatientView(exam: DetailedExam): void {
@@ -585,19 +726,88 @@ export class AppComponent {
     this.patientViewBreadcrumb = `Patient History / ${exam.patientName}`;
     this.closeWorkingExam();
     this.closeDropdowns();
-    
+
     // Scroll to top when opening patient view
     window.scrollTo(0, 0);
     // Prevent body scroll when patient view is open
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   }
 
   closePatientView(): void {
     this.isPatientView = false;
     this.currentPatientViewExam = null;
-    this.patientViewBreadcrumb = '';
-    
+    this.patientViewBreadcrumb = "";
+
     // Restore body scroll when closing patient view
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = "auto";
+  }
+
+  detachMenu() {
+    if (this.sidebarWindow && !this.sidebarWindow.closed) {
+      this.sidebarWindow.close(); // déclenchera l’event onbeforeunload
+      return;
+    }
+
+    // Indiquer que le menu est détaché
+    this.isMenuDetached = true;
+
+    // Créer un marqueur pour l’emplacement original
+    this.sidebarPlaceholder = document.createComment("sidebar-placeholder");
+    this.sidebar.nativeElement.parentNode!.insertBefore(
+      this.sidebarPlaceholder,
+      this.sidebar.nativeElement
+    );
+
+    // Ouvrir une nouvelle fenêtre
+    this.sidebarWindow = window.open(
+      "",
+      "",
+      "width=400,height=600,left=200,top=200"
+    );
+
+    if (!this.sidebarWindow) {
+      console.error("Detach menu failed: popup blocked");
+      this.isMenuDetached = false;
+      return;
+    }
+
+    // Déplacer la sidebar dans la popup
+    const container = this.sidebarWindow.document.createElement("div");
+    this.sidebarWindow.document.body.appendChild(container);
+    container.appendChild(this.sidebar.nativeElement);
+
+    // Copier les styles
+    Array.from(document.styleSheets).forEach((styleSheet: any) => {
+      try {
+        const rules = styleSheet.cssRules;
+        if (rules) {
+          const style = this.sidebarWindow!.document.createElement("style");
+          Array.from(rules).forEach((rule: any) => {
+            style.appendChild(
+              this.sidebarWindow!.document.createTextNode(rule.cssText)
+            );
+          });
+          this.sidebarWindow!.document.head.appendChild(style);
+        }
+      } catch {}
+    });
+
+    this.sidebarWindow.onbeforeunload = () => {
+      this.zone.run(() => {
+        if (this.sidebarPlaceholder) {
+          this.sidebarPlaceholder.parentNode!.insertBefore(
+            this.sidebar.nativeElement,
+            this.sidebarPlaceholder
+          );
+          this.sidebarPlaceholder.remove();
+          this.sidebarPlaceholder = null;
+        }
+        this.sidebarWindow = null;
+        this.isMenuDetached = false;
+
+        // Force Angular à mettre à jour la vue (sidebar réduite si exam actif)
+        this.cdr.detectChanges();
+      });
+    };
   }
 }

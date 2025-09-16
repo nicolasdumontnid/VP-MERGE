@@ -201,8 +201,8 @@
 
 .block-content {
   padding: 20px;
-  max-height: 400px;
-  overflow: hidden;
+  max-height: 2000em;
+  height: 100%;
   overflow-y: auto;
   transition: opacity 0.3s ease, transform 0.3s ease;
   opacity: 1;
@@ -270,11 +270,21 @@
   transform: scale(1.05);
 }
 
-.badge:nth-child(1) { background: #ef4444; }
-.badge:nth-child(2) { background: #10b981; }
-.badge:nth-child(3) { background: #3b82f6; }
-.badge:nth-child(4) { background: #f59e0b; }
-.badge:nth-child(5) { background: #8b5cf6; }
+.badge:nth-child(1) {
+  background: #ef4444;
+}
+.badge:nth-child(2) {
+  background: #10b981;
+}
+.badge:nth-child(3) {
+  background: #3b82f6;
+}
+.badge:nth-child(4) {
+  background: #f59e0b;
+}
+.badge:nth-child(5) {
+  background: #8b5cf6;
+}
 
 /* Summary and Conclusion Content */
 .summary-content p,
@@ -560,11 +570,12 @@
 }
 
 .anatomy-svg-panel .svg-container {
-  width: 160px;
-  height: 320px;
+  height: 100%;
   overflow: hidden;
   border-radius: 8px;
-  background: #1a1a1a;
+  border-color: transparent;
+  background: transparent;
+  margin-top: 2em;
 }
 
 .anatomy-svg-panel .body-svg {
@@ -599,10 +610,15 @@
   z-index: 10;
   display: flex;
   flex-direction: column;
+  opacity: 72%;
 }
 
 .chart-container.with-anatomy-svg .y-axis {
   left: 200px;
+}
+
+.chart-container.with-anatomy-svg {
+  overflow: initial;
 }
 
 .y-axis-header {
@@ -652,8 +668,7 @@
   left: 150px;
   right: 0;
   bottom: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: clip;
 }
 
 .chart-scroll-container.with-anatomy-svg {
@@ -689,7 +704,7 @@
 .chart-area {
   position: relative;
   height: calc(100% - 40px);
-  min-width: 800px;
+  min-width: 100%;
 }
 
 .year-line {
@@ -715,13 +730,12 @@
 }
 
 .exam-point-container {
-  position: absolute;
+  position: relative;
 }
 
 .exam-label {
-  position: absolute;
-  background-color: rgba(26, 26, 26, 0.95);
-  border: 1px solid #4b5563;
+  position: relative;
+
   border-radius: 6px;
   padding: 6px 8px;
   min-width: 80px;
@@ -1231,42 +1245,108 @@
     width: 95%;
     height: 95vh;
   }
-  
+
   .header {
     padding: 16px 20px;
   }
-  
+
   .menu-section {
     padding: 12px 20px;
   }
-  
+
   .blocks-container {
     padding: 20px;
   }
-  
+
   .chart-container {
     height: 300px;
   }
-  
+
   .y-axis {
     width: 120px;
   }
-  
+
   .chart-scroll-container {
     left: 120px;
   }
-  
+
   .y-axis-item {
     font-size: 11px;
     padding: 0 8px;
   }
-  
+
   .modal-content {
     width: 95%;
     margin: 20px;
   }
-  
+
   .modal-body {
     padding: 16px;
   }
+}
+
+/* Radio Badges */
+.radio-badges {
+  position: absolute;
+  top: 16px;
+  right: 40px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap-reverse;
+  justify-content: flex-end;
+  max-width: calc(100% - 200px);
+}
+
+.radio-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: #6b7280;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.radio-badge:hover {
+  background: #9ca3af;
+}
+
+.radio-badge input[type="radio"] {
+  width: 14px;
+  height: 14px;
+  border: 2px solid white;
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.radio-badge input[type="radio"]:checked {
+  background-color: white;
+}
+
+.radio-badge input[type="radio"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #6b7280;
+  transform: translate(-50%, -50%);
+}
+
+.radio-badge span {
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
 }

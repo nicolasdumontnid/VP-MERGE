@@ -1,257 +1,172 @@
 <div class="patient-history-container">
-    <!-- Header -->
-    <div class="header">
-      <h2>Patient History</h2>
-      <button class="close-btn" (click)="onClose()">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
+  <!-- Header -->
+  <div class="header">
+    <button class="close-btn" (click)="onClose()">
+      <i class="fas fa-times"></i>
+    </button>
+    <h2>Patient History</h2>
+  </div>
 
-    <!-- Menu Toggle -->
-    <div class="menu-section">
-      <button class="menu-toggle" (click)="toggleMenu()">
-        <i class="fas fa-plus"></i>
-        Add Block
-      </button>
-      
-      <!-- Dropdown Menu -->
-      <div class="menu-dropdown" [class.open]="isMenuOpen">
-        <div class="menu-item" 
-             *ngFor="let option of getAvailableMenuOptions()" 
-             (click)="selectMenuOption(option)">
-          <i [class]="option.icon"></i>
-          <span>{{ option.label }}</span>
-        </div>
+  <!-- Menu Toggle -->
+  <div class="menu-section">
+    <button class="menu-toggle" (click)="toggleMenu()">
+      <i class="fas fa-plus"></i>
+      Add Block
+    </button>
+
+    <!-- Dropdown Menu -->
+    <div class="menu-dropdown" [class.open]="isMenuOpen">
+      <div class="menu-item" *ngFor="let option of getAvailableMenuOptions()" (click)="selectMenuOption(option)">
+        <i [class]="option.icon"></i>
+        <span>{{ option.label }}</span>
       </div>
     </div>
+  </div>
 
-    <!-- Active Blocks -->
-    <div class="blocks-container">
-      <div class="block" *ngFor="let block of activeBlocks; trackBy: trackByBlockId">
-        <div class="block-header" (click)="toggleBlockCollapse(block.id)">
-          <h3>{{ block.title }}</h3>
-          <div class="block-controls">
-            <button class="collapse-btn">
-              <i class="fas" [class.fa-chevron-up]="!block.isCollapsed" [class.fa-chevron-down]="block.isCollapsed"></i>
-            </button>
-            <button class="remove-btn" (click)="removeBlock(block.id); $event.stopPropagation()">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
+  <!-- Active Blocks -->
+  <div class="blocks-container">
+    <div class="block" *ngFor="let block of activeBlocks; trackBy: trackByBlockId">
+      <div class="block-header" (click)="toggleBlockCollapse(block.id)">
+        <h3>{{ block.title }}</h3>
+        <div class="block-controls">
+          <button class="collapse-btn">
+            <i class="fas" [class.fa-chevron-up]="!block.isCollapsed" [class.fa-chevron-down]="block.isCollapsed"></i>
+          </button>
+          <button class="remove-btn" (click)="removeBlock(block.id); $event.stopPropagation()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Block Content -->
+      <div class="block-content" [class.collapsed]="block.isCollapsed">
+        <!-- Badges -->
+        <div class="badges" *ngIf="block.badges && block.badges.length > 0">
+          <span class="badge" *ngFor="let badge of block.badges" [class.selected]="isBadgeSelected(badge)"
+            (click)="onBadgeClick(badge)">
+            {{ badge }}
+          </span>
         </div>
 
-        <!-- Block Content -->
-        <div class="block-content" [class.collapsed]="block.isCollapsed">
-          <!-- Badges -->
-          <div class="badges" *ngIf="block.badges && block.badges.length > 0">
-            <span class="badge" 
-                  *ngFor="let badge of block.badges"
-                  [class.selected]="isBadgeSelected(badge)"
-                  (click)="onBadgeClick(badge)">
-              {{ badge }}
-            </span>
+        <!-- Calendar Map Content -->
+        <div *ngIf="block.content?.type === 'calendar-map'" class="calendar-map-content">
+          <!-- Graphic Filter -->
+          <app-graphic-filter [sectors]="sectors" (filterChange)="onGraphicFilterChange($event)">
+          </app-graphic-filter>
+
+          <!-- Selection Controls -->
+          <div class="selection-controls" *ngIf="selectedExams.size > 0">
+            <button class="open-selection-btn" (click)="openSelectionModal()">
+              <i class="fas fa-folder-open"></i>
+              Open selection ({{ selectedExams.size }})
+            </button>
           </div>
 
-          <!-- Calendar Map Content -->
-          <div *ngIf="block.content?.type === 'calendar-map'" class="calendar-map-content">
-            <!-- Graphic Filter -->
-            <app-graphic-filter 
-             [sectors]="sectors"
-              (filterChange)="onGraphicFilterChange($event)">
-            </app-graphic-filter>
-
-            <!-- Selection Controls -->
-            <div class="selection-controls" *ngIf="selectedExams.size > 0">
-              <button class="open-selection-btn" (click)="openSelectionModal()">
-                <i class="fas fa-folder-open"></i>
-                Open selection ({{ selectedExams.size }})
-              </button>
+          <!-- Chart Container -->
+          <div class="chart-container" [class.with-anatomy-svg]="graphicFilterState.viewMode === 'anatomy'">
+            <!-- Anatomy SVG (only visible in anatomy mode) -->
+            <div class="anatomy-svg-panel" *ngIf="graphicFilterState.viewMode === 'anatomy'">
+              <div class="svg-container">
+                <img src="assets/skeleton+skin.svg" class="body-svg" [style.transform]="'scale(' + svgZoomLevel + ')'"
+                  [style.transform-origin]="svgTransformOrigin" (wheel)="onSvgWheel($event)"
+                  (click)="onBodyClick($event)" />
+              </div>
             </div>
 
-            <!-- Chart Container -->
-            <div class="chart-container" [class.with-anatomy-svg]="graphicFilterState.viewMode === 'anatomy'">
-              <!-- Anatomy SVG (only visible in anatomy mode) -->
-              <div class="anatomy-svg-panel" *ngIf="graphicFilterState.viewMode === 'anatomy'">
-                <div class="svg-container">
-                  <!-- <svg viewBox="0 0 400 600" 
-                       class="body-svg"
-                       [style.transform]="'scale(' + svgZoomLevel + ')'"
-                       [style.transform-origin]="svgTransformOrigin"
-                       (wheel)="onSvgWheel($event)"
-                       (click)="onBodyClick($event)">
-                   
-                    <path d="M200 50 C180 50 160 70 160 90 L160 120 C160 140 140 160 120 180 L120 300 C120 320 140 340 160 360 L160 500 C160 520 180 540 200 560 C220 540 240 520 240 500 L240 360 C260 340 280 320 280 300 L280 180 C260 160 240 140 240 120 L240 90 C240 70 220 50 200 50 Z" 
-                          fill="none" 
-                          stroke="#374151" 
-                          stroke-width="2"/>
-                    
-                   
-                    <circle cx="200" cy="70" r="25" fill="rgba(239, 68, 68, 0.3)" stroke="#ef4444" stroke-width="2" 
-                            (click)="selectOrgan('Head')" class="organ-region"/>
-                    
-                    
-                    <rect x="185" y="95" width="30" height="25" fill="rgba(249, 115, 22, 0.3)" stroke="#f97316" stroke-width="2"
-                          (click)="selectOrgan('Neck')" class="organ-region"/>
-                    
-                    
-                    <ellipse cx="140" cy="140" rx="25" ry="15" fill="rgba(234, 179, 8, 0.3)" stroke="#eab308" stroke-width="2"
-                             (click)="selectOrgan('Shoulder')" class="organ-region"/>
-                    <ellipse cx="260" cy="140" rx="25" ry="15" fill="rgba(234, 179, 8, 0.3)" stroke="#eab308" stroke-width="2"
-                             (click)="selectOrgan('Shoulder')" class="organ-region"/>
-                    
-                    
-                    <rect x="160" y="120" width="80" height="100" fill="rgba(34, 197, 94, 0.3)" stroke="#22c55e" stroke-width="2"
-                          (click)="selectOrgan('Thorax')" class="organ-region"/>
-                    
-                    
-                    <rect x="100" y="150" width="20" height="120" fill="rgba(6, 182, 212, 0.3)" stroke="#06b6d4" stroke-width="2"
-                          (click)="selectOrgan('Upper limbs')" class="organ-region"/>
-                    <rect x="280" y="150" width="20" height="120" fill="rgba(6, 182, 212, 0.3)" stroke="#06b6d4" stroke-width="2"
-                          (click)="selectOrgan('Upper limbs')" class="organ-region"/>
-                    
-                    
-                    <line x1="200" y1="120" x2="200" y2="360" stroke="#3b82f6" stroke-width="8" opacity="0.3"
-                          (click)="selectOrgan('Back')" class="organ-region"/>
-                    
-                   
-                    <ellipse cx="200" cy="320" rx="40" ry="30" fill="rgba(59, 130, 246, 0.3)" stroke="#3b82f6" stroke-width="2"
-                             (click)="selectOrgan('Pelvis')" class="organ-region"/>
-                    
-                    <rect x="170" y="360" width="25" height="140" fill="rgba(139, 92, 246, 0.3)" stroke="#8b5cf6" stroke-width="2"
-                          (click)="selectOrgan('Lower limbs')" class="organ-region"/>
-                    <rect x="205" y="360" width="25" height="140" fill="rgba(139, 92, 246, 0.3)" stroke="#8b5cf6" stroke-width="2"
-                          (click)="selectOrgan('Lower limbs')" class="organ-region"/>
-                    
-                    <ellipse cx="182" cy="520" rx="15" ry="25" fill="rgba(236, 72, 153, 0.3)" stroke="#ec4899" stroke-width="2"
-                             (click)="selectOrgan('Foot')" class="organ-region"/>
-                    <ellipse cx="218" cy="520" rx="15" ry="25" fill="rgba(236, 72, 153, 0.3)" stroke="#ec4899" stroke-width="2"
-                             (click)="selectOrgan('Foot')" class="organ-region"/>
-                  </svg> -->
-                  <img 
-                       [attr.src]="'assets/skeleton+skin.svg'"
-                      class="body-svg"
-                       [style.transform]="'scale(' + svgZoomLevel + ')'"
-                       [style.transform-origin]="svgTransformOrigin"
-                       (wheel)="onSvgWheel($event)"
-                       (click)="onBodyClick($event)">
-
-                </div>
+            <!-- Y-Axis (Fixed) -->
+            <div class="y-axis">
+              <div class="y-axis-header">
+                <span *ngIf="graphicFilterState.viewMode === 'department'">DEPARTMENTS</span>
+                <span *ngIf="graphicFilterState.viewMode === 'anatomy'">Anatomy</span>
               </div>
-
-              <!-- Y-Axis (Fixed) -->
-              <div class="y-axis">
-                <div class="y-axis-header">
-                  <span *ngIf="graphicFilterState.viewMode === 'department'">DEPARTMENTS</span>
-                  <span *ngIf="graphicFilterState.viewMode === 'anatomy'">Anatomy</span>
-                </div>
-                <div class="y-axis-content">
-                  <!-- Department Mode -->
-                  <div *ngIf="graphicFilterState.viewMode === 'department'" class="y-axis-items">
-                    <div class="y-axis-item" *ngFor="let sector of getVisibleSectors()">
-                      {{ sector }}
-                    </div>
+              <div class="y-axis-content">
+                <!-- Department Mode -->
+                <div *ngIf="graphicFilterState.viewMode === 'department'" class="y-axis-items">
+                  <div class="y-axis-item" *ngFor="let sector of getVisibleSectors()">
+                    {{ sector }}
                   </div>
-                  <!-- Anatomy Mode -->
-                  <div *ngIf="graphicFilterState.viewMode === 'anatomy'" class="y-axis-items">
-                    <div class="y-axis-item" *ngFor="let region of getVisibleAnatomicalRegions()">
-                      {{ region }}
-                    </div>
+                </div>
+                <!-- Anatomy Mode -->
+                <div *ngIf="graphicFilterState.viewMode === 'anatomy'" class="y-axis-items">
+                  <div class="y-axis-item" *ngFor="let region of getVisibleAnatomicalRegions()">
+                    {{ region }}
                   </div>
                 </div>
               </div>
+            </div>
 
-              <!-- Chart Area (Scrollable) -->
-              <div class="chart-scroll-container" [class.with-anatomy-svg]="graphicFilterState.viewMode === 'anatomy'">
-                <!-- X-Axis (Fixed) -->
-                <div class="x-axis">
-                  <div class="x-axis-item" 
-                       *ngFor="let year of getVisibleYears()" 
-                       [style.left.px]="getYearPosition(year)"
-                       [class.today]="isToday(year)">
-                    {{ year }}
+            <!-- Chart Area (Scrollable) -->
+            <div class="chart-scroll-container" [class.with-anatomy-svg]="graphicFilterState.viewMode === 'anatomy'">
+              <!-- X-Axis (Fixed) -->
+              <div class="x-axis">
+                <div class="x-axis-item" *ngFor="let year of getVisibleYears()" [style.left.px]="getYearPosition(year)"
+                  [class.today]="isToday(year)">
+                  {{ year }}
+                </div>
+              </div>
+
+              <!-- Chart Data -->
+              <div class="chart-area" [style.width.px]="getChartWidth()">
+                <!-- Year Lines -->
+                <div class="year-line" *ngFor="let year of getVisibleYears()" [style.left.px]="getYearPosition(year)"
+                  [class.today-line]="isToday(year)">
+                </div>
+
+                <!-- Horizontal Grid Lines -->
+                <div class="grid-line horizontal" *ngFor="let index of getYAxisIndices()"
+                  [style.top.%]="(index / getYAxisCount()) * 100">
+                </div>
+
+                <!-- Exam Points -->
+                <div *ngFor="let exam of getFilteredExams()" class="exam-point-container">
+                  <!-- Exam Label -->
+                  <div class="exam-label" [style.left.px]="getExamPositionX(exam)"
+                    [style.top.%]="getExamPositionY(exam) - 8">
+                    <div class="exam-title">{{ exam.title }}</div>
+                    <div class="exam-date">{{ exam.date | date:'yyyy-MM-dd' }}</div>
+                  </div>
+
+                  <!-- Exam Point -->
+                  <div class="exam-point" [style.left.px]="getExamPositionX(exam)"
+                    [style.top.%]="getExamPositionY(exam)" [style.background-color]="getPointColor(exam)"
+                    [style.border-color]="getPointBorderColor(exam)" [class.selected]="selectedExams.has(exam.id)"
+                    (click)="onExamPointClick($event, exam)" (contextmenu)="onExamPointRightClick($event, exam)"
+                    (mouseenter)="onExamPointEnter($event, exam)" (mouseleave)="onExamPointLeave()">
                   </div>
                 </div>
 
-                <!-- Chart Data -->
-                <div class="chart-area" [style.width.px]="getChartWidth()">
-                  <!-- Year Lines -->
-                  <div class="year-line" 
-                       *ngFor="let year of getVisibleYears()"
-                       [style.left.px]="getYearPosition(year)"
-                       [class.today-line]="isToday(year)">
+                <!-- Tooltip -->
+                <div class="exam-tooltip" *ngIf="hoveredExam" [style.left.px]="tooltipPosition.x"
+                  [style.top.px]="tooltipPosition.y" (mouseenter)="onTooltipEnter()" (mouseleave)="onTooltipLeave()">
+                  <div class="tooltip-header">
+                    <strong>{{ hoveredExam.title }}</strong>
+                    <div class="tooltip-date">{{ hoveredExam.date | date:'yyyy-MM-dd' }}</div>
                   </div>
-
-                  <!-- Horizontal Grid Lines -->
-                  <div class="grid-line horizontal" 
-                       *ngFor="let index of getYAxisIndices()"
-                       [style.top.%]="(index / getYAxisCount()) * 100">
-                  </div>
-
-                  <!-- Exam Points -->
-                  <div *ngFor="let exam of getFilteredExams()" class="exam-point-container">
-                    <!-- Exam Label -->
-                    <div class="exam-label"
-                         [style.left.px]="getExamPositionX(exam)"
-                         [style.top.%]="getExamPositionY(exam) - 8">
-                      <div class="exam-title">{{ exam.title }}</div>
-                      <div class="exam-date">{{ exam.date | date:'yyyy-MM-dd' }}</div>
-                    </div>
-
-                    <!-- Exam Point -->
-                    <div class="exam-point"
-                         [style.left.px]="getExamPositionX(exam)"
-                         [style.top.%]="getExamPositionY(exam)"
-                         [style.background-color]="getPointColor(exam)"
-                         [style.border-color]="getPointBorderColor(exam)"
-                         [class.selected]="selectedExams.has(exam.id)"
-                         (click)="onExamPointClick($event, exam)"
-                         (contextmenu)="onExamPointRightClick($event, exam)"
-                         (mouseenter)="onExamPointEnter($event, exam)"
-                         (mouseleave)="onExamPointLeave()">
-                    </div>
-                  </div>
-
-                  <!-- Tooltip -->
-                  <div class="exam-tooltip" 
-                       *ngIf="hoveredExam"
-                       [style.left.px]="tooltipPosition.x"
-                       [style.top.px]="tooltipPosition.y"
-                       (mouseenter)="onTooltipEnter()"
-                       (mouseleave)="onTooltipLeave()">
-                    <div class="tooltip-header">
-                      <strong>{{ hoveredExam.title }}</strong>
-                      <div class="tooltip-date">{{ hoveredExam.date | date:'yyyy-MM-dd' }}</div>
-                    </div>
-                    <div class="tooltip-content">
-                      <div class="tooltip-section" *ngIf="hoveredExam.images && hoveredExam.images.length > 0">
-                        <div class="tooltip-label">Images:</div>
-                        <div class="tooltip-thumbnails">
-                          <img *ngFor="let image of hoveredExam.images.slice(0, 3)" 
-                               [src]="image.thumbnail" 
-                               [alt]="image.name"
-                               class="tooltip-thumbnail">
-                          <span *ngIf="hoveredExam.images.length > 3" class="more-count">
-                            +{{ hoveredExam.images.length - 3 }}
-                          </span>
-                        </div>
+                  <div class="tooltip-content">
+                    <div class="tooltip-section" *ngIf="hoveredExam.images && hoveredExam.images.length > 0">
+                      <div class="tooltip-label">Images:</div>
+                      <div class="tooltip-thumbnails">
+                        <img *ngFor="let image of hoveredExam.images.slice(0, 3)" [src]="image.thumbnail"
+                          [alt]="image.name" class="tooltip-thumbnail" (click)="onRecordClick(image)" />
+                        <span *ngIf="hoveredExam.images.length > 3" class="more-count">
+                          +{{ hoveredExam.images.length - 3 }}
+                        </span>
                       </div>
-                      <div class="tooltip-section" *ngIf="hoveredExam.documents && hoveredExam.documents.length > 0">
-                        <div class="tooltip-label">Documents:</div>
-                        <div class="tooltip-documents">
-                          <div *ngFor="let doc of hoveredExam.documents.slice(0, 3)" class="tooltip-document">
-                            <i class="fas" 
-                               [class.fa-file-pdf]="doc.type === 'pdf'"
-                               [class.fa-file-excel]="doc.type === 'excel'"
-                               [class.fa-file-alt]="doc.type === 'text'"
-                               [class.fa-file-video]="doc.type === 'video'"
-                               [style.color]="doc.type === 'pdf' ? '#dc2626' : doc.type === 'excel' ? '#16a34a' : '#6b7280'">
-                            </i>
-                            <span>{{ doc.name }}</span>
-                          </div>
-                          <span *ngIf="hoveredExam.documents.length > 3" class="more-count">
-                            +{{ hoveredExam.documents.length - 3 }}
-                          </span>
+                    </div>
+                    <div class="tooltip-section" *ngIf="hoveredExam.documents && hoveredExam.documents.length > 0">
+                      <div class="tooltip-label">Documents:</div>
+                      <div class="tooltip-documents">
+                        <div *ngFor="let doc of hoveredExam.documents.slice(0, 3)" class="tooltip-document">
+                          <i class="fas" [class.fa-file-pdf]="doc.type === 'pdf'"
+                            [class.fa-file-excel]="doc.type === 'excel'" [class.fa-file-alt]="doc.type === 'text'"
+                            [class.fa-file-video]="doc.type === 'video'"
+                            [style.color]="doc.type === 'pdf' ? '#dc2626' : doc.type === 'excel' ? '#16a34a' : '#6b7280'">
+                          </i>
+                          <span>{{ doc.name }}</span>
                         </div>
+                        <span *ngIf="hoveredExam.documents.length > 3" class="more-count">
+                          +{{ hoveredExam.documents.length - 3 }}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -259,127 +174,138 @@
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- IA Summary Content -->
-          <div *ngIf="block.content?.type === 'summary'" class="summary-content">
-            <p>{{ block.content.text }}</p>
-          </div>
+        <!-- IA Summary Content -->
+        <div *ngIf="block.content?.type === 'summary'" class="summary-content">
+          <p>{{ block.content.text }}</p>
+        </div>
 
-          <!-- Current Exam Content -->
-          <div *ngIf="block.content?.type === 'current-exam'" class="current-exam-content">
-            <div class="exam-details" *ngIf="exam">
-              <div class="detail-row">
-                <span class="label">Reference:</span>
-                <span class="value">{{ exam.reference }}</span>
-              </div>
-              <div class="detail-row">
-                <span class="label">Date:</span>
-                <span class="value">{{ exam.examDate | date:'medium' }}</span>
-              </div>
-              <div class="detail-row">
-                <span class="label">Type:</span>
-                <span class="value">{{ exam.title }}</span>
-              </div>
-              <div class="detail-row">
-                <span class="label">Description:</span>
-                <span class="value">{{ exam.description }}</span>
-              </div>
-              <div class="detail-row">
-                <span class="label">Details:</span>
-                <span class="value">{{ exam.description }}</span>
-              </div>
+        <!-- Current Exam Content -->
+        <div *ngIf="block.content?.type === 'current-exam'" class="current-exam-content">
+          <div class="exam-details" *ngIf="exam">
+            <div class="detail-row">
+              <span class="label">Reference:</span>
+              <span class="value">{{ exam.reference }}</span>
             </div>
-          </div>
-
-          <!-- Conclusion Content -->
-          <div *ngIf="block.content?.type === 'conclusion'" class="conclusion-content">
-            <p>{{ block.content.text }}</p>
-          </div>
-
-          <!-- Records Content -->
-          <div *ngIf="block.content?.type === 'records'" class="records-content">
-            <div class="record-item" *ngFor="let record of block.content.records">
-              <div class="record-date">{{ record.date }}</div>
-              <div class="record-name">{{ record.name }}</div>
-              <div class="record-description">{{ record.description }}</div>
+            <div class="detail-row">
+              <span class="label">Date:</span>
+              <span class="value">{{ exam.examDate | date:'medium' }}</span>
             </div>
-          </div>
-
-          <!-- Images Content -->
-          <div *ngIf="block.content?.type === 'images'" class="images-content">
-            <div class="image-group" *ngFor="let date of getImageDates()">
-              <h4>{{ formatDate(date) }}</h4>
-              <div class="image-grid">
-                <img *ngFor="let imagePath of block.content.imagesByDate[date]" 
-                     [src]="imagePath" 
-                     [alt]="'Medical image from ' + date"
-                     class="medical-image">
-              </div>
+            <div class="detail-row">
+              <span class="label">Type:</span>
+              <span class="value">{{ exam.title }}</span>
             </div>
-          </div>
-
-          <!-- Patient Info Content -->
-          <div *ngIf="block.content?.type === 'patient-info'" class="patient-info-content">
-            <div class="patient-details" *ngIf="exam">
-              <div class="detail-row">
-                <span class="label">Patient ID:</span>
-                <span class="value">{{ exam.patientId }}</span>
-              </div>
-              <div class="detail-row">
-                <span class="label">Patient Name:</span>
-                <span class="value">{{ exam.patientName }}</span>
-              </div>
-              <div class="detail-row">
-                <span class="label">Birth Date:</span>
-                <span class="value">{{ exam.patientBirthDate | date:'mediumDate' }}</span>
-              </div>
-              <div class="detail-row">
-                <span class="label">Gender:</span>
-                <span class="value">{{ exam.patientGender }}</span>
-              </div>
-              <div class="detail-row">
-                <span class="label">Site:</span>
-                <span class="value">{{ exam.siteName }}</span>
-              </div>
-              <div class="detail-row">
-                <span class="label">Sector:</span>
-                <span class="value">{{ exam.sectorName }}</span>
-              </div>
+            <div class="detail-row">
+              <span class="label">Description:</span>
+              <span class="value">{{ exam.description }}</span>
             </div>
-          </div>
-
-          <!-- External Sources Content -->
-          <div *ngIf="block.content?.type === 'external-sources'" class="external-sources-content">
-            <div class="source-selector">
-              <label for="external-source">Select Source:</label>
-              <select id="external-source" 
-                      [(ngModel)]="selectedExternalSource" 
-                      (change)="onExternalSourceChange()">
-                <option value="SEGUR">SEGUR</option>
-                <option value="PACS">PACS</option>
-                <option value="RIS">RIS</option>
-                <option value="HIS">HIS</option>
-              </select>
-            </div>
-            
-            <div class="external-content" *ngIf="showExternalContent">
-              <div class="content-placeholder">
-                <i class="fas fa-external-link-alt"></i>
-                <p>Content from {{ selectedExternalSource }} would be displayed here.</p>
-                <p>This includes external medical records, imaging studies, and related documentation.</p>
-              </div>
+            <div class="detail-row">
+              <span class="label">Details:</span>
+              <span class="value">{{ exam.description }}</span>
             </div>
           </div>
         </div>
+
+        <!-- Conclusion Content -->
+        <div *ngIf="block.content?.type === 'conclusion'" class="conclusion-content">
+          <p>{{ block.content.text }}</p>
+        </div>
+
+        <!-- Records Content -->
+        <div *ngIf="block.content?.type === 'records'" class="records-content">
+          <div class="record-item" *ngFor="let record of block.content.records" (click)="onRecordClick(record)">
+            <div class="record-date">{{ record.date }}</div>
+            <div class="record-name">{{ record.name }}</div>
+            <div class="record-description">{{ record.description }}</div>
+          </div>
+        </div>
+
+        <!-- Images Content -->
+        <div *ngIf="block.content?.type === 'images'" class="images-content">
+          <div class="image-group" *ngFor="let date of getImageDates()">
+            <h4>{{ formatDate(date) }}</h4>
+            <div class="image-grid">
+              <img *ngFor="let imagePath of block.content.imagesByDate[date]" [src]="imagePath"
+                (click)="onRecordClick(imagePath)" [alt]="'Medical image from ' + date" class="medical-image">
+            </div>
+          </div>
+        </div>
+
+        <!-- Patient Info Content -->
+        <div *ngIf="block.content?.type === 'patient-info'" class="patient-info-content">
+          <div class="patient-details" *ngIf="exam">
+            <div class="detail-row">
+              <span class="label">Patient ID:</span>
+              <span class="value">{{ exam.patientId }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Patient Name:</span>
+              <span class="value">{{ exam.patientName }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Birth Date:</span>
+              <span class="value">{{ exam.patientBirthDate | date:'mediumDate' }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Gender:</span>
+              <span class="value">{{ exam.patientGender }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Site:</span>
+              <span class="value">{{ exam.siteName }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Sector:</span>
+              <span class="value">{{ exam.sectorName }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- External Sources Content -->
+        <div *ngIf="block.content?.type === 'external-sources'" class="external-sources-content">
+          <div class="source-selector">
+            <label for="external-source">Select Source:</label>
+            <select id="external-source" [(ngModel)]="selectedExternalSource" (change)="onExternalSourceChange()">
+              <option value="SEGUR">SEGUR</option>
+              <option value="PACS">PACS</option>
+              <option value="RIS">RIS</option>
+              <option value="HIS">HIS</option>
+            </select>
+          </div>
+
+          <div class="external-content" *ngIf="showExternalContent">
+            <div class="content-placeholder">
+              <i class="fas fa-external-link-alt"></i>
+              <p>Content from {{ selectedExternalSource }} would be displayed here.</p>
+              <p>This includes external medical records, imaging studies, and related documentation.</p>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="block.content?.type === 'anatomical'" class="visual-map-content">
+          <label class="radio-badge">
+            <input type="radio" name="anatomical-view" value="bones" [(ngModel)]="selectedAnatomicalView">
+            <span>bones</span>
+          </label>
+          <label class="radio-badge organs-badge" style="margin-bottom: 5em;">
+            <input type="radio" name="anatomical-view" value="organs" [(ngModel)]="selectedAnatomicalView">
+            <span>organs</span>
+          </label>
+          <img style="max-width: 100%;"
+            [src]="selectedAnatomicalView === 'bones' ? 'assets/skeleton+skin.svg' : 'assets/skeleton_and_organs.svg'"
+            [alt]="selectedAnatomicalView === 'bones' ? 'Human Skeleton' : 'Human Organs'" class="human-body-svg"
+            (click)="onBodyClick($event)" (wheel)="onSvgWheel($event)" [style.transform]="'scale(' + svgZoomLevel + ')'"
+            [style.transformOrigin]="svgTransformOrigin">
+        </div>
       </div>
     </div>
+  </div>
 </div>
 
 <!-- Context Menu -->
-<div class="context-menu" 
-     *ngIf="contextMenuVisible"
-     [style.left.px]="contextMenuPosition.x"
-     [style.top.px]="contextMenuPosition.y">
+<div class="context-menu" *ngIf="contextMenuVisible" [style.left.px]="contextMenuPosition.x"
+  [style.top.px]="contextMenuPosition.y">
   <div class="context-menu-item" (click)="onContextMenuOpen()">
     <i class="fas fa-folder-open"></i>
     Open
@@ -394,10 +320,8 @@
     Department level
     <i class="fas fa-chevron-right submenu-arrow"></i>
     <div class="submenu-content">
-      <div class="context-menu-item" 
-           *ngFor="let dept of getAvailableDepartments()"
-           [class.selected]="contextMenuExam?.sector === dept"
-           (click)="changeDepartment(dept)">
+      <div class="context-menu-item" *ngFor="let dept of getAvailableDepartments()"
+        [class.selected]="contextMenuExam?.sector === dept" (click)="changeDepartment(dept)">
         {{ dept }}
       </div>
     </div>
@@ -407,10 +331,8 @@
     Anatomy level
     <i class="fas fa-chevron-right submenu-arrow"></i>
     <div class="submenu-content">
-      <div class="context-menu-item" 
-           *ngFor="let region of getAvailableAnatomicalRegions()"
-           [class.selected]="contextMenuExam?.region === region"
-           (click)="changeAnatomy(region)">
+      <div class="context-menu-item" *ngFor="let region of getAvailableAnatomicalRegions()"
+        [class.selected]="contextMenuExam?.region === region" (click)="changeAnatomy(region)">
         {{ region }}
       </div>
     </div>
@@ -450,7 +372,7 @@
           <span class="value">{{ selectedExamForModal.site }}</span>
         </div>
       </div>
-      
+
       <div class="exam-media" *ngIf="selectedExamForModal.images && selectedExamForModal.images.length > 0">
         <h4>Images</h4>
         <div class="media-grid">
@@ -460,18 +382,15 @@
           </div>
         </div>
       </div>
-      
+
       <div class="exam-documents" *ngIf="selectedExamForModal.documents && selectedExamForModal.documents.length > 0">
         <h4>Documents</h4>
         <div class="media-grid">
           <div *ngFor="let doc of selectedExamForModal.documents" class="media-item document">
             <div class="document-icon">
-              <i class="fas" 
-                 [class.fa-file-pdf]="doc.type === 'pdf'"
-                 [class.fa-file-excel]="doc.type === 'excel'"
-                 [class.fa-file-alt]="doc.type === 'text'"
-                 [class.fa-file-video]="doc.type === 'video'"
-                 [style.color]="doc.type === 'pdf' ? '#dc2626' : doc.type === 'excel' ? '#16a34a' : '#6b7280'">
+              <i class="fas" [class.fa-file-pdf]="doc.type === 'pdf'" [class.fa-file-excel]="doc.type === 'excel'"
+                [class.fa-file-alt]="doc.type === 'text'" [class.fa-file-video]="doc.type === 'video'"
+                [style.color]="doc.type === 'pdf' ? '#dc2626' : doc.type === 'excel' ? '#16a34a' : '#6b7280'">
               </i>
             </div>
             <span class="media-name">{{ doc.name }}</span>
@@ -494,17 +413,14 @@
     <div class="modal-body">
       <div class="tabs">
         <div class="tab-headers">
-          <button *ngFor="let exam of getSelectedExams(); let i = index"
-                  class="tab-header"
-                  [class.active]="selectedTabIndex === i"
-                  (click)="selectTab(i)">
+          <button *ngFor="let exam of getSelectedExams(); let i = index" class="tab-header"
+            [class.active]="selectedTabIndex === i" (click)="selectTab(i)">
             {{ exam.title }} - {{ exam.date | date:'yyyy-MM-dd' }}
           </button>
         </div>
         <div class="tab-content">
-          <div *ngFor="let exam of getSelectedExams(); let i = index"
-               class="tab-panel"
-               [class.active]="selectedTabIndex === i">
+          <div *ngFor="let exam of getSelectedExams(); let i = index" class="tab-panel"
+            [class.active]="selectedTabIndex === i">
             <div class="exam-info">
               <div class="info-row">
                 <span class="label">Date:</span>
@@ -523,7 +439,7 @@
                 <span class="value">{{ exam.site }}</span>
               </div>
             </div>
-            
+
             <div class="exam-media" *ngIf="exam.images && exam.images.length > 0">
               <h4>Images</h4>
               <div class="media-grid">
@@ -533,18 +449,15 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="exam-documents" *ngIf="exam.documents && exam.documents.length > 0">
               <h4>Documents</h4>
               <div class="media-grid">
                 <div *ngFor="let doc of exam.documents" class="media-item document">
                   <div class="document-icon">
-                    <i class="fas" 
-                       [class.fa-file-pdf]="doc.type === 'pdf'"
-                       [class.fa-file-excel]="doc.type === 'excel'"
-                       [class.fa-file-alt]="doc.type === 'text'"
-                       [class.fa-file-video]="doc.type === 'video'"
-                       [style.color]="doc.type === 'pdf' ? '#dc2626' : doc.type === 'excel' ? '#16a34a' : '#6b7280'">
+                    <i class="fas" [class.fa-file-pdf]="doc.type === 'pdf'" [class.fa-file-excel]="doc.type === 'excel'"
+                      [class.fa-file-alt]="doc.type === 'text'" [class.fa-file-video]="doc.type === 'video'"
+                      [style.color]="doc.type === 'pdf' ? '#dc2626' : doc.type === 'excel' ? '#16a34a' : '#6b7280'">
                     </i>
                   </div>
                   <span class="media-name">{{ doc.name }}</span>
